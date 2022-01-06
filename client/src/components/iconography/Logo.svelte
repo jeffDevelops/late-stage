@@ -1,0 +1,40 @@
+<svg
+	class="logo"
+	width="100%"
+	height="100%"
+	viewBox="0 0 695 656"
+	version="1.1"
+	xml:space="preserve"
+	style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"
+	><path
+		d="M688.347,23.976c0,-9.783 -7.942,-17.726 -17.725,-17.726l-625.871,0c-9.783,0 -17.725,7.943 -17.725,17.726l-0,564.34c-0,9.783 7.942,17.726 17.725,17.726l625.871,-0c9.783,-0 17.725,-7.943 17.725,-17.726l0,-564.34Z"
+		style="fill:#fff;stroke:#2a2b36;stroke-width:12.5px;"
+	/><path
+		d="M322.79,562.341l0,87.401l32.095,-21.142l32.075,21.142l0,-87.401"
+		style="fill:#fff;stroke:#2a2b36;stroke-width:12.5px;stroke-linecap:round;"
+	/><rect
+		x="54.422"
+		y="33.341"
+		width="268.368"
+		height="546.302"
+		style="fill:#2a2b36;stroke:#2a2b36;stroke-width:12.5px;stroke-linecap:round;"
+	/><path
+		d="M655.329,34.243c-0,-0.498 -0.405,-0.902 -0.902,-0.902l-267.467,-0l0,546.302l268.369,-0l-0,-545.4Z"
+		style="fill:#2a2b36;stroke:#2a2b36;stroke-width:12.5px;stroke-linecap:round;"
+	/><circle
+		cx="36.198"
+		cy="92.788"
+		r="29.948"
+		style="fill:#2a2b36;stroke:#fff;stroke-width:12.5px;stroke-linecap:round;"
+	/><circle
+		cx="36.198"
+		cy="188.453"
+		r="29.948"
+		style="fill:#2a2b36;stroke:#fff;stroke-width:12.5px;stroke-linecap:round;"
+	/><circle
+		cx="36.198"
+		cy="284.082"
+		r="29.948"
+		style="fill:#2a2b36;stroke:#fff;stroke-width:12.5px;stroke-linecap:round;"
+	/></svg
+>
