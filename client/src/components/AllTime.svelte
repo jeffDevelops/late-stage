@@ -60,8 +60,9 @@
     updatedAt: 'created at date',
 
     shortName: 'petitioners',
-    description: 'petitioners',
+    description: 'Petitioners joining the platform',
     goal: 100_000,
+    goalVerb: 'petitioners',
 
     goalStartDate: '2022-01-01T12:00:00-06:00',
     goalDeadline: '2022-05-01T12:00:00-06:00',
@@ -141,10 +142,10 @@
   }
 
   .all-time p {
-    font-weight: 700;
-    font-size: 12px;
     color: var(--text-color-subdued);
-    letter-spacing: 0.025em;
+    letter-spacing: 0.01em;
+    font-weight: 300;
+    font-size: 0.8rem;
   }
 
   :global(.all-time .info-icon) {
@@ -177,10 +178,20 @@
     grid-template-rows: repeat(2, minmax(140px, auto));
     grid-template-areas:
       'banks banks banks banks banks'
-      'petitioners petitioners subscriptions subscriptions subscriptions';
+      'petitioners petitioners  subscriptions subscriptions subscriptions';
   }
 
   :global(.all-time .grid .card) {
     height: 100%;
+  }
+
+  @media screen and (max-width: 600px) {
+    .grid {
+      grid-template-rows: repeat(2, minmax(140px, auto));
+      grid-template-areas:
+        'banks banks banks banks banks'
+        'petitioners petitioners petitioners petitioners petitioners'
+        'subscriptions subscriptions subscriptions subscriptions subscriptions';
+    }
   }
 </style>

@@ -18,46 +18,50 @@
     </div>
 
     <div class="grid">
-      <Card>
-        <p class="goal-description">{campaign.description}</p>
-        <p class="goal">
-          {campaign.goalUnit === 'dollars' ? '$' : ''}{campaign.goal
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          {campaign.goalUnit === 'dollars' ? '' : campaign.goalUnit}
-          {campaign.goalVerb} by {dayjs(campaign.goalDeadline).format('MMM D, YYYY')}
-        </p>
+      <div class="goal-card">
+        <Card>
+          <p class="goal-description">{campaign.description}</p>
+          <p class="goal">
+            {campaign.goalUnit === 'dollars' ? '$' : ''}{campaign.goal
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            {campaign.goalUnit === 'dollars' ? '' : campaign.goalUnit}
+            {campaign.goalVerb} by {dayjs(campaign.goalDeadline).format('MMM D, YYYY')}
+          </p>
 
-        <div class="goal-visualization">
-          <div style="width: {realizedValuePercentage}%;" class="realized-value" />
-        </div>
-
-        <p class="goal-visualization-description">
-          {campaign.goalUnit === 'dollars' ? '$' : ''}{campaign.realizedValue
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} / {campaign.goalUnit === 'dollars'
-            ? '$'
-            : ''}{campaign.goal
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{campaign.goalUnit === 'dollars'
-            ? ''
-            : campaign.goalUnit} goal
-        </p>
-      </Card>
-
-      <Card>
-        <div class="time-container">
-          <Hourglass startDate={campaign.goalStartDate} endDate={campaign.goalDeadline} />
-          <div class="deadline">
-            <h4>Deadline</h4>
-            <p>{dayjs(campaign.goalDeadline).format('MMM D, YYYY')}</p>
+          <div class="goal-visualization">
+            <div style="width: {realizedValuePercentage}%;" class="realized-value" />
           </div>
 
-          <p class="days-remaining">
-            {dayjs(campaign.goalDeadline).diff(dayjs(), 'day')} days remaining
+          <p class="goal-visualization-description">
+            {campaign.goalUnit === 'dollars' ? '$' : ''}{campaign.realizedValue
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} / {campaign.goalUnit === 'dollars'
+              ? '$'
+              : ''}{campaign.goal
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{campaign.goalUnit === 'dollars'
+              ? ''
+              : campaign.goalUnit} goal
           </p>
-        </div></Card
-      >
+        </Card>
+      </div>
+
+      <div class="deadline-card">
+        <Card>
+          <div class="time-container">
+            <Hourglass startDate={campaign.goalStartDate} endDate={campaign.goalDeadline} />
+            <div class="deadline">
+              <h4>Deadline</h4>
+              <p>{dayjs(campaign.goalDeadline).format('MMM D, YYYY')}</p>
+            </div>
+
+            <p class="days-remaining">
+              {dayjs(campaign.goalDeadline).diff(dayjs(), 'day')} days remaining
+            </p>
+          </div></Card
+        >
+      </div>
     </div>
   </Card>
 </section>
@@ -89,18 +93,17 @@
   .grid {
     display: grid;
     gap: 16px;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 3fr 1fr;
     grid-template-rows: minmax(180px, auto);
     margin: 16px 0;
     width: 100%;
   }
 
   .goal-description {
-    font-size: 1.4em;
+    font-size: 1.1rem;
     font-weight: 400;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.01em;
   }
-
   .goal {
     font-weight: 500;
     letter-spacing: 0.01em;
@@ -150,16 +153,44 @@
     bottom: 0;
     margin: auto;
     height: 50px;
-    width: 100px;
+    width: 100%;
   }
 
   .deadline * {
     text-align: center;
   }
 
+  .deadline-card {
+    height: 100%;
+  }
+
+  :global(.deadline-card .card, .goal-card .card) {
+    padding: 12px;
+    height: 100%;
+  }
+
   .days-remaining {
     justify-self: flex-end;
     margin-top: 8px;
     margin-bottom: 0;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 600px) {
+    .grid {
+      grid-template-columns: 3fr 1fr;
+      grid-template-rows: minmax(180px, auto);
+      margin: 16px 0 0;
+      width: 100%;
+    }
+
+    .deadline * {
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    :global(.current-campaigns .card:first-child) {
+      padding: 12px;
+    }
   }
 </style>

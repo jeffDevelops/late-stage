@@ -5,6 +5,7 @@
   import Card from '../components/Card.svelte'
   import Controls from '../components/Controls.svelte'
   import InfoIcon from '../components/iconography/Info.svelte'
+
   import type { Campaign } from '../types/Campaign'
 
   /**
@@ -95,8 +96,8 @@
   }
 
   .petition-info p {
-    font-size: 12px;
-    font-weight: 700;
+    font-weight: 300;
+    font-size: 0.8rem;
     color: var(--text-color-subdued);
     letter-spacing: 0.025em;
   }

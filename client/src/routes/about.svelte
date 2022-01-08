@@ -92,7 +92,7 @@
   section {
     margin: 0 auto;
     padding: 0 0 24px;
-    width: calc(100% - 40px);
+    width: 100%;
     max-width: 750px;
   }
 
@@ -133,6 +133,10 @@
   }
 
   @media screen and (max-width: 600px) {
+    main {
+      padding: 0 0 16px;
+    }
+
     img {
       width: 80px;
       height: 80px;

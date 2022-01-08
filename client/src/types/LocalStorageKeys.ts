@@ -1,3 +1,4 @@
 export enum LocalStorageKeys {
-	CurrentUser = 'currentUser',
+  CurrentUser = 'currentUser',
+  HasAcknowledgedAlphaSoftware = 'hasAcknowledgedAlphaSoftware',
 }

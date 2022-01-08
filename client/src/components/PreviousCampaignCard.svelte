@@ -27,13 +27,17 @@
 
 <style>
   h1 {
-    font-size: 2em;
-    margin-bottom: 0;
+    font-size: 2rem;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    line-height: 1rem;
   }
 
   .verb,
   .unit {
-    font-size: 0.5em;
+    display: block;
+    margin-top: 12px;
+    font-size: 0.75rem;
     text-transform: none;
     letter-spacing: 0.01em;
     font-weight: 400;
@@ -42,8 +46,8 @@
 
   .description {
     font-weight: 400;
-    font-size: 1.25em;
-    letter-spacing: 0.05em;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
     margin-bottom: 0;
   }
 </style>

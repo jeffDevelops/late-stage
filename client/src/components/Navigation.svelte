@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { fly, fade } from 'svelte/transition'
+  import { fly } from 'svelte/transition'
   import { shouldDisplayNav } from '../stores/Navigation'
   import { clickOutside } from '../directives/clickOutside'
 
   import Logo from './Logo.svelte'
   import NotionLogo from './iconography/Notion.svelte'
+  import RedditLogo from './iconography/Reddit.svelte'
   import OpenInNew from './iconography/OpenInNew.svelte'
 
   const handleClickOutside = () => shouldDisplayNav.update(() => false)
@@ -33,6 +33,13 @@
     <a
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
+      href="/my-roadmap"
+      class:active={window?.location.pathname === '/my-roadmap'}>Late-Stage Checklist</a
+    >
+
+    <a
+      on:mouseup={handleClickOutside}
+      sveltekit:prefetch
       href="/about"
       class:active={typeof window !== 'undefined' && window?.location.pathname === '/about'}
       >About</a
@@ -45,6 +52,20 @@
       href="https://late-stage.notion.site/f8709ff5bbed4fcb9bda3d802fabdac0?v=86dd875520eb4384a8a01424da6ad666"
       >Roadmap <div><NotionLogo /> <OpenInNew /></div>
     </a>
+
+    <a
+      on:mouseup={handleClickOutside}
+      sveltekit:prefetch
+      href="/audit"
+      class:active={window?.location.pathname === '/audit'}>Audit</a
+    >
+
+    <a
+      on:mouseup={handleClickOutside}
+      sveltekit:prefetch
+      href="/sponsor"
+      class:active={window?.location.pathname === '/sponsor'}>Sponsor</a
+    >
 
     <!-- {#if $currentUser}
         <button on:click={logOut} class="log-out-button">Log Out</button>
@@ -63,31 +84,34 @@
         {/if} -->
 
     <section class="secondary-navigation">
-      <h4>Get Involved</h4>
+      <h4>Requests For Comment</h4>
 
       <a
         on:mouseup={handleClickOutside}
         sveltekit:prefetch
-        href="/my-roadmap"
-        class:active={window?.location.pathname === '/my-roadmap'}>Late-Stage Checklist</a
+        href="/campaign-rfcs"
+        class:active={window?.location.pathname === '/campaign-rfcs'}>Campaigns</a
       >
+
       <a
         on:mouseup={handleClickOutside}
         sveltekit:prefetch
-        href="/rfc"
-        class:active={window?.location.pathname === '/rfc'}>RFC</a
+        href="/checklist-rfcs"
+        class:active={window?.location.pathname === '/checklist-rfcs'}>Checklist Items</a
       >
-      <a
-        on:mouseup={handleClickOutside}
-        sveltekit:prefetch
-        href="/audit"
-        class:active={window?.location.pathname === '/audit'}>Audit</a
+    </section>
+
+    <section class="secondary-navigation">
+      <h4>Community</h4>
+
+      <a on:mouseup={handleClickOutside} href="https://www.reddit.com/r/latestage/"
+        >r/latestage <div><RedditLogo /> <OpenInNew /></div></a
       >
-      <a
-        on:mouseup={handleClickOutside}
-        sveltekit:prefetch
-        href="/sponsor"
-        class:active={window?.location.pathname === '/sponsor'}>Sponsor</a
+      <a on:mouseup={handleClickOutside} href="https://www.reddit.com/r/antiwork/"
+        >r/antiwork <div><RedditLogo /> <OpenInNew /></div></a
+      >
+      <a on:mouseup={handleClickOutside} href="https://www.reddit.com/r/lostgeneration/"
+        >r/lostgeneration <div><RedditLogo /> <OpenInNew /></div></a
       >
     </section>
   </nav>
@@ -110,7 +134,7 @@
     max-width: 400px;
     min-width: 275px;
     overflow-y: auto;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
   }
 
   header {
@@ -135,12 +159,8 @@
   }
 
   .secondary-navigation {
+    margin-top: 16px;
     padding: 16px 0px;
-    border-bottom: 1px solid var(--card-background);
-  }
-
-  .secondary-navigation:last-of-type {
-    border-bottom: 0;
   }
 
   h4 {
@@ -203,7 +223,7 @@
     width: 20px;
   }
 
-  :global(a svg.notion) {
+  :global(a svg.notion, a svg.reddit) {
     fill: var(--text-color);
     margin-left: 4px;
   }

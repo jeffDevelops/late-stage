@@ -2,10 +2,10 @@
   import Navigation from '../components/Navigation.svelte'
   import NavigationButton from '../components/NavigationButton.svelte'
   import DarkModeButton from '../components/DarkModeButton.svelte'
-  import UserButton from '../components/UserButton.svelte'
+  import PublicAlphaModal from '../assemblies/PublicAlphaModal.svelte'
 </script>
 
 <Navigation />
 <NavigationButton />
 <DarkModeButton />
-<UserButton />
+<PublicAlphaModal />

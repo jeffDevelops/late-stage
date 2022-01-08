@@ -10,6 +10,16 @@
   import MarkdownEditor from '../components/MarkdownEditor.svelte'
   import { auditReport } from '../markdown-templates/audit-report'
 
+  /**
+   * STATE
+   */
+
+  let value: string = auditReport
+
+  /**
+   * LIFECYCLE
+   */
+
   let quickLinksNode: HTMLElement
   let auditReportTemplateSectionNode: HTMLElement
   let auditReportTemplateSectionScrollPosition
@@ -58,6 +68,16 @@
       window.removeEventListener('resize', handleScroll)
     }
   })
+
+  /**
+   * METHODS
+   */
+
+  const handleClick = async () => {
+    await navigator.clipboard.writeText(value)
+
+    window.open('https://www.reddit.com/r/latestage/submit', '_blank')
+  }
 </script>
 
 <Controls />
@@ -83,12 +103,12 @@
         >View Pre-Release Version (pending imminent release)</a
       >
 
-      <a rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/latestage/submit">
-        Submit An Audit Report on Reddit</a
+      <a
+        rel="noopener noreferrer"
+        target="_blank"
+        href="https://late-stage.notion.site/f8709ff5bbed4fcb9bda3d802fabdac0?v=270e59108e974efa986277b4d1c64149"
       >
-
-      <a rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/latestage/submit">
-        View "Audit Fix" Issues in the Roadmap (search "Audit Fix")</a
+        Track Audit Fixes in the Roadmap (Use the "Audit Fixes" view at the top left)</a
       >
 
       <a href="#audit-report-template" on:click={scrollToAuditReportTemplate}>
@@ -102,8 +122,12 @@
 
     <p>
       Until an audit mechanism has been implemented on the platform, please write up your audit on
-      our subreddit <a href="https://www.reddit.com/r/latestage/">r/latestage</a>. Please consult
-      the post guidelines on the subreddit before posting.
+      our subreddit <a
+        href="https://www.reddit.com/r/latestage/"
+        rel="noopener noreferrer"
+        target="_blank">r/latestage</a
+      >. We've made this process easier
+      <a href="#audit-report-template" on:click={scrollToAuditReportTemplate}> below</a>.
     </p>
 
     <p>
@@ -117,6 +141,7 @@
       <li>- Environmental impact</li>
       <li>- Diversity and inclusion</li>
       <li>- Accessibility</li>
+      <li>- Web Security</li>
       <li>- User Experience</li>
       <li>- Legal</li>
     </ul>
@@ -208,7 +233,8 @@
       <p>
         Please use the following template to compose your audit report. Note: the below editor
         allows you to enter text, but <strong>your input will not be saved.</strong> You can either enter
-        your report here, or paste the template into Reddit.
+        your report here, or paste the template into Reddit. Finally, please use the "Audit Report" flair
+        before posting.
       </p>
 
       <p>
@@ -217,27 +243,23 @@
       </p>
     </Card>
 
-    <MarkdownEditor initialValue={auditReport} />
+    <MarkdownEditor initialValue={value} on:change={(e) => (value = e.detail.value)} />
+
+    <button on:click={handleClick} class="primary">Copy To Clipboard and Open Reddit</button>
   </section>
 </main>
 
 <style>
   :global(.audit .opaque .card) {
-    transition: background-color 1s;
+    transition: background-color 1s, box-shadow 1s, backdrop-filter 1s;
     border-top-right-radius: 0 !important;
     border-top-left-radius: 0 !important;
-  }
-
-  :global(.light-theme .audit .opaque .card) {
-    background-color: #e6e8eacc;
-  }
-
-  :global(.dark-theme .audit .opaque .card) {
-    background-color: #252525ee;
+    box-shadow: 0px 2px 10px 6px rgba(10, 10, 10, 0.1);
+    backdrop-filter: blur(10px);
   }
 
   :global(.audit .opaque .card) {
-    transition: background-color 1s;
+    transition: background-color 1s, box-shadow 1s, backdrop-filter 1s;
   }
 
   main {
@@ -277,5 +299,15 @@
 
   strong {
     font-weight: 700;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 600px) {
+    main {
+      padding: 0 0 16px;
+    }
   }
 </style>

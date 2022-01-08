@@ -1,16 +1,22 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onMount, createEventDispatcher } from 'svelte'
+
+  const dispatch = createEventDispatcher()
 
   let editorNode: HTMLElement
   let editor
 
-  /** Props */
+  /**
+   * PROPS
+   */
+
   export let initialValue: string
 
   onMount(async () => {
     if (typeof window === 'undefined') return
 
     editor = new (window as any).SimpleMDE({ element: editorNode, initialValue })
+    editor.codemirror.on('change', () => dispatch('change', { value: editor.value() }))
   })
 </script>
 
@@ -26,12 +32,20 @@
   .editor {
     display: block;
     margin-top: 16px;
-    height: 700px;
     width: 100%;
     background: transparent;
     border-radius: 6px;
     font-family: 'Inconsolata', monospace;
     caret-color: var(--visualization-color) !important;
+    position: relative;
+  }
+
+  :global(.CodeMirror) {
+    margin-bottom: 16px;
+  }
+
+  :global(.CodeMirror-scroll) {
+    height: 500px;
   }
 
   :global(.CodeMirror.cm-s-paper.CodeMirror-wrap, .editor-toolbar, .editor-preview-active) {
@@ -47,7 +61,7 @@
   }
 
   :global(.CodeMirror.cm-s-paper.CodeMirror-wrap, .editor-preview, .editor-preview-side) {
-    padding: 16px 24px;
+    padding: 16px 20px;
   }
 
   :global(.editor-toolbar, .editor-toolbar.fullscreen) {
@@ -102,9 +116,29 @@
 
   :global(.editor-preview *, .editor-preview-side *) {
     font-family: var(--font-sans);
-    font-weight: 400;
     text-transform: none;
     letter-spacing: 0.01em;
+    line-height: 1.4em;
     text-shadow: none;
+  }
+
+  :global(.CodeMirror .CodeMirror-code .cm-header.cm-header-1) {
+    line-height: 1em;
+    font-weight: 700;
+  }
+
+  :global(.CodeMirror .CodeMirror-code .cm-header.cm-header-2) {
+    line-height: 1.4em;
+    font-weight: 700;
+  }
+
+  :global(.CodeMirror .CodeMirror-code .cm-header.cm-header-4) {
+    line-height: 1.2em;
+    font-weight: 700;
+  }
+
+  :global(strong) {
+    font-weight: 700;
+    font-size: unset;
   }
 </style>

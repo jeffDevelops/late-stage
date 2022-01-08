@@ -18,6 +18,6 @@
     position: fixed;
     top: 6px;
     left: 8px;
-    z-index: 7;
+    z-index: 4;
   }
 </style>
