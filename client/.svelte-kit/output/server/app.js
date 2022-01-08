@@ -54,11 +54,17 @@ function error(body) {
 function is_string(s2) {
   return typeof s2 === "string" || s2 instanceof String;
 }
-function is_content_type_textual(content_type) {
+const text_types = new Set([
+  "application/xml",
+  "application/json",
+  "application/x-www-form-urlencoded",
+  "multipart/form-data"
+]);
+function is_text(content_type) {
   if (!content_type)
     return true;
-  const [type] = content_type.split(";");
-  return type === "text/plain" || type === "application/json" || type === "application/x-www-form-urlencoded" || type === "multipart/form-data";
+  const type = content_type.split(";")[0].toLowerCase();
+  return type.startsWith("text/") || type.endsWith("+xml") || text_types.has(type);
 }
 async function render_endpoint(request, route, match) {
   const mod = await route.load();
@@ -78,8 +84,7 @@ async function render_endpoint(request, route, match) {
   let { status = 200, body, headers = {} } = response;
   headers = lowercase_keys(headers);
   const type = get_single_valued_header(headers, "content-type");
-  const is_type_textual = is_content_type_textual(type);
-  if (!is_type_textual && !(body instanceof Uint8Array || is_string(body))) {
+  if (!is_text(type) && !(body instanceof Uint8Array || is_string(body))) {
     return error(`${preface}: body must be an instance of string or Uint8Array if content-type is not a supported textual content-type`);
   }
   let normalized_body;
@@ -567,10 +572,16 @@ async function render_response({
   if (!options.floc) {
     headers["permissions-policy"] = "interest-cohort=()";
   }
+  const segments = url.pathname.slice(options.paths.base.length).split("/").slice(2);
+  const assets2 = options.paths.assets || (segments.length > 0 ? segments.map(() => "..").join("/") : ".");
   return {
     status,
     headers,
-    body: options.template({ head, body })
+    body: options.template({
+      head,
+      body,
+      assets: assets2
+    })
   };
 }
 function try_serialize(data, fail) {
@@ -1385,7 +1396,7 @@ var user_hooks = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module"
 });
-const template = ({ head, body }) => '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="utf-8" />\n    <meta name="description" content="" />\n    <link rel="icon" href="/favicon.png" />\n    <meta name="viewport" content="width=device-width, initial-scale=1" />\n\n    <link rel="preconnect" href="https://fonts.googleapis.com" />\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n    <link\n      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&family=Spartan:wght@100;200;400;500&family=Inconsolata:wght@300&display=swap"\n      rel="stylesheet"\n    />\n\n    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />\n\n    ' + head + '\n  </head>\n  <body>\n    <div id="svelte">' + body + "</div>\n  </body>\n</html>\n";
+const template = ({ head, body, assets: assets2 }) => '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="utf-8" />\n    <meta name="description" content="" />\n    <link rel="icon" href="/favicon.png" />\n    <meta name="viewport" content="width=device-width, initial-scale=1" />\n\n    <link rel="preconnect" href="https://fonts.googleapis.com" />\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n    <link\n      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&family=Spartan:wght@100;200;400;500&family=Inconsolata:wght@300&display=swap"\n      rel="stylesheet"\n    />\n\n    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />\n\n    ' + head + '\n  </head>\n  <body>\n    <div id="svelte">' + body + "</div>\n  </body>\n</html>\n";
 let read = null;
 set_paths({ "base": "", "assets": "" });
 const get_hooks = (hooks) => ({
