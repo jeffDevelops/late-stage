@@ -155,8 +155,7 @@ a:hover {
   align-items: center;
   margin: auto;
   cursor: pointer;
-  padding-top: 3px;
-  padding-left: 6px;
+  padding: 2.5px 5.5px 1.5px 5.5px;
 }
 
 pre {
