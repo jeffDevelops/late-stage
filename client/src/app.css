@@ -206,6 +206,7 @@ textarea {
   font-size: 1em;
   background-color: var(--input-background);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   border: 1px solid transparent;
 }
 

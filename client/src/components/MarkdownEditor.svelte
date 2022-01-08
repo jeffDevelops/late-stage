@@ -52,6 +52,7 @@
     background-color: var(--input-background);
     opacity: 1 !important;
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     border-color: transparent;
     border-top: none !important;
     border-left: none !important;

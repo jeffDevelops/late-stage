@@ -19,6 +19,7 @@
     justify-content: flex-end;
     padding: 16px;
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     border-bottom-left-radius: var(--border-radius);
     z-index: 4;
   }

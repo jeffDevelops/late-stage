@@ -9,5 +9,6 @@
     border-radius: var(--border-radius);
     padding: 24px 32px 16px;
     backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
   }
 </style>

@@ -77,6 +77,7 @@
     border: 1px solid var(--interactive-color);
     border-radius: var(--border-radius);
     backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
   }
 
   .flex {

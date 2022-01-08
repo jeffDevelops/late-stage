@@ -135,6 +135,7 @@
     min-width: 275px;
     overflow-y: auto;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   header {
