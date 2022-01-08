@@ -63,7 +63,6 @@
   @media screen and (max-width: 1100px) {
     .background {
       right: 0;
-      width: auto;
       height: 100vh;
     }
   }
