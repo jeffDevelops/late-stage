@@ -143,6 +143,7 @@
     align-items: center;
     flex-direction: column;
     position: relative;
+    height: 100%;
   }
 
   .deadline {

@@ -141,6 +141,8 @@ a:hover {
   border-radius: 50%;
   width: 18px;
   height: 18px;
+  max-width: 18px;
+  max-height: 18px;
   font-size: 1rem;
   color: var(--interactive-color);
   background-color: transparent;
