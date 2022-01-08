@@ -52,39 +52,40 @@
   <section>
     <h1>Team</h1>
 
-    <article>
-      <img src="Jeff.jpeg" alt="Portrait of Jeff Reynolds" />
+    <Card>
+      <article>
+        <div>
+          <h3>Jeff Reynolds</h3>
+          <h4>UX Designer, Developer</h4>
+        </div>
 
-      <Card>
-        <h3>Jeff Reynolds</h3>
-        <h4>UX Designer, Developer</h4>
+        <img src="Jeff.jpeg" alt="Portrait of Jeff Reynolds" />
+      </article>
 
-        <p>
-          I'm hoping to foster a community interested in making a difference for the people that
-          create the value in our society.
-        </p>
+      <p>
+        I'm hoping to foster a community interested in making a difference for the people that
+        create the value in our society.
+      </p>
 
-        <p>
-          Like many, I am extremely frustrated by our representation's blatant disregard for their
-          constituents. They've proven inept to respresent us, so it's time to take matters into our
-          own hands.
-        </p>
+      <p>
+        Like many, I am extremely frustrated by our representation's blatant disregard for their
+        constituents. They've proven inept to respresent us, so it's time to take matters into our
+        own hands.
+      </p>
 
-        <p>
-          I can't do it alone! My expertise is primarily technical, and so I'm building a platform
-          of requests for comment (RFCs) in hopes of informing a direction for the platform by
-          passionate people more specialized in disciplines with more direct investment in
-          socioeconomic change.
-        </p>
+      <p>
+        I can't do it alone! My expertise is primarily technical, and so I'm building a platform of
+        requests for comment (RFCs) in hopes of informing a direction for the platform by passionate
+        people more specialized in disciplines with more direct investment in socioeconomic change.
+      </p>
 
-        <p>
-          This is my full-time endeavor. If you would like to contribute money to the project, you
-          can <a href="https://buymeacoffee.com/latestage.jeff">buy me a coffee</a>. This gives me
-          the runway I need to continue working on the project, and pays for server and database
-          costs, image hosting, and moderation man-hours.
-        </p>
-      </Card>
-    </article>
+      <p>
+        This is my full-time endeavor. If you would like to contribute money to the project, you can <a
+          href="https://buymeacoffee.com/latestage.jeff">buy me a coffee</a
+        >. This gives me the runway I need to continue working on the project, and pays for server
+        and database costs, image hosting, and moderation man-hours.
+      </p>
+    </Card>
   </section>
 </main>
 
@@ -112,16 +113,17 @@
   }
 
   img {
-    align-self: flex-start;
-    width: 180px;
-    height: 180px;
+    width: 90px;
+    height: 90px;
     border-radius: var(--border-radius);
+    margin-bottom: 16px;
   }
 
   article {
     display: flex;
     gap: 16px;
     align-items: center;
+    justify-content: space-between;
   }
 
   article h3 {
@@ -138,8 +140,9 @@
     }
 
     img {
-      width: 80px;
-      height: 80px;
+      width: 90px;
+      height: 90px;
+      align-self: center;
     }
   }
 </style>

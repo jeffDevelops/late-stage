@@ -11,4 +11,10 @@
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
   }
+
+  @media screen and (max-width: 600px) {
+    .card {
+      padding: 16px 24px 8px;
+    }
+  }
 </style>
