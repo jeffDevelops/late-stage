@@ -44,6 +44,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Late-Stage</title>
+</svelte:head>
+
 <Controls />
 
 <main>

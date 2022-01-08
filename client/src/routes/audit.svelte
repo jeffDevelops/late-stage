@@ -80,6 +80,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Late-Stage: Audit</title>
+</svelte:head>
+
 <Controls />
 
 <main class="audit">

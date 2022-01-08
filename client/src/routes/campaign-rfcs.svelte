@@ -77,6 +77,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Late-Stage: Campaign RFC</title>
+</svelte:head>
+
 <Controls />
 
 <main class="audit">
@@ -219,6 +223,7 @@
     border-top-right-radius: 0 !important;
     border-top-left-radius: 0 !important;
     box-shadow: 0px 2px 10px 6px rgba(10, 10, 10, 0.1);
+    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
 

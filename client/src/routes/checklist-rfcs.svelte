@@ -74,6 +74,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Late-Stage: Checklist RFC</title>
+</svelte:head>
+
 <Controls />
 
 <main class="audit">

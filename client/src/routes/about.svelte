@@ -5,6 +5,10 @@
   import ChecklistIcon from '../components/iconography/Checklist.svelte'
 </script>
 
+<svelte:head>
+  <title>Late-Stage: About</title>
+</svelte:head>
+
 <Controls />
 
 <main>
