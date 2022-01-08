@@ -50,7 +50,7 @@
 <style>
   .background {
     height: auto;
-    width: 100vw;
+    width: 100%;
     position: fixed;
     z-index: 0;
   }
