@@ -15,14 +15,24 @@
   onMount(async () => {
     if (typeof window === 'undefined') return
 
-    editor = new (window as any).SimpleMDE({ element: editorNode, initialValue })
-    editor.codemirror.on('change', () => dispatch('change', { value: editor.value() }))
+    const initSimpleMDE = () => {
+      editor = new (window as any).SimpleMDE({ element: editorNode, initialValue })
+      editor.codemirror.on('change', () => dispatch('change', { value: editor.value() }))
+    }
+
+    const retrySimpleMDE = () => {
+      try {
+        initSimpleMDE()
+      } catch (error) {
+        setTimeout(() => {
+          retrySimpleMDE()
+        }, 500)
+      }
+    }
+
+    retrySimpleMDE()
   })
 </script>
-
-<svelte:head>
-  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-</svelte:head>
 
 <div class="editor">
   <textarea class="editor" bind:this={editorNode} />
