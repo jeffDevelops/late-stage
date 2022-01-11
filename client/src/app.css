@@ -31,7 +31,7 @@
 }
 
 html {
-  font-size: 100%;
+  font-size: 98%;
 }
 
 html,
@@ -100,7 +100,7 @@ h3 {
 
 h4 {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   line-height: 1.4em;
   text-transform: uppercase;
@@ -158,6 +158,15 @@ a:hover {
   padding: 2.5px 5.5px 1.5px 5.5px;
 }
 
+.info-button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  height: auto;
+  width: auto;
+  padding: 0;
+}
+
 pre {
   font-family: 'Inconsolata', monospace;
   line-height: 1.4em;
@@ -183,7 +192,7 @@ label {
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  font-size: 12px;
+  font-size: 0.6rem;
   font-weight: 700;
   margin-top: 16px;
   margin-bottom: 10px;

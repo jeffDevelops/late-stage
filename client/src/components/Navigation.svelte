@@ -193,7 +193,7 @@
   a.active,
   .log-out-button:hover {
     background-color: var(--interactive-color);
-    transition: background-color 0.5s, color 0.5s;
+    transition: background-color 0.2s, color 0.2s;
   }
 
   .log-out-button {
