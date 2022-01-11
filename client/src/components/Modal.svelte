@@ -47,7 +47,7 @@
   }
 
   const fadeEffect = (node: HTMLElement) => {
-    return isAnimated ? { ...fade(node) } : {}
+    return isAnimated ? { ...fade(node) } : undefined
   }
 </script>
 
