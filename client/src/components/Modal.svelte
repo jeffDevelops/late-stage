@@ -46,8 +46,8 @@
     dispatch('dismiss')
   }
 
-  const fadeEffect = () => {
-    return isAnimated ? { ...fade } : undefined
+  const fadeEffect = (node: HTMLElement) => {
+    return isAnimated ? { ...fade(node) } : undefined
   }
 </script>
 
