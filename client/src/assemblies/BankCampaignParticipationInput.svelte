@@ -96,7 +96,7 @@
         Check out some of the emerging blockchain technology enabling decentralized finance (DeFi)
         institutions. You can find some extremely high APYs (sometimes as high as 20% APY) for
         holding virtually risk-free stablecoins. Proof-of-stake chains are proving that blockchain
-        technology needn't be evironmentally taxing, and are reducing financial barrier to entry by
+        technology needn't be environmentally taxing, and are reducing financial barrier to entry by
         reducing liquidity fees to near negligible levels.
       </p>
 
