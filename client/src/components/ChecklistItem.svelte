@@ -76,6 +76,7 @@
   :global(.checklist-item label) {
     color: var(--interactive-color);
     margin-top: 0;
+    margin-bottom: 0;
     text-decoration: underline;
   }
 
