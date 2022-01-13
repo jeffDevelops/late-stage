@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
   import Card from '../../components/Card.svelte'
   import Controls from '../../components/Controls.svelte'
   import InfoIcon from '../../components/iconography/Info.svelte'
@@ -46,11 +45,13 @@
       'Banks create leveraged positions for themselves with your money by lending your funds to other people and corporations.',
       "You don't get to choose which types of businesses the bank invests in, and you don't have a say in stopping the banks from preying on young people and people with poor credit histories (disproportionately, people of color) with high-interest loans.",
       "In addition to historically denying home and business loans to disadvantaged people and people of color, they charge service fees to people that don't meet arbitrary standards for the amount of money held in accounts, and they allow overdrafts to occur, rather than simply declining transactions, to further extract wealth from the lower class.",
+      'Banks routinely invest in student loan asset-backed securities (SLABS), which are essentially packaged investments in the form of the student debt that you work day in and day out to pay off. These investments are virtually risk-free for investors like banks because of current student loan discharge legislation. By removing what money we do have from the system, the banks have fewer dollars to invest in these securities.',
     ],
     outcomes: [
       'You are likely to make more money from interest by moving your money from for-profit banking',
       'Encourage healthy competition for smaller financial institutions, and encourage large institutions to rethink their policies',
       "Late-Stage will create a digital mosiac mural of all of the community's withdrawal receipts from the major for-profit financial institutions as a collective receipt of our mass dissent of their policies.",
+      'Disable the use of our dollars in Student Loan Asset-Backed Securities (SLABS)',
     ],
     goal: 120_000_000,
     goalUnit: 'dollars',

@@ -5,22 +5,34 @@
   import { UploadOptions } from '../types/UploadOptions'
   import UploadIcon from '../components/iconography/Upload.svelte'
   import InfoIcon from '../components/iconography/Info.svelte'
+  import BankCampaignSuccessModal from './BankCampaignSuccessModal.svelte'
+  import { LocalStorageKeys } from '../types/LocalStorageKeys'
 
   /**
    * STATE
    */
   let withdrawalAmount: string = ''
-  let institutionSelection: string | null = null
+  let institutionSelection: { index: number; value: string; label: string } | undefined = undefined
+  let institutionName: string = ''
   let fileInput: HTMLInputElement
   let imagePreviewSrc: string
   let uploading = false
 
   let isShowingShopForBetterFinancialInstitutionHelpText = false
   let isShowingWithdrawHelpText = false
+  let isShowingSuccessModal = false
 
   /**
    * METHODS
    */
+
+  const resetForm = () => {
+    removeUpload()
+
+    withdrawalAmount = ''
+    institutionSelection = undefined
+    institutionName = ''
+  }
 
   const handleImageChange = (e) => {
     const fileList = fileInput.files
@@ -34,28 +46,41 @@
 
   const handleSubmit = async () => {
     if (fileInput.files.length !== 1) return
-    uploading = true
 
-    const formData = new FormData()
-    formData.append(
-      UploadOptions.BankCampaignWithdrawalReceipt,
-      fileInput.files[0],
-      fileInput.files[0].name,
-    )
+    isShowingSuccessModal = true
 
-    const uploadResponse = await fetch(
-      `${env.apiBaseUrl}/upload?uploadOption=${UploadOptions.BankCampaignWithdrawalReceipt}`,
-      {
-        method: 'POST',
-        body: formData,
-      },
-    )
+    localStorage.setItem(LocalStorageKeys.HasCompletedBankChecklistItem, 'true')
 
-    uploading = false
+    // uploading = true
 
-    window.location.reload()
+    // const formData = new FormData()
+    // formData.append(
+    //   UploadOptions.BankCampaignWithdrawalReceipt,
+    //   fileInput.files[0],
+    //   fileInput.files[0].name,
+    // )
+
+    // const uploadResponse = await fetch(
+    //   `${env.apiBaseUrl}/upload?uploadOption=${UploadOptions.BankCampaignWithdrawalReceipt}`,
+    //   {
+    //     method: 'POST',
+    //     body: formData,
+    //   },
+    // )
+
+    // uploading = false
+
+    // window.location.reload()
   }
 </script>
+
+<BankCampaignSuccessModal
+  isDisplayed={isShowingSuccessModal}
+  on:dismiss={() => {
+    resetForm()
+    isShowingSuccessModal = false
+  }}
+/>
 
 <section class="bank-campaign">
   <h4>
@@ -121,10 +146,10 @@
     <div in:fade out:fade class="info">
       <button on:click={() => (isShowingWithdrawHelpText = false)} class="close-button">×</button>
       <p>
-        Admittedly, the largest banks have the best infrastructure (branches, ATMs, etc.) to ensure
-        the timely accessibility of your funds. Especially if you go the DeFi route, you may want to
-        keep your account minimum in your bank, so that you can quickly have funds available for
-        expenses without incurring fees.
+        Admittedly, the largest banks have the best infrastructure (branches, ATMs, direct-deposit,
+        etc.) to ensure the timely accessibility of your funds. Especially if you go the DeFi route,
+        you may want to keep your account minimum in your bank, so that you can quickly have funds
+        available for expenses without incurring fees.
       </p>
     </div>
   {/if}
@@ -193,7 +218,7 @@
     <label for="withdrawal-amount">Withdrawal Amount</label>
     <input
       on:keydown={(e) => {
-        if (e.key === 'e') e.preventDefault()
+        if (e.key === 'e' || e.key === '-' || e.key === '+') e.preventDefault()
         if (
           withdrawalAmount?.toString().includes('.') &&
           withdrawalAmount?.toString().split('.')[1].length >= 2 &&
@@ -213,21 +238,21 @@
     <label for="institution">I removed money from:</label>
     <div class="themed-select">
       <Select
-        on:select={(e) => (institutionSelection = e.detail.value)}
+        bind:value={institutionSelection}
         showIndicator={true}
         placeholder="Select an institution"
         items={['Chase Bank', 'Bank of America', 'Wells Fargo', 'Citi', 'Other']}
       />
     </div>
 
-    {#if institutionSelection === 'Other'}
+    {#if institutionSelection?.value === 'Other'}
       <div in:fade out:fade>
         <label for="institution-name">Institution Name</label>
-        <input type="text" id="institution-name" />
+        <input bind:value={institutionName} type="text" id="institution-name" />
       </div>
     {/if}
 
-    <button class="primary">Tally My Withdrawal</button>
+    <button type="submit" class="primary">Tally My Withdrawal</button>
   </form>
 
   <h4>Step 4: Spread the word!</h4>

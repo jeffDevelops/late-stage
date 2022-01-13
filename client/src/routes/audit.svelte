@@ -103,10 +103,6 @@
         >View Source Code on GitHub</a
       >
 
-      <a rel="noopener noreferrer" target="_blank" href="#"
-        >View Pre-Release Version (pending imminent release)</a
-      >
-
       <a
         rel="noopener noreferrer"
         target="_blank"
@@ -259,7 +255,8 @@
     border-top-right-radius: 0 !important;
     border-top-left-radius: 0 !important;
     box-shadow: 0px 2px 10px 6px rgba(10, 10, 10, 0.1);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
 
   :global(.audit .opaque .card) {

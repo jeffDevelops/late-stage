@@ -33,8 +33,8 @@
     <a
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
-      href="/my-roadmap"
-      class:active={window?.location.pathname === '/my-roadmap'}>Late-Stage Checklist</a
+      href="/checklist"
+      class:active={window?.location.pathname === '/checklist'}>Checklist</a
     >
 
     <a

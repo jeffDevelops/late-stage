@@ -14,8 +14,8 @@
 
 :root.light-theme {
   --app-background: #fafafa;
-  --card-background: #e6e8ea55;
-  --input-background: #e6e8ea99;
+  --card-background: #e4e6ea77;
+  --input-background: #d4d6da77;
   --visualization-color: #ced0d2;
   --text-color: #33221d;
   --text-color-subdued: #33221dbb;
@@ -23,8 +23,8 @@
 
 :root.dark-theme {
   --app-background: #1d1d1d;
-  --card-background: #25252588;
-  --input-background: #2a2a2a88;
+  --card-background: #2a2a2a88;
+  --input-background: #3a3a3a88;
   --visualization-color: #3a3a3a;
   --text-color: #fffafc;
   --text-color-subdued: #fffafc99;
@@ -192,6 +192,7 @@ label {
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 0.15em;
+  line-height: 1.4em;
   font-size: 0.6rem;
   font-weight: 700;
   margin-top: 16px;
@@ -261,19 +262,31 @@ button.primary:focus {
   transition: transform 0.2s;
 }
 
+button.secondary {
+  border: 1px solid var(--interactive-color);
+  background-color: transparent;
+  border-radius: var(--border-radius);
+  min-height: 40px;
+  color: var(--interactive-color);
+  font-size: 0.9em;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.3em;
+  padding: 8px 24px;
+  text-align: center;
+  min-width: 172px;
+  transition: transform 0.2s;
+  transform: perspective(1000px) translateZ(0px);
+}
+
 button.text {
   color: var(--interactive-color);
   background-color: transparent;
   border: none;
   font-size: 1em;
   letter-spacing: 0.01em;
-}
-
-.actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 16px;
 }
 
 @media screen and (max-width: 600px) {
