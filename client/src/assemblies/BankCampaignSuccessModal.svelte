@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { fade } from 'svelte/transition'
   import { goto, prefetch } from '$app/navigation'
   import Modal from '../components/Modal.svelte'
   import CheckmarkIcon from '../components/iconography/Checkmark.svelte'
@@ -7,6 +8,12 @@
   import Checkbox from '../components/Checkbox.svelte'
 
   const dispatch = createEventDispatcher()
+
+  /**
+   * STATE
+   */
+
+  let shouldDisplayHoverEffect = false
 
   /**
    * PROPS
@@ -20,6 +27,12 @@
 
   const handlePetitionHover = async () => await prefetch('/')
   const goToPetition = async () => await goto('/')
+
+  const handleChecklistItemHover = async () => {
+    await prefetch('/checklist')
+    shouldDisplayHoverEffect = true
+  }
+  const handleChecklistItemClick = async () => await goto('/checklist')
 </script>
 
 <Modal {isDisplayed} on:dismiss={() => dispatch('dismiss')}>
@@ -42,13 +55,28 @@
       is only saved on-device in this browser.
     </p>
 
-    <Card>
-      <Checkbox checked={true}>Remove your personal funds from the large, for-profit banks</Checkbox
-      >
-    </Card>
+    <div on:mouseenter={handleChecklistItemHover}>
+      <Card>
+        {#if shouldDisplayHoverEffect}
+          <button
+            in:fade={{ duration: 100 }}
+            out:fade={{ duration: 100 }}
+            class="hover-effect"
+            on:click={handleChecklistItemClick}
+            on:mouseleave={() => (shouldDisplayHoverEffect = false)}
+          >
+            <h1>View My Checklist</h1>
+          </button>
+        {/if}
+
+        <Checkbox checked={true}
+          >Remove your personal funds from the large, for-profit banks</Checkbox
+        >
+      </Card>
+    </div>
   </div>
 
-  <div slot="actions">
+  <div class="bank-campaign-success-modal" slot="actions">
     <button on:click={() => dispatch('dismiss')} class="secondary">Repeat with new bank</button>
     <button on:mouseenter={handlePetitionHover} on:click={goToPetition} class="primary"
       >Go to Petition</button
@@ -57,6 +85,23 @@
 </Modal>
 
 <style>
+  .hover-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--interactive-color);
+    opacity: 0.9;
+    border: 0;
+    border-radius: var(--border-radius);
+  }
+
+  .hover-effect h1 {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+  }
+
   .flex {
     display: flex;
     justify-content: center;
@@ -72,6 +117,7 @@
   :global(.campaign-page .bank-campaign-success-modal .custom-checkbox svg) {
     margin-right: 0;
     margin-bottom: -4px;
+    margin-top: 0;
   }
 
   h2 {
@@ -85,9 +131,19 @@
 
   :global(.bank-campaign-success-modal label) {
     margin: 0;
+    color: var(--interactive-color);
   }
 
   :global(.bank-campaign-success-modal .card) {
+    padding-top: 16px;
     padding-bottom: 8px;
+    border: 1px solid var(--interactive-color);
+    background-color: var(--interactive-card-color);
+  }
+
+  @media screen and (max-width: 500px) {
+    :global(.actions .bank-campaign-success-modal) {
+      flex-direction: column !important;
+    }
   }
 </style>

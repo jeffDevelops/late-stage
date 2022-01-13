@@ -31,7 +31,7 @@
 
 <div class="checklist-item" on:mouseenter={handleHover}>
   <Card>
-    {#if !checked && shouldDisplayHoverEffect}
+    {#if shouldDisplayHoverEffect}
       <button
         in:fade={{ duration: 100 }}
         out:fade={{ duration: 100 }}
@@ -49,7 +49,8 @@
 
 <style>
   :global(.checklist-item .card) {
-    padding-bottom: 8px;
+    padding-bottom: 16px;
+    background-color: var(--interactive-card-color);
   }
 
   .hover-effect {

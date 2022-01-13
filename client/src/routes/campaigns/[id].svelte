@@ -64,6 +64,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Late-Stage: Campaign</title>
+</svelte:head>
+
 <Controls />
 
 <CampaignNotYetLiveModal

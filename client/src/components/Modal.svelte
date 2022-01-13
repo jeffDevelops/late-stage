@@ -246,9 +246,10 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    gap: 8px;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 500px) {
     .modal {
       height: 100vh;
       width: 100vw;
