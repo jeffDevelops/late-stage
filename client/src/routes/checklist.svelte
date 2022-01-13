@@ -72,7 +72,7 @@
     font-weight: 300;
   }
 
-  :global(.checklist .disclosure .card:last-of-type) {
+  :global(.checklist .disclosure:last-of-type .card) {
     padding-bottom: 24px;
   }
 
