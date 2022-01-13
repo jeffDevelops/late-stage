@@ -64,9 +64,30 @@
     font-weight: 300;
   }
 
+  :global(.checklist .disclosure .card:last-of-type) {
+    padding-bottom: 24px;
+  }
+
   :global(.checklist .disclosure h4 svg) {
     fill: var(--interactive-color);
     margin-bottom: -6px;
     margin-right: 4px;
+  }
+
+  @media screen and (max-width: 600px) {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .disclosure h4 {
+      line-height: 1.6em;
+    }
+
+    :global(.checklist .disclosure h4 svg) {
+      width: 18px;
+      height: 18px;
+      margin-bottom: -4px;
+      margin-right: 2px;
+    }
   }
 </style>

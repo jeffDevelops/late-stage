@@ -44,6 +44,10 @@
     border: 2px solid var(--visualization-color);
     height: 24px;
     width: 24px;
+    min-height: 24px;
+    min-width: 24px;
+    max-width: 24px;
+    max-height: 24px;
     background-color: var(--visualization-color);
     border-radius: 5px;
     transition: border-color 0.4s;

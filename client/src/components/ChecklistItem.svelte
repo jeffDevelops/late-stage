@@ -44,20 +44,14 @@
     {/if}
 
     <Checkbox {checked}>Remove your personal funds from the large, for-profit banks</Checkbox>
-
-    <p>
-      This is an ongoing campaign to prove to lawmakers and maintainers of the status-quo just how
-      serious we are.
-    </p>
-
-    <p>
-      We're collecting withdrawal receipts to create a public record of our dissent and tracking how
-      much money we are collectively removing from their system.
-    </p>
   </Card>
 </div>
 
 <style>
+  :global(.checklist-item .card) {
+    padding-bottom: 0;
+  }
+
   .hover-effect {
     position: absolute;
     top: 0;
@@ -74,17 +68,25 @@
     border: none;
   }
 
-  p {
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: var(--text-color-subdued);
+  .hover-effect h1 {
+    margin-bottom: 0;
+    font-size: 1.8rem;
   }
 
   :global(.checklist-item label) {
+    color: var(--interactive-color);
     margin-top: 0;
+    text-decoration: underline;
   }
 
   :global(.checklist-item .card) {
     border: 1px solid var(--interactive-color);
+    position: relative;
+  }
+
+  @media screen and (max-width: 600px) {
+    .hover-effect h1 {
+      font-size: 1.2rem;
+    }
   }
 </style>
