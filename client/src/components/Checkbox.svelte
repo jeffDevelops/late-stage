@@ -37,7 +37,6 @@
     justify-content: flex-start;
     align-items: center;
     cursor: pointer;
-    margin-bottom: 24px;
   }
 
   .custom-checkbox {

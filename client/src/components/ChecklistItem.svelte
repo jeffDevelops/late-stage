@@ -49,7 +49,7 @@
 
 <style>
   :global(.checklist-item .card) {
-    padding-bottom: 0;
+    padding-bottom: 24px;
   }
 
   .hover-effect {
