@@ -36,8 +36,7 @@
     transition: transform 0.5s;
   }
 
-  :global(button > svg) {
-    fill: var(--interactive-color) !important;
+  :global(button svg) {
     transform: scale(1);
     transition: transform 0.25s;
   }

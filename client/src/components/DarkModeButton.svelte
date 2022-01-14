@@ -31,6 +31,7 @@
   }
 
   :global(.dark-mode-button svg) {
-    stroke: var(--interactive-color) !important;
+    stroke: var(--interactive-color);
+    fill: var(--interactive-color);
   }
 </style>
