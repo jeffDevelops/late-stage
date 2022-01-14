@@ -18,7 +18,6 @@
     position: fixed;
     top: 4px;
     left: 4px;
-    z-index: 6;
   }
 
   :global(.navigation-button svg) {

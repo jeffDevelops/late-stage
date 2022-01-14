@@ -17,6 +17,8 @@
     border: 1px solid #ff596455;
     cursor: pointer;
     margin-bottom: 8px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 
     display: flex;
     justify-content: center;

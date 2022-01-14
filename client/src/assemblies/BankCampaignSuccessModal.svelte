@@ -113,8 +113,8 @@
   }
 
   :global(.bank-campaign-success-modal .flex svg) {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     margin: 0 auto 24px;
   }
 

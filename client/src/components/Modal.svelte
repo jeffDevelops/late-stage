@@ -3,6 +3,17 @@
   import { fade } from 'svelte/transition'
 
   /**
+   * PROPS
+   */
+
+  export let shouldDisplayCloseButton: boolean = true
+  export let isDisplayed: boolean = false
+  export let maxWidth: number = 500
+  export let isBlurDismissable: boolean = false
+  export let isAnimated = true
+  export let zIndex = 99
+
+  /**
    * STATE
    */
 
@@ -20,7 +31,9 @@
     originalValue: string
   }[] = []
 
-  onDestroy(() => setTimeout(() => restoreDOM(), 500))
+  onDestroy(() => {
+    setTimeout(() => restoreDOM(), 500)
+  })
 
   /**
    * REACTIVE
@@ -104,33 +117,11 @@
   // Scroll Lock
   $: if (isDisplayed && typeof window !== 'undefined') {
     enableScrollLock()
+    rectifyBrokenPositioning()
   } else if (!isDisplayed && typeof window !== 'undefined') {
     disableScrollLock()
+    setTimeout(() => restoreDOM(), 400)
   }
-
-  /**
-   * Determine whether the modal is rendered correctly,
-   * indicated by whether the scrim is rendered at 0, 0
-   * on the screen.
-   */
-  $: (() => {
-    if (isDisplayed) {
-      rectifyBrokenPositioning()
-    } else {
-      setTimeout(() => restoreDOM(), 400)
-    }
-  })()
-
-  /**
-   * PROPS
-   */
-
-  export let shouldDisplayCloseButton: boolean = true
-  export let isDisplayed: boolean = false
-  export let maxWidth: number = 500
-  export let isBlurDismissable: boolean = false
-  export let isAnimated = true
-  export let zIndex = 99
 
   /**
    * METHODS
@@ -198,6 +189,7 @@
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     transition: backdrop-filter 0.2s;
   }
 

@@ -27,7 +27,6 @@
     position: fixed;
     top: 48px;
     left: 4px;
-    z-index: 6;
   }
 
   :global(.dark-mode-button svg) {

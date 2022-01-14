@@ -46,7 +46,7 @@
     isBlurDismissable={false}
     shouldDisplayCloseButton={false}
     maxWidth={750}
-    zIndex={10}
+    zIndex={6}
   >
     <div slot="content">
       <h2>Late-Stage is in public alpha</h2>
@@ -156,7 +156,6 @@
     position: fixed;
     bottom: 0px;
     right: 4px;
-    z-index: 2;
   }
 
   :global(.alpha-info-fab button) {

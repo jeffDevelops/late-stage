@@ -7,6 +7,7 @@
   import InfoIcon from '../components/iconography/Info.svelte'
   import BankCampaignSuccessModal from './BankCampaignSuccessModal.svelte'
   import { LocalStorageKeys } from '../types/LocalStorageKeys'
+  import { shouldDisplayControls } from '../stores/Controls'
 
   /**
    * STATE
@@ -22,6 +23,12 @@
   let isShowingWithdrawHelpText = false
   let isShowingReceiptImageHelpText = false
   let isShowingSuccessModal = false
+
+  /**
+   * REACTIVE
+   */
+
+  $: $shouldDisplayControls = !isShowingSuccessModal
 
   /**
    * METHODS
