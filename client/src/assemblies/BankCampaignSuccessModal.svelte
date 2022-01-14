@@ -35,7 +35,7 @@
   const handleChecklistItemClick = async () => await goto('/checklist')
 </script>
 
-<Modal {isDisplayed} on:dismiss={() => dispatch('dismiss')}>
+<Modal {isDisplayed} on:dismiss={() => dispatch('dismiss')} zIndex={99}>
   <div class="bank-campaign-success-modal" slot="content">
     <div class="flex">
       <CheckmarkIcon />
@@ -55,7 +55,7 @@
       is only saved on-device in this browser.
     </p>
 
-    <div on:mouseenter={handleChecklistItemHover}>
+    <div class="hover-effect-container" on:mouseenter={handleChecklistItemHover}>
       <Card>
         {#if shouldDisplayHoverEffect}
           <button
@@ -85,6 +85,10 @@
 </Modal>
 
 <style>
+  :global(.hover-effect-container .card) {
+    position: relative;
+  }
+
   .hover-effect {
     position: absolute;
     top: 0;
