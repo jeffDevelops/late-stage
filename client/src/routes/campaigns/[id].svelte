@@ -132,7 +132,7 @@
   }
 
   :global(.campaign-page .current-campaign .card:first-of-type) {
-    padding: 24px 32px 8px;
+    padding: 24px 32px;
   }
 
   :global(.campaign-page .current-campaign .deadline-card .card) {
