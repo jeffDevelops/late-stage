@@ -50,7 +50,7 @@
 <style>
   :global(.checklist-item .card) {
     padding-bottom: 16px;
-    background-color: var(--interactive-card-color);
+    background-color: var(--interactive-card-color) !important;
   }
 
   .hover-effect {

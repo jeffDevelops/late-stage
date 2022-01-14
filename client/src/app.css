@@ -208,9 +208,7 @@ textarea {
   height: 40px;
   border: none;
   border-radius: var(--border-radius);
-  /* box-shadow: 1px 1px 1px #00000033, -1px -1px 1px #44444433; */
   width: 100%;
-  /* border: 1px solid #55555577; */
   outline: none;
   padding: 0 16px;
   color: var(--text-color);
@@ -260,7 +258,7 @@ button.primary {
 
 button.primary:hover,
 button.primary:focus {
-  transform: perspective(1000px) translateZ(20px);
+  /* transform: perspective(1000px) translateZ(20px); */
   transition: transform 0.2s;
 }
 
