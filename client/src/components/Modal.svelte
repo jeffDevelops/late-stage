@@ -115,7 +115,7 @@
   }
 
   $: if (isDisplayed && typeof window !== 'undefined') {
-    modalContainer.focus()
+    if (modalContainer) modalContainer.focus()
 
     enableScrollLock()
     rectifyBrokenPositioning()
@@ -204,6 +204,7 @@
     border-radius: var(--border-radius);
     box-shadow: var(--page-shadow);
     position: relative;
+    transform: perspective(1000px);
   }
 
   .close-button {
