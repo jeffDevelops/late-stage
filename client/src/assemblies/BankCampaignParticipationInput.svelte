@@ -20,6 +20,7 @@
 
   let isShowingShopForBetterFinancialInstitutionHelpText = false
   let isShowingWithdrawHelpText = false
+  let isShowingReceiptImageHelpText = false
   let isShowingSuccessModal = false
 
   /**
@@ -159,7 +160,47 @@
     receipt for the next step!
   </p>
 
-  <h4>Step 3: Upload your withdrawal receipt</h4>
+  <h4>
+    Step 3: Upload your withdrawal receipt <button
+      class="info-button"
+      on:click={() => (isShowingReceiptImageHelpText = !isShowingReceiptImageHelpText)}
+      ><InfoIcon /></button
+    >
+  </h4>
+
+  {#if isShowingReceiptImageHelpText}
+    <div in:fade out:fade class="info">
+      <button on:click={() => (isShowingReceiptImageHelpText = false)} class="close-button"
+        >×</button
+      >
+
+      <h4>Why are we asking for proof?</h4>
+      <p>
+        Late-Stage is different from any other petition in that it's used to prove to lawmakers and
+        those that maintain the status-quo that <strong>we are actively fighting</strong> against the
+        institutions they maintain.
+      </p>
+
+      <p>
+        We want them to feel the hurt of losing our funds, but we also want them to know it was us
+        that hurt them, and why.
+      </p>
+
+      <p>
+        We also want the people in our community to feel the tangible impact. Proof of participation
+        fuels the campaign's credibility, encourages the more hesitant to participate, and creates a
+        sense of solidarity and real accomplishment.
+      </p>
+
+      <p>
+        If we get enough withdrawal receipts, we're hoping to create <a
+          href="https://mosaically.com"
+          target="_blank"
+          rel="noopener noreferrer">a mosaic</a
+        > of all participants' withdrawals as a message of mass dissent.
+      </p>
+    </div>
+  {/if}
 
   <p>
     <strong>Redact any personal info</strong> from the receipt that you don't want on the Internet. The
@@ -186,33 +227,6 @@
         />
         <UploadIcon /> Upload Image
       </label>
-    </div>
-    <div class="info">
-      <h4>Why are we asking for proof?</h4>
-      <p>
-        Late-Stage is different from any other petition in that it's used to prove to lawmakers and
-        those that maintain the status-quo that <strong>we are actively fighting</strong> against the
-        institutions they maintain.
-      </p>
-
-      <p>
-        We want them to feel the hurt of losing our funds, but we also want them to know it was us
-        that hurt them, and why.
-      </p>
-
-      <p>
-        We also want the people in our community to feel the tangible impact. Proof of participation
-        fuels the campaign's credibility, encourages the more hesitant to participate, and creates a
-        sense of solidarity and real accomplishment.
-      </p>
-
-      <p>
-        If we get enough withdrawal receipts, we're hoping to create <a
-          href="https://mosaically.com"
-          target="_blank"
-          rel="noopener noreferrer">a mosaic</a
-        > of all participants' withdrawals as a message of mass dissent.
-      </p>
     </div>
 
     <label for="withdrawal-amount">Withdrawal Amount</label>
