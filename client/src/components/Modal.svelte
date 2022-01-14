@@ -114,8 +114,9 @@
     document.querySelector('html').style.overflow = 'auto'
   }
 
-  // Scroll Lock
   $: if (isDisplayed && typeof window !== 'undefined') {
+    modalContainer.focus()
+
     enableScrollLock()
     rectifyBrokenPositioning()
   } else if (!isDisplayed && typeof window !== 'undefined') {
