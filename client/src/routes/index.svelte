@@ -86,9 +86,13 @@
   header,
   main {
     margin: 0 auto 0 auto;
-    padding: 40px 0 24px 0;
+    padding: 0 0 24px 0;
     width: 100%;
     max-width: 750px;
+  }
+
+  header {
+    padding-top: 32px;
   }
 
   :global(.petition-info svg) {

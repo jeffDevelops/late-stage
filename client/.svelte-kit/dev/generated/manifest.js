@@ -5,6 +5,7 @@ const c = [
 	() => import("../../../src/routes/checklist-rfcs.svelte"),
 	() => import("../../../src/routes/campaign-rfcs.svelte"),
 	() => import("../../../src/routes/campaigns/[id].svelte"),
+	() => import("../../../src/routes/checklist.svelte"),
 	() => import("../../../src/routes/register.svelte"),
 	() => import("../../../src/routes/about.svelte"),
 	() => import("../../../src/routes/audit.svelte")
@@ -25,14 +26,17 @@ export const routes = [
 	// src/routes/campaigns/[id].svelte
 	[/^\/campaigns\/([^/]+?)\/?$/, [c[0], c[5]], [c[1]], (m) => ({ id: d(m[1])})],
 
+	// src/routes/checklist.svelte
+	[/^\/checklist\/?$/, [c[0], c[6]], [c[1]]],
+
 	// src/routes/register.svelte
-	[/^\/register\/?$/, [c[0], c[6]], [c[1]]],
+	[/^\/register\/?$/, [c[0], c[7]], [c[1]]],
 
 	// src/routes/about.svelte
-	[/^\/about\/?$/, [c[0], c[7]], [c[1]]],
+	[/^\/about\/?$/, [c[0], c[8]], [c[1]]],
 
 	// src/routes/audit.svelte
-	[/^\/audit\/?$/, [c[0], c[8]], [c[1]]]
+	[/^\/audit\/?$/, [c[0], c[9]], [c[1]]]
 ];
 
 // we import the root layout/error components eagerly, so that

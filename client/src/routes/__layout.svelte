@@ -18,11 +18,13 @@
   import '../app.css'
 
   import { onMount } from 'svelte'
+  import { navigating } from '$app/stores'
   import PageTransition from '../components/PageTransition.svelte'
   import Background from '../components/Background.svelte'
   import Header from '../components/Header.svelte'
 
   import { prefersColorScheme } from '../stores/Theme'
+  import { shouldDisplayControls } from '../stores/Controls'
   import type { User } from '../types/User'
 
   export let key
@@ -32,6 +34,8 @@
   // 	// Called in load, yes, but this updates localStorage as well
   // 	currentUser.setUser(session)
   // })
+
+  $: if ($navigating) $shouldDisplayControls = true
 </script>
 
 <div class="background">
@@ -73,7 +77,7 @@
 
   @media screen and (max-width: 600px) {
     main {
-      padding: 0 24px 64px 56px;
+      padding: 0 24px 64px 24px;
     }
   }
 </style>

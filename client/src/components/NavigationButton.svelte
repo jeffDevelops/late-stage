@@ -9,15 +9,18 @@
   }
 </script>
 
-<div in:fade out:fade>
+<div class="navigation-button" in:fade out:fade>
   <FloatingActionButton on:click={openNav}><Menu /></FloatingActionButton>
 </div>
 
 <style>
   div {
     position: fixed;
-    top: 6px;
-    left: 8px;
-    z-index: 4;
+    top: 4px;
+    left: 4px;
+  }
+
+  :global(.navigation-button svg) {
+    fill: var(--interactive-color);
   }
 </style>

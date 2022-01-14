@@ -1,12 +1,15 @@
 <script lang="ts">
+  import { shouldDisplayControls } from '../stores/Controls'
   import Logo from './Logo.svelte'
 </script>
 
-<header>
-  <a sveltekit:prefetch href="/">
-    <Logo />
-  </a>
-</header>
+{#if $shouldDisplayControls}
+  <header>
+    <a sveltekit:prefetch href="/">
+      <Logo />
+    </a>
+  </header>
+{/if}
 
 <div class="spacer" />
 
@@ -31,5 +34,6 @@
 
   .spacer {
     height: 56px;
+    margin-bottom: 16px;
   }
 </style>
