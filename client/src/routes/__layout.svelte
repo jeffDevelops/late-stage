@@ -73,7 +73,7 @@
 
   @media screen and (max-width: 600px) {
     main {
-      padding: 0 24px 64px 56px;
+      padding: 0 24px 64px 24px;
     }
   }
 </style>

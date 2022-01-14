@@ -50,6 +50,7 @@
 
 <style>
   main {
+    padding-top: 32px;
     max-width: 750px;
     width: 100%;
     margin: 0 auto;

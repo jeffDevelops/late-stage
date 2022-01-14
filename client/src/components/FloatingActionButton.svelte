@@ -13,8 +13,8 @@
     max-height: 40px;
     max-width: 40px;
     border-radius: 20px;
-    background-color: var(--card-background);
-    border: 1px solid #55555522;
+    background-color: var(--interactive-card-color);
+    border: 1px solid #ff596455;
     cursor: pointer;
     margin-bottom: 8px;
 
@@ -36,7 +36,8 @@
     transition: transform 0.5s;
   }
 
-  :global button > svg {
+  :global(button > svg) {
+    fill: var(--interactive-color) !important;
     transform: scale(1);
     transition: transform 0.25s;
   }

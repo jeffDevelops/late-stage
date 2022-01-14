@@ -12,7 +12,7 @@
   }
 </script>
 
-<div in:fade={{ delay: 200 }} out:fade={{ delay: 200 }}>
+<div class="dark-mode-button" in:fade={{ delay: 200 }} out:fade={{ delay: 200 }}>
   <FloatingActionButton on:click={handleClick}>
     {#if $prefersColorScheme === 'dark'}
       <Sun />
@@ -25,7 +25,12 @@
 <style>
   div {
     position: fixed;
-    top: 56px;
-    left: 8px;
+    top: 48px;
+    left: 4px;
+    z-index: 6;
+  }
+
+  :global(.dark-mode-button svg) {
+    stroke: var(--interactive-color) !important;
   }
 </style>

@@ -16,8 +16,8 @@
 <style>
   div {
     position: fixed;
-    top: 6px;
-    left: 8px;
-    z-index: 4;
+    top: 4px;
+    left: 4px;
+    z-index: 6;
   }
 </style>

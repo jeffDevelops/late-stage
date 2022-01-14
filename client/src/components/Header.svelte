@@ -31,5 +31,6 @@
 
   .spacer {
     height: 56px;
+    margin-bottom: 16px;
   }
 </style>

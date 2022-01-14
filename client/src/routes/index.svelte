@@ -91,6 +91,10 @@
     max-width: 750px;
   }
 
+  header {
+    padding-top: 32px;
+  }
+
   :global(.petition-info svg) {
     fill: var(--interactive-color);
     height: 20px;
