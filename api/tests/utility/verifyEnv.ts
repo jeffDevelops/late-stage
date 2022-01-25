@@ -1,17 +1,20 @@
 import { readFileSync } from 'fs'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
+import { join } from 'path'
 import * as assert from 'uvu/assert'
 import { test } from 'uvu'
 import dotenv from 'dotenv'
 import sinon from 'sinon'
 
-const EXPECTED_KEYS = ['PORT', 'DATABASE_URL', 'CORS_ORIGIN', 'API_KEY']
+const EXPECTED_KEYS = [
+  'PORT',
+  'DATABASE_URL',
+  'CORS_ORIGIN',
+  'API_KEY',
+  'TOKEN_SECRET',
+  'COOKIE_SECRET',
+]
 
-import { verifyEnv } from '../../utility/verifyEnv'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+import { verifyEnv } from '../../src/utility/verifyEnv'
 
 // Save the contents of the .env in memory to be replaced at the end of the test suite
 const env = readFileSync(join(__dirname, '../../.env'), { encoding: 'utf8' })

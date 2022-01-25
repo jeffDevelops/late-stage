@@ -1,11 +1,12 @@
 import { gqlRequest } from '../gqlRequest'
-import { END_SESSION } from '../graphql/mutation/EndSession'
+import { logOut as logOutMutation } from '../graphql/mutation/LogOut'
+import { env } from '../env'
 
-export const logout = async (): Promise<void> => {
+export const logOut = async (): Promise<void> => {
   await fetch(
-    '/keystone',
+    `${env.viteSveltekitHost}/proxy/log-out`,
     gqlRequest({
-      query: END_SESSION,
+      query: logOutMutation,
     }),
   ).then(async (response) => await response.json())
 }

@@ -233,7 +233,7 @@
 
   main {
     width: 100%;
-    padding: 32px 48px 16px;
+    padding: 72px 48px 16px;
     margin: 0 auto;
     max-width: 750px;
   }
@@ -280,7 +280,7 @@
 
   @media screen and (max-width: 600px) {
     main {
-      padding: 32px 0 16px;
+      padding: 72px 0 16px;
     }
   }
 </style>

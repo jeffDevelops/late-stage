@@ -1,12 +1,16 @@
 <script lang="ts">
   import { fly } from 'svelte/transition'
-  import { shouldDisplayNav } from '../stores/Navigation'
-  import { clickOutside } from '../directives/clickOutside'
+  import { page, session, url } from '$app/stores'
+  import { browser } from '$app/env'
 
   import Logo from './Logo.svelte'
   import NotionLogo from './iconography/Notion.svelte'
   import RedditLogo from './iconography/Reddit.svelte'
   import OpenInNew from './iconography/OpenInNew.svelte'
+
+  import { shouldDisplayNav } from '../stores/Navigation'
+  import { clickOutside } from '../directives/clickOutside'
+  import { logOut } from '../networking/shared/LogOut'
 
   const handleClickOutside = () => shouldDisplayNav.update(() => false)
 </script>
@@ -27,22 +31,21 @@
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
       href="/"
-      class:active={typeof window !== 'undefined' && window?.location.pathname === '/'}>Petition</a
+      class:active={typeof window !== 'undefined' && $page.url.pathname === '/'}>Petition</a
     >
 
     <a
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
       href="/checklist"
-      class:active={window?.location.pathname === '/checklist'}>Checklist</a
+      class:active={$page.url.pathname === '/checklist'}>Checklist</a
     >
 
     <a
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
       href="/about"
-      class:active={typeof window !== 'undefined' && window?.location.pathname === '/about'}
-      >About</a
+      class:active={typeof window !== 'undefined' && $page.url.pathname === '/about'}>About</a
     >
 
     <a
@@ -57,31 +60,32 @@
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
       href="/audit"
-      class:active={window?.location.pathname === '/audit'}>Audit</a
+      class:active={$page.url.pathname === '/audit'}>Audit</a
     >
 
     <a
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
       href="/sponsor"
-      class:active={window?.location.pathname === '/sponsor'}>Sponsor</a
+      class:active={$page.url.pathname === '/sponsor'}>Sponsor</a
     >
 
-    <!-- {#if $currentUser}
-        <button on:click={logOut} class="log-out-button">Log Out</button>
-        {:else}
-        <a
+    {#if $session.user}
+      <button on:click={logOut} class="log-out-button">Log Out</button>
+    {:else}
+      <a
+        on:mouseup={handleClickOutside}
         sveltekit:prefetch
-        class:active={typeof window !== 'undefined' &&
-        (window?.location.pathname === '/log-in' ||
-        window?.location.pathname === '/sign-up' ||
-        window?.location.pathname === '/forgot-password' ||
-        window?.location.pathname === '/reset-password' ||
-        window?.location.pathname === '/confirm-email' ||
-        window?.location.pathname === '/confirming-email')}
-        href="/sign-up">Sign Up / Log In</a
-        >
-        {/if} -->
+        class:active={browser &&
+          ($page.url.pathname === '/log-in' ||
+            $page.url.pathname === '/sign-up' ||
+            $page.url.pathname === '/forgot-password' ||
+            $page.url.pathname === '/reset-password' ||
+            $page.url.pathname === '/confirm-email' ||
+            $page.url.pathname === '/confirm-user-callback')}
+        href="/register">Register / Log In</a
+      >
+    {/if}
 
     <section class="secondary-navigation">
       <h4>Requests For Comment</h4>
@@ -90,14 +94,14 @@
         on:mouseup={handleClickOutside}
         sveltekit:prefetch
         href="/campaign-rfcs"
-        class:active={window?.location.pathname === '/campaign-rfcs'}>Campaigns</a
+        class:active={$page.url.pathname === '/campaign-rfcs'}>Campaigns</a
       >
 
       <a
         on:mouseup={handleClickOutside}
         sveltekit:prefetch
         href="/checklist-rfcs"
-        class:active={window?.location.pathname === '/checklist-rfcs'}>Checklist Items</a
+        class:active={$page.url.pathname === '/checklist-rfcs'}>Checklist Items</a
       >
     </section>
 
@@ -185,7 +189,7 @@
     justify-content: space-between;
     padding: 0 16px;
     border-radius: var(--border-radius);
-    transition: background-color 0.25s, color 0.25s;
+    transition: background-color 0.1s, color 0.1s;
     color: var(--text-color);
   }
 
@@ -193,7 +197,8 @@
   a.active,
   .log-out-button:hover {
     background-color: var(--interactive-color);
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.1s, color 0.1s;
+    color: var(--button-text-color);
   }
 
   .log-out-button {
@@ -233,11 +238,11 @@
     fill: var(--interactive-color);
     margin-left: 4px;
     margin-bottom: -1px;
-    transition: color 0.2s;
+    transition: color 0.1s;
   }
 
   :global(a:hover svg.open-in-new) {
     fill: var(--text-color);
-    transition: color 0.2s;
+    transition: color 0.1s;
   }
 </style>

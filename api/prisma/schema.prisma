@@ -15,9 +15,109 @@ model User {
   id              String  @id @default(cuid())
   email           String  @unique
   username        String  @unique
+  /// @TypeGraphQL.omit(output: true)
   password        String
   emailIsVerified Boolean
   cred            Int
+  isAdmin         Boolean
+  /// @TypeGraphQL.omit(output: true)
+  magicLinkToken  String?
+
+  banned    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  completedCampaigns      Campaign[]      @relation(name: "UserCompletedCampaigns", references: [id])
+  completedChecklistItems ChecklistItem[] @relation(name: "UserCompletedChecklistItems", references: [id])
+
+  // Admin-specific fields
+  createdCampaigns Campaign[] @relation(name: "CreatedCampaigns")
+
+  // Campaign Data
+  bankCampaignCompletions BankCampaignCompletion[] @relation(name: "UserBankCampaignCompletions")
+}
+
+model ArtificiallyExpiredRefreshToken {
+  id               String   @id @default(cuid())
+  value            String
+  actualExpiration DateTime
+}
+
+enum CampaignStatus {
+  // Campaign is visible under "Current Campaigns" on index page
+  ACTIVE
+
+  // Users may still participate in the Campaign, but it is not featured under "Current Campaigns" on index page
+  OPEN
+
+  // Users may no longer participate in the Campaign
+  CLOSED
+}
+
+model Campaign {
+  id String @id @default(cuid())
+
+  usersThatDidCompleteCampaign User[] @relation(name: "UserCompletedCampaigns", references: [id])
 
   createdAt DateTime @default(now())
+
+  createdBy       User   @relation(name: "CreatedCampaigns", references: [id], fields: [createdByUserId])
+  createdByUserId String
+
+  status CampaignStatus
+
+  // ------------------ Campaign Card fields --------------------
+  // These details are visible on the /campaigns/[id] page and the / page when the Campaign is active
+
+  title       String
+  description String
+
+  // "Goal goalUnits goalVerb-ed by goalDeadline
+  // Example: 10,000 petitioners signed up by 05/01/2022
+  // Example: 100,000 dollars raised by 05/01/2022
+  goal     Float
+  goalUnit String // singular
+  goalVerb String?
+
+  // Deadline fields
+  goalStartDate DateTime
+  goalDeadline  DateTime
+
+  realizedValue Float // the actual value achieved so far
+
+  // ------------------ Campaign Page fields ---------------------
+  what     String[] // array of paragraphs
+  why      String[] // array of paragraphs
+  outcomes String[] // array of paragraphs
+
+  // ------------------ Admin / DX fields ------------------------
+  shortName String
+
+  // ------------------ Checklist item ---------------------------
+  checklistItem   ChecklistItem? @relation(name: "ChecklistItemCampaign", references: [id], fields: [checklistItemId])
+  checklistItemId String?        @unique
+
+  // ------------------ Campaign-specific fields -----------------
+  campaignSpecificFields Json?
+}
+
+model ChecklistItem {
+  id                                String    @id @default(cuid())
+  name                              String
+  campaign                          Campaign? @relation(name: "ChecklistItemCampaign")
+  usersThatDidCompleteChecklistItem User[]    @relation(name: "UserCompletedChecklistItems")
+}
+
+// ------------------------
+// Campaign-specific models
+// ------------------------
+
+model BankCampaignCompletion {
+  id String @id @default(cuid())
+
+  belongsToUser User   @relation(name: "UserBankCampaignCompletions", fields: [userId], references: [id])
+  userId        String
+
+  withdrawalReceiptImageURL String
+  removedFromInstitution    String
+  amount                    Float
 }

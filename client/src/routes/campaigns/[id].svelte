@@ -5,11 +5,13 @@
   import FlareIcon from '../../components/iconography/Flare.svelte'
   import WeightIcon from '../../components/iconography/Weight.svelte'
   import Tenet from '../../components/Tenet.svelte'
-  import BankCampaignParticipationInput from '../../assemblies/BankCampaignParticipationInput.svelte'
-
-  import type { Campaign } from '../../types/Campaign'
   import CurrentCampaign from '../../components/CurrentCampaign.svelte'
   import CampaignNotYetLiveModal from '../../assemblies/CampaignNotYetLiveModal.svelte'
+  import type { SvelteComponent } from 'svelte'
+  import type { Campaign } from '../../types/Campaign'
+
+  /* Dynamic Components */
+  import BankCampaignParticipationInput from '../../assemblies/BankCampaignParticipationInput.svelte'
 
   /**
    * STATE
@@ -17,6 +19,10 @@
 
   let petitionInfoDisplayed = false
   let shouldDisplayExampleCampaignModal = false
+
+  const componentOptions: { [key: Campaign['shortName']]: typeof SvelteComponent } = {
+    banks: BankCampaignParticipationInput,
+  }
 
   const campaign: Campaign = {
     id: '1',
@@ -50,7 +56,7 @@
     outcomes: [
       'You are likely to make more money from interest by moving your money from for-profit banking',
       'Encourage healthy competition for smaller financial institutions, and encourage large institutions to rethink their policies',
-      "Late-Stage will create a digital mosiac mural of all of the community's withdrawal receipts from the major for-profit financial institutions as a collective receipt of our mass dissent of their policies.",
+      "Late-Stage will create a digital mosaic mural of all of the community's withdrawal receipts from the major for-profit financial institutions as a collective receipt of our mass dissent of their policies.",
       'Disable the use of our dollars in Student Loan Asset-Backed Securities (SLABS)',
     ],
     goal: 120_000_000,
@@ -61,6 +67,8 @@
     goalDeadline: '2022-05-01T12:00:00-06:00',
 
     realizedValue: 60_000_000,
+
+    shortName: 'banks',
   }
 </script>
 
@@ -117,7 +125,7 @@
       <Card>
         <h2><WeightIcon /> How?</h2>
 
-        <BankCampaignParticipationInput />
+        <svelte:component this={componentOptions[campaign.shortName]} />
       </Card>
     </div>
   </div>

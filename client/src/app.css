@@ -11,12 +11,19 @@
   --font-sans: 'Inter', sans-serif;
 
   --border-radius: 8px;
+
+  --app-background: #1d1d1d;
+  --card-background: #2a2a2a55;
+  --input-background: #3a3a3a88;
+  --text-color: #fffafc;
+  --text-color-subdued: #fffafc99;
+  --button-text-color: #fffafc;
 }
 
 :root.light-theme {
   --app-background: #fafafa;
-  --card-background: #e4e6ea77;
-  --input-background: #d4d6da77;
+  --card-background: #e4e6ea44;
+  --input-background: #e4e6ea88;
   --visualization-color: #ced0d2;
   --text-color: #33221d;
   --text-color-subdued: #33221dbb;
@@ -24,7 +31,7 @@
 
 :root.dark-theme {
   --app-background: #1d1d1d;
-  --card-background: #2a2a2a88;
+  --card-background: #2a2a2a55;
   --input-background: #3a3a3a88;
   --visualization-color: #3a3a3a;
   --text-color: #fffafc;
@@ -43,6 +50,11 @@ body {
 body,
 body * {
   box-sizing: border-box;
+}
+
+::selection {
+  background: var(--interactive-color);
+  color: var(--button-text-color);
 }
 
 h1,
@@ -121,7 +133,7 @@ h5 {
 p {
   font-family: var(--font-sans);
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: 0.01em;
   line-height: 1.5em;
   margin-bottom: 16px;
@@ -138,14 +150,9 @@ a:hover {
 }
 
 .close-button {
-  border: 1px solid var(--interactive-color);
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  max-width: 18px;
-  max-height: 18px;
-  font-size: 1rem;
-  color: var(--interactive-color);
+  border: none;
+  width: auto;
+  height: auto;
   background-color: transparent;
   position: absolute;
   top: 8px;
@@ -154,9 +161,13 @@ a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: auto;
   cursor: pointer;
-  padding: 2.5px 5.5px 1.5px 5.5px;
+}
+
+.close-button svg {
+  fill: var(--interactive-color);
+  width: 18px;
+  height: 18px;
 }
 
 .info-button {
@@ -199,6 +210,7 @@ label {
   margin-top: 16px;
   margin-bottom: 10px;
   user-select: none;
+  cursor: pointer;
 }
 
 input,
@@ -218,6 +230,13 @@ textarea {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border: 1px solid transparent;
+}
+
+input.disabled,
+textarea.disabled {
+  background-color: transparent;
+  color: var(--text-color-subdued);
+  transition: background-color 0.2s, color 0.2s;
 }
 
 textarea {
@@ -242,7 +261,7 @@ button.primary {
   border: 0;
   border-radius: var(--border-radius);
   min-height: 40px;
-  color: var(--text-color);
+  color: var(--button-text-color);
   font-size: 0.9em;
   font-family: var(--font-sans);
   text-transform: uppercase;
@@ -279,6 +298,17 @@ button.secondary {
   min-width: 172px;
   transition: transform 0.2s;
   transform: perspective(1000px) translateZ(0px);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+button.primary.disabled,
+button.secondary.disabled,
+a.disabled {
+  transition: filter 0.2s, opacity 0.2s;
+  filter: grayscale(0.5);
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 button.text {
@@ -287,6 +317,14 @@ button.text {
   border: none;
   font-size: 1em;
   letter-spacing: 0.01em;
+}
+
+.error-message {
+  font-weight: 400;
+  margin-top: 4px;
+  color: var(--error-color) !important;
+  text-shadow: 1px 1px 1px var(--app-background);
+  font-size: 0.75rem;
 }
 
 @media screen and (max-width: 600px) {

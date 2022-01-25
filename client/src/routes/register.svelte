@@ -1,36 +1,33 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
   import { fade } from 'svelte/transition'
-  import { env } from '../networking/env'
-  import Card from '../components/Card.svelte'
-  import DangerTriangle from '../components/iconography/DangerTriangle.svelte'
+  import debounce from 'lodash/debounce'
+
   import InfoIcon from '../components/iconography/Info.svelte'
+  import VisibilityOnIcon from '../components/iconography/VisibilityOn.svelte'
+  import VisibilityOffIcon from '../components/iconography/VisibilityOff.svelte'
   import Controls from '../components/Controls.svelte'
 
-  /**
-   * LIFECYCLE
-   */
+  import { env } from '../networking/env'
+  import { gqlRequest } from '../networking/gqlRequest'
+  import { userWhereUniqueInput } from '../networking/graphql/query/UserWhereUniqueInput'
+  import { registerUser } from '../networking/graphql/mutation/RegisterUser'
 
-  let usernameInputNode: HTMLInputElement
-  let emailInputNode: HTMLInputElement
-
-  onDestroy(() => {
-    if (usernameInputNode) usernameInputNode.value = ''
-    if (emailInputNode) emailInputNode.value = ''
-  })
+  import { disableInteractablesWhile } from '../utility/disableInteractablesWhile'
+  import { goto, prefetch } from '$app/navigation'
 
   /**
    * STATE
    */
 
   let username = ''
-  let usernameUniquenessCheckLoading = false
+  let usernameTaken = false
 
   let email = ''
-  let emailUniquenessCheckLoading = false
 
   let password = ''
-  let passwordIsMasked = true
+  let passwordMasked = true
+
+  let loading = false
 
   let errors = {
     username: '',
@@ -46,7 +43,12 @@
    * REACTIVE
    */
 
-  // Username
+  $: formContainsErrors = Object.values(errors).some((value) => !!value)
+
+  // User identity
+  $: if (username) verifyUsernameUniqueness()
+
+  // Username errors
   $: {
     errors = (() => {
       if (!username) {
@@ -65,11 +67,17 @@
         return errors
       }
 
+      if (usernameTaken) {
+        errors.username = 'Username is taken. Please choose another.'
+        return errors
+      }
+
       errors.username = ''
       return errors
     })()
   }
 
+  // Email errors
   $: {
     errors = (() => {
       if (!email) {
@@ -82,7 +90,7 @@
           /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
         )
       ) {
-        errors.email = 'Email address invalid'
+        errors.email = 'Email address format invalid'
         return errors
       }
 
@@ -91,6 +99,7 @@
     })()
   }
 
+  // Password errors
   $: {
     errors = (() => {
       if (!password) {
@@ -114,112 +123,151 @@
 
   const handleSubmit = async () => {
     didAttemptSubmit = true
-    const formContainsErrors = Object.values(errors).some((value) => !!value)
 
     // Prevent submission if there are any errors
     if (formContainsErrors) return
 
-    // TODO:
+    loading = true
+
+    let success = false
+    await disableInteractablesWhile(async () => {
+      try {
+        const [_, response] = await Promise.all([
+          prefetch('/verify-email'),
+          fetch(
+            `${env.viteSveltekitHost}/proxy/register`,
+            gqlRequest({
+              query: registerUser,
+              variables: {
+                userRegistrationInput: {
+                  username,
+                  email,
+                  password,
+                },
+              },
+            }),
+          ).then(async (response) => await response.json()),
+        ])
+
+        if (response?.error?.message) throw response.error.message
+
+        success = true
+      } catch (error) {
+        if (error === 'A user with that username already exists. Please try another.') {
+          usernameTaken = true
+          return
+        }
+
+        errors.form = 'An unknown error occurred. Please try again later.'
+      }
+    })
+
+    if (success) {
+      await goto('/verify-email')
+    }
   }
 
-  const handleUsernameInput = async () => {
-    usernameUniquenessCheckLoading = true
-    const result = await fetch(`${env.sveltekitUrl}/api/users-where` /* TODO: */)
-  }
+  const verifyUsernameUniqueness = debounce(async () => {
+    const result = await fetch(
+      `${env.viteSveltekitHost}/proxy/user-where`,
+      gqlRequest({
+        query: userWhereUniqueInput('id'),
+        variables: {
+          where: {
+            username,
+          },
+        },
+      }),
+    ).then(async (response) => await response.json())
 
-  const handleEmailInput = async () => {
-    emailUniquenessCheckLoading = true
-    const result = await fetch(`${env.sveltekitUrl}/api/users-where` /* TODO: */)
-  }
+    usernameTaken = !!result
+  }, 500)
 </script>
 
 <Controls />
 
-<main class="register">
-  <h1>Register</h1>
+<main>
+  <section in:fade out:fade class="register">
+    <h1>Register</h1>
 
-  <form on:submit|preventDefault={handleSubmit}>
-    <label for="register-username"
-      >Username <span
-        class="tooltip-container"
-        title="Your username is used to identify you when you participate in audits and RFCs."
-        ><InfoIcon /></span
-      ></label
-    >
-    <input id="register-username" bind:this={usernameInputNode} on:input={handleUsernameInput} />
-    {#if errors.username && didAttemptSubmit}
-      <p in:fade out:fade class="error">{errors.username}</p>
-    {/if}
+    <form on:submit|preventDefault={handleSubmit}>
+      <label for="register-username">Username</label>
+      <input class:disabled={loading} id="register-username" bind:value={username} />
+      {#if errors.username && (didAttemptSubmit || usernameTaken)}
+        <p in:fade out:fade class="error-message">{errors.username}</p>
+      {/if}
 
-    <label for="register-email"
-      >Email <span
-        class="tooltip-container"
-        title="Your email is used to recover your account if your forget your password. If you opt in, you can receive emails about new campaigns, new ways to subvert extractionism, and notifications about your RFCs and audits."
-        ><InfoIcon /></span
-      ></label
-    >
-    <input id="register-email" bind:this={emailInputNode} on:input={handleEmailInput} />
-    {#if errors.email && didAttemptSubmit}
-      <p in:fade out:fade class="error">{errors.email}</p>
-    {/if}
+      <label for="register-email"
+        >Email <span
+          class="tooltip-container"
+          title="Your email is used log in and recover your account if your forget your password."
+          ><InfoIcon /></span
+        ></label
+      >
+      <input class:disabled={loading} id="register-email" bind:value={email} />
+      {#if errors.email && didAttemptSubmit}
+        <p in:fade out:fade class="error-message">{errors.email}</p>
+      {/if}
 
-    <label for="register-password"
-      >Password <span
-        class="tooltip-container"
-        title="Your password is hashed prior to storage, making it realistically improbable to retrieve if the system is hacked (feel free to audit the code for peace of mind). In general: use a password manager and don't reuse passwords."
-        ><InfoIcon /></span
-      ></label
-    >
-    <input type="password" id="register-password" bind:value={password} />
-    {#if errors.password && didAttemptSubmit}
-      <p in:fade out:fade class="error">{errors.password}</p>
-    {/if}
+      <label class:disabled={loading} for="register-password">Password</label>
+      <div class="flex">
+        {#if passwordMasked}
+          <input type="password" id="register-password" bind:value={password} />
+        {:else}
+          <input type="text" id="register-password" bind:value={password} />
+        {/if}
 
-    <div class="actions">
-      <a href="/log-in">Already a member? Log In</a>
-      <button type="submit" class="primary">Register</button>
-    </div>
-  </form>
+        <button
+          class:disabled={loading}
+          type="button"
+          on:click={() => (passwordMasked = !passwordMasked)}
+          class="secondary"
+        >
+          {#if passwordMasked}
+            <VisibilityOnIcon />
+          {:else}
+            <VisibilityOffIcon />
+          {/if}
+        </button>
+      </div>
+      {#if errors.password && didAttemptSubmit}
+        <p in:fade out:fade class="error-message">{errors.password}</p>
+      {/if}
 
-  <Card>
-    <h3><DangerTriangle /> You might not need to register!</h3>
-    <p>We recognize that you may prefer to operate anonymously on Late-Stage.</p>
+      {#if errors.form}
+        <p in:fade out:fade class="error-message">{errors.form}</p>
+      {/if}
 
-    <p>
-      Formally signing up is not required for basic uses of the platform, but due to technical
-      constraints, anonymous activity can only be saved in the browser context.
-    </p>
-
-    <p>
-      This means that any action you might expect the webpage to save on your behalf will only
-      persist in this browser, on this device, for as long as your cache isn't cleared. If you
-      choose to go anonymous, your progress will be lost when you clear your cache!
-    </p>
-
-    <p>
-      Registering with an email address allows you to more reliably save your data, log in on other
-      devices and browsers, and allows you to participate in RFCs and audits.
-    </p>
-  </Card>
+      <div class="actions">
+        <a class="secondary" href="/log-in"
+          ><button class="secondary"><span>Already a member?</span> Log In</button></a
+        >
+        <button
+          class:disabled={didAttemptSubmit && formContainsErrors}
+          type="submit"
+          class="primary">Register</button
+        >
+      </div>
+    </form>
+  </section>
 </main>
 
 <style>
   main {
+    height: calc(100vh - 140px);
+    width: 100%;
+  }
+
+  section {
     width: 100%;
     max-width: 550px;
-    padding: 0 48px;
+    padding: 50px 48px 0;
     margin: 0 auto;
   }
 
   h1 {
     text-align: center;
     margin-bottom: 40px;
-  }
-
-  h3 {
-    color: var(--text-color-subdued);
-    font-family: var(--font-sans);
-    font-weight: 400;
   }
 
   p {
@@ -257,14 +305,88 @@
     margin: 0 auto;
   }
 
-  a {
+  button.primary {
+    padding: 0 24px;
+    min-width: 0;
+    width: auto;
+  }
+
+  button.secondary {
+    padding: 0 16px;
     text-shadow: 1px 1px 1px var(--app-background);
   }
 
-  .error {
-    font-weight: 400;
-    margin-top: 4px;
-    color: var(--error-color);
-    text-shadow: 1px 1px 1px var(--app-background);
+  button.secondary span {
+    text-transform: none;
+  }
+
+  .actions {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .flex input {
+    width: calc(100% - 16px - 40px);
+  }
+
+  .flex button.secondary {
+    width: 40px;
+    min-width: 0;
+    margin-bottom: 0;
+    padding: 3px 0 0 0;
+  }
+
+  @media screen and (min-width: 1500px) {
+    section {
+      height: auto;
+      position: absolute;
+      bottom: 15vh;
+      right: 15vw;
+    }
+  }
+
+  @media screen and (min-width: 800px) and (min-height: 800px) {
+    section {
+      height: auto;
+      position: absolute;
+      bottom: 15vh;
+      right: 15vw;
+    }
+  }
+
+  @media screen and (min-width: 700px) and (min-height: 800px) {
+    section {
+      height: auto;
+      position: absolute;
+      bottom: 20vh;
+      right: 13vw;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    section {
+      padding: 24px 0px 0;
+    }
+
+    .actions {
+      flex-direction: column-reverse;
+    }
+
+    button.primary,
+    a,
+    button.secondary {
+      display: block;
+      width: 100%;
+      margin-bottom: 16px;
+    }
   }
 </style>

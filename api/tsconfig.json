@@ -6,12 +6,13 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2020",
     "noImplicitAny": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "forceConsistentCasingInFileNames": true,
     "alwaysStrict": true,
-    "module": "es2020",
+    "module": "commonjs",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false
   },
   "include": [
     ".",

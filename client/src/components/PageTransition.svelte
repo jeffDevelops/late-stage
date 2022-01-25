@@ -12,6 +12,6 @@
 <style>
   div {
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 72px);
   }
 </style>

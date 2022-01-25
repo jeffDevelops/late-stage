@@ -102,7 +102,7 @@
   }
 
   section:first-of-type {
-    padding-top: 40px;
+    padding-top: 72px;
   }
 
   :global(.petition-heading svg, .checklist-heading svg) {

@@ -2,6 +2,7 @@
   import { fade } from 'svelte/transition'
   import HistoryIcon from './iconography/History.svelte'
   import InfoIcon from './iconography/Info.svelte'
+  import CloseIcon from './iconography/Close.svelte'
   import PreviousCampaignCard from './PreviousCampaignCard.svelte'
   import Card from './Card.svelte'
   import type { Campaign } from '../types/Campaign'
@@ -30,6 +31,7 @@
     updatedAt: 'created at date',
 
     shortName: 'banks',
+    title: 'Removal of personal funds from the for-profit banking system',
     description: 'Removal of personal funds from the for-profit banking system',
     goal: 120_000_000,
     goalUnit: 'dollars',
@@ -60,6 +62,7 @@
     updatedAt: 'created at date',
 
     shortName: 'petitioners',
+    title: 'Petitioners joining the platform',
     description: 'Petitioners joining the platform',
     goal: 100_000,
     goalVerb: 'petitioners',
@@ -89,6 +92,7 @@
     updatedAt: 'created at date',
 
     shortName: 'subscriptions',
+    title: 'Transfer from subscription services to one-time and buy-up services',
     description: 'Transfer from subscription services to one-time and buy-up services',
     goal: 100_000,
     goalUnit: 'subscriptions cancelled',
@@ -102,9 +106,10 @@
 
 <section class="all-time">
   <div class="flex">
-    <HistoryIcon />
     <h2>
-      All Time <span on:click={() => (allTimeInfoDisplayed = !allTimeInfoDisplayed)}
+      <HistoryIcon />
+      All Time
+      <span class="info" on:click={() => (allTimeInfoDisplayed = !allTimeInfoDisplayed)}
         ><InfoIcon /></span
       >
     </h2>
@@ -113,7 +118,9 @@
   {#if allTimeInfoDisplayed}
     <Card>
       <div in:fade out:fade>
-        <button class="close-button" on:click={() => (allTimeInfoDisplayed = false)}>×</button>
+        <button class="close-button" on:click={() => (allTimeInfoDisplayed = false)}
+          ><CloseIcon /></button
+        >
         <p>
           Campaigns exist to focus community attention on time-sensitive actions, but they remain
           open after their deadline expires. For example, you can still tally your removal of
@@ -135,10 +142,11 @@
 </section>
 
 <style>
-  :global(.all-time svg) {
+  :global(.all-time h2 svg) {
     fill: var(--interactive-color);
     width: 40px;
     height: 40px;
+    margin-bottom: -10px;
   }
 
   .all-time p {

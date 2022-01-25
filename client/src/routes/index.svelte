@@ -92,7 +92,7 @@
   }
 
   header {
-    padding-top: 32px;
+    padding-top: 72px;
   }
 
   :global(.petition-info svg) {

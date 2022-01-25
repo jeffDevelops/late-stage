@@ -2,12 +2,13 @@
   export let type: 'submit' | 'button' = 'button'
 </script>
 
-<button {type} on:click on:mouseenter>
+<button class="fab" {type} on:click on:mouseenter>
   <slot />
 </button>
 
 <style>
   button {
+    padding-bottom: 2px;
     height: 40px;
     width: 40px;
     max-height: 40px;
@@ -46,5 +47,12 @@
   :global(button:hover > svg) {
     transform: scale(1.05);
     transition: transform 0.5s;
+  }
+
+  :global(.fab.disabled) {
+    filter: grayscale(0.5);
+    transition: filter 0.2s;
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 </style>

@@ -7,7 +7,7 @@ export type PrefersColorScheme = 'light' | 'dark'
 const isBrowser = typeof window !== 'undefined'
 
 export const computeInitialColorScheme = (): PrefersColorScheme => {
-  if (!isBrowser) return 'light'
+  if (!isBrowser) return 'dark'
 
   /** Prioritize session storage */
   if (window.sessionStorage.getItem(SessionStorageKeys.PrefersColorScheme)) {

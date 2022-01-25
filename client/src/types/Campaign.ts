@@ -1,7 +1,7 @@
 import type { BaseEntity } from './BaseEntity'
 
 type Scalars = {
-  shortName: string
+  title: string
   description: string
 
   what: string[] // array of paragraphs
@@ -17,6 +17,9 @@ type Scalars = {
   goalDeadline: string
 
   realizedValue: number
+
+  // Admin / DX fields
+  shortName: string // i.e., 'banks'
 }
 
 type Associations = {

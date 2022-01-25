@@ -1,4 +1,6 @@
-export const gqlRequest = <T>(data?: T): RequestInit => {
+import { env } from './env'
+
+export const gqlRequest = <T>(data?: T, headers: Record<string, unknown> = {}): RequestInit => {
   return {
     mode: 'cors' as RequestMode,
     credentials: 'include' as RequestCredentials,
@@ -6,6 +8,7 @@ export const gqlRequest = <T>(data?: T): RequestInit => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      ...headers,
     },
     body: data ? JSON.stringify(data) : JSON.stringify({}),
   }

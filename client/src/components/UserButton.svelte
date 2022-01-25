@@ -1,30 +1,39 @@
 <script lang="ts">
-  import { prefetch, goto } from '$app/navigation'
   import { fade } from 'svelte/transition'
-  import { prefersColorScheme } from '../stores/Theme'
+  import { prefetch, goto } from '$app/navigation'
+
   import FloatingActionButton from './FloatingActionButton.svelte'
-  import Account from './iconography/Account.svelte'
+  import UserNavigation from './UserNavigation.svelte'
+  import AccountIcon from './iconography/Account.svelte'
   import { currentUser } from '../stores/CurrentUser'
 
-  const handleClick = async () => await goto('/register')
-  const handleMouseover = async () => await prefetch('/register')
+  /**
+   * STATE
+   */
+  let shouldShowUserNavigation = false
+
+  const toggleUserNav = () => (shouldShowUserNavigation = !shouldShowUserNavigation)
 </script>
 
-<div in:fade={{ delay: 200 }} out:fade={{ delay: 200 }}>
-  <FloatingActionButton on:click={handleClick}>
+<div in:fade={{ delay: 600 }} out:fade={{ delay: 600 }}>
+  <FloatingActionButton on:click={toggleUserNav}>
     {#if !!$currentUser}
       <!-- TODO: Avatar -->
       Avatar goes here
     {:else}
-      <Account />
+      <AccountIcon />
     {/if}
   </FloatingActionButton>
+
+  {#if shouldShowUserNavigation}
+    <UserNavigation on:dismiss={toggleUserNav} />
+  {/if}
 </div>
 
 <style>
   div {
     position: fixed;
-    top: 108px;
-    left: 8px;
+    top: 92px;
+    left: 4px;
   }
 </style>

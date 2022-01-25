@@ -236,7 +236,7 @@
     background-color: var(--app-background);
   }
 
-  :global(.actions :not(button):first-child) {
+  :global(.modal .actions :not(button):first-child) {
     display: flex;
     justify-content: space-between;
     width: 100%;

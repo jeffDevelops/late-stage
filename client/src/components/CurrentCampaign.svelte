@@ -201,6 +201,10 @@
     border: none;
   }
 
+  .hover-effect h1 {
+    color: var(--button-text-color);
+  }
+
   @media screen and (max-width: 600px) {
     .grid {
       grid-template-columns: 3fr 1fr;

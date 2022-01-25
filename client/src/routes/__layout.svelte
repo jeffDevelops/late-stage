@@ -1,12 +1,14 @@
 <script context="module">
-  // import { currentUser } from '../stores/User'
-
   export const load = async ({ url, session }) => {
-    // currentUser.set(session)
+    if (!session.apiHealthy && !healthcheckExemptRoutes.includes(url.pathname)) {
+      return {
+        redirect: '/error',
+        status: 303,
+      }
+    }
 
     return {
       props: {
-        // session,
         key: url.pathname,
       },
     }
@@ -18,22 +20,57 @@
   import '../app.css'
 
   import { onMount } from 'svelte'
-  import { navigating } from '$app/stores'
+  import { browser } from '$app/env'
+  import { session, navigating, page } from '$app/stores'
+
   import PageTransition from '../components/PageTransition.svelte'
   import Background from '../components/Background.svelte'
   import Header from '../components/Header.svelte'
 
-  import { prefersColorScheme } from '../stores/Theme'
+  import { healthcheckExemptRoutes } from '../config/healthcheckExemptRoutes'
   import { shouldDisplayControls } from '../stores/Controls'
-  import type { User } from '../types/User'
+  import { beforeNavigate, goto, prefetch } from '$app/navigation'
+  import { navigationStatePriorToLogin } from '../stores/NavigationPriorToLogin'
 
-  export let key
-  export let session: User
+  export let key: string
 
-  // onMount(() => {
-  // 	// Called in load, yes, but this updates localStorage as well
-  // 	currentUser.setUser(session)
-  // })
+  /**
+   * LIFECYCLE
+   */
+
+  onMount(async () => {
+    await prefetch($navigationStatePriorToLogin ? $navigationStatePriorToLogin.url : '/')
+  })
+
+  /**
+   * REACTIVE
+   */
+
+  $: console.log({ apiHealthy: $session.apiHealthy })
+
+  // Navigation Interception
+
+  $: authRoutes = [
+    '/log-in',
+    '/register',
+    '/confirm-user-callback',
+    ...($session?.user?.emailIsVerified ? ['/verify-user'] : []), // make '/verify-user' inaccessible only when user has verified their email
+  ]
+
+  $: shouldNotBeAccessibleWhileLoggedIn = (pathname: string = $page.url.pathname) =>
+    $session.user && authRoutes.some((route) => pathname === route)
+
+  $: if (browser && $session.user && shouldNotBeAccessibleWhileLoggedIn()) {
+    goto($navigationStatePriorToLogin ? $navigationStatePriorToLogin.url : '/')
+  }
+
+  $: if (!$session.apiHealthy && !healthcheckExemptRoutes.includes($page.url.pathname)) {
+    goto('/error')
+  }
+
+  beforeNavigate(({ to, cancel }) => {
+    if (shouldNotBeAccessibleWhileLoggedIn(to?.pathname)) cancel()
+  })
 
   $: if ($navigating) $shouldDisplayControls = true
 </script>
@@ -72,6 +109,7 @@
   }
 
   main {
+    position: relative;
     padding: 0 64px 64px;
   }
 
