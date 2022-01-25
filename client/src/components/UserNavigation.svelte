@@ -25,7 +25,7 @@
    */
   const handleLogOut = async () => {
     return await disableInteractablesWhile(async () => {
-      await logout()
+      await logOut()
       return session.update((previous) => ({ ...previous, user: null }))
     })
   }
@@ -36,7 +36,7 @@
 <nav use:clickOutside on:click-outside={handleClickOutside} in:fade out:fade class="user-nav">
   {#if $session.user}
     <a sveltekit:prefetch href="/forgot-password">Reset Password</a>
-    <button class="button" on:click={handleLogOut}>Log Out</button>
+    <a href="/#" on:click={handleLogOut}>Log Out</a>
   {:else}
     <a sveltekit:prefetch href="/register" class:active={$page.url.pathname === '/register'}
       >Register</a
@@ -52,7 +52,7 @@
     left: 48px;
     z-index: 3;
     background-color: var(--card-background);
-    width: 150px;
+    width: 187px;
     border-radius: var(--border-radius);
     padding: 16px;
     border: 1px solid #55555522;

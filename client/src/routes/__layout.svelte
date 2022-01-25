@@ -46,8 +46,6 @@
    * REACTIVE
    */
 
-  $: console.log({ apiHealthy: $session.apiHealthy })
-
   // Navigation Interception
 
   $: authRoutes = [
@@ -64,7 +62,7 @@
     goto($navigationStatePriorToLogin ? $navigationStatePriorToLogin.url : '/')
   }
 
-  $: if (!$session.apiHealthy && !healthcheckExemptRoutes.includes($page.url.pathname)) {
+  $: if (browser && !$session.apiHealthy && !healthcheckExemptRoutes.includes($page.url.pathname)) {
     goto('/error')
   }
 

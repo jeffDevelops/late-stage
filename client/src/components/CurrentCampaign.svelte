@@ -1,9 +1,12 @@
 <script lang="ts">
   import { prefetch, goto } from '$app/navigation'
   import { fade } from 'svelte/transition'
+  import { session } from '$app/stores'
+  import dayjs from 'dayjs'
+
+  import MustLogInModal from '../assemblies/MustLogInModal.svelte'
   import Card from './Card.svelte'
   import Hourglass from './Hourglass.svelte'
-  import dayjs from 'dayjs'
   import type { Campaign } from '../types/Campaign'
 
   /**
@@ -16,7 +19,8 @@
    * STATE
    */
 
-  export let shouldDisplayHoverEffect = false
+  let shouldDisplayHoverEffect = false
+  let shouldDisplayMustLogInModal = false
 
   /**
    * REACTIVE
@@ -33,8 +37,16 @@
     shouldDisplayHoverEffect = true
   }
 
-  const handleCampaignClick = async () => await goto(`/campaigns/${campaign.id}`)
+  const handleCampaignClick = async () => {
+    if (!$session.user) return (shouldDisplayMustLogInModal = true)
+    await goto(`/campaigns/${campaign.id}`)
+  }
 </script>
+
+<MustLogInModal
+  on:dismiss={() => (shouldDisplayMustLogInModal = false)}
+  isDisplayed={shouldDisplayMustLogInModal}
+/>
 
 <div on:mouseenter={handleCampaignHover} class="current-campaign grid">
   {#if shouldDisplayHoverEffect}

@@ -18,6 +18,10 @@ export const getCurrentUser: Handle<LocalsImpl> = async ({
   resolve,
 }: HandleInput<LocalsImpl>): Promise<Response> => {
   if (!isPageRequest(event)) return await resolve(event)
+
+  /** If the healthcheck fails, there's no point in trying */
+  if (!event.locals.apiHealthy) return await resolve(event)
+
   console.log('getCurrentUser handle hook')
 
   const { deserialized: originalDeserialized, response: originalResponse } = await makeRequest({

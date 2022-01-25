@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { fade } from 'svelte/transition'
+  import { browser } from '$app/env'
 
   /**
    * PROPS
@@ -114,12 +115,12 @@
     document.querySelector('html').style.overflow = 'auto'
   }
 
-  $: if (isDisplayed && typeof window !== 'undefined') {
+  $: if (isDisplayed && browser) {
     if (modalContainer) modalContainer.focus()
 
     enableScrollLock()
     rectifyBrokenPositioning()
-  } else if (!isDisplayed && typeof window !== 'undefined') {
+  } else if (!isDisplayed && browser) {
     disableScrollLock()
     setTimeout(() => restoreDOM(), 400)
   }

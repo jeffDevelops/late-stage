@@ -349,7 +349,7 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 15vh;
+      bottom: 14vh;
       right: 15vw;
     }
   }
@@ -358,7 +358,7 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 15vh;
+      bottom: 14vh;
       right: 15vw;
     }
   }
@@ -367,7 +367,7 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 20vh;
+      bottom: 16vh;
       right: 13vw;
     }
   }

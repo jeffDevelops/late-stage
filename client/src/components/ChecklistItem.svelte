@@ -1,8 +1,10 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
   import { prefetch, goto } from '$app/navigation'
+  import { session } from '$app/stores'
   import Card from '../components/Card.svelte'
   import Checkbox from '../components/Checkbox.svelte'
+  import MustLogInModal from '../assemblies/MustLogInModal.svelte'
 
   /**
    * PROPS
@@ -10,6 +12,7 @@
 
   export let checked = true
   export let participationLink: string
+  export let shouldDisplayMustLogInModal = false
 
   /**
    * STATE
@@ -26,8 +29,19 @@
     shouldDisplayHoverEffect = true
   }
 
-  const handleClick = async () => await goto(participationLink)
+  const handleClick = async () => {
+    if (!$session.user) {
+      shouldDisplayMustLogInModal = true
+      return
+    }
+    await goto(participationLink)
+  }
 </script>
+
+<MustLogInModal
+  on:dismiss={() => (shouldDisplayMustLogInModal = false)}
+  isDisplayed={shouldDisplayMustLogInModal}
+/>
 
 <div class="checklist-item" on:mouseenter={handleHover}>
   <Card>

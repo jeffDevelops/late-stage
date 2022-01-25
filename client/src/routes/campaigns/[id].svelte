@@ -1,3 +1,15 @@
+<script lang="ts" context="module">
+  import type { Load, LoadInput, LoadOutput } from '@sveltejs/kit/types'
+
+  export const load: Load = async ({ url, session }: LoadInput): Promise<LoadOutput> => {
+    if (!session.user)
+      return {
+        redirect: '/log-in',
+        status: 303,
+      }
+  }
+</script>
+
 <script lang="ts">
   import Card from '../../components/Card.svelte'
   import Controls from '../../components/Controls.svelte'
