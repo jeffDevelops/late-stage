@@ -32,5 +32,7 @@
   :global(.dark-mode-button svg) {
     stroke: var(--interactive-color);
     fill: var(--interactive-color);
+    width: 14px;
+    height: 14px;
   }
 </style>

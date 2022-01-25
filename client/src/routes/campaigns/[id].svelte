@@ -1,15 +1,3 @@
-<script lang="ts" context="module">
-  import type { Load, LoadInput, LoadOutput } from '@sveltejs/kit/types'
-
-  export const load: Load = async ({ url, session }: LoadInput): Promise<LoadOutput> => {
-    if (!session.user)
-      return {
-        redirect: '/log-in',
-        status: 303,
-      }
-  }
-</script>
-
 <script lang="ts">
   import Card from '../../components/Card.svelte'
   import Controls from '../../components/Controls.svelte'
@@ -19,6 +7,7 @@
   import Tenet from '../../components/Tenet.svelte'
   import CurrentCampaign from '../../components/CurrentCampaign.svelte'
   import CampaignNotYetLiveModal from '../../assemblies/CampaignNotYetLiveModal.svelte'
+
   import type { SvelteComponent } from 'svelte'
   import type { Campaign } from '../../types/Campaign'
 
@@ -42,13 +31,13 @@
     createdBy: {
       id: 'Jeff ID',
       email: 'jeff@jeff.com',
-      emailVerified: true,
+      emailIsVerified: true,
       isAdmin: true,
     },
     updatedBy: {
       id: 'Jeff ID',
       email: 'jeff@jeff.com',
-      emailVerified: true,
+      emailIsVerified: true,
       isAdmin: true,
     },
     createdAt: 'created at date',
@@ -62,14 +51,17 @@
     why: [
       'Banks create leveraged positions for themselves with your money by lending your funds to other people and corporations.',
       "You don't get to choose which types of businesses the bank invests in, and you don't have a say in stopping the banks from preying on young people and people with poor credit histories (disproportionately, people of color) with high-interest loans.",
-      "In addition to historically denying home and business loans to disadvantaged people and people of color, they charge service fees to people that don't meet arbitrary standards for the amount of money held in accounts, and they allow overdrafts to occur, rather than simply declining transactions, to further extract wealth from the lower class.",
-      'Banks routinely invest in student loan asset-backed securities (SLABS), which are essentially packaged investments in the form of the student debt that you work day in and day out to pay off. These investments are virtually risk-free for investors like banks because of current student loan discharge legislation. By removing what money we do have from the system, the banks have fewer dollars to invest in these securities.',
+      "In addition to historically denying home- and business loans to disadvantaged people and people of color, banks charge service fees to people that don't meet arbitrary standards for the amount of money held in accounts; they've even been known to create unauthorized accounts in your name to conjure new fee revenue streams out of thin air with your money.",
+      'Rather than simply declining overdrafting transactions, they manufacture overdrafts as a means to prey on the poorest, and "overdraft protection" as a service to charge additional fees to the only slightly less disadvantaged.',
+      'Banks routinely invest in student loan asset-backed securities (SLABS). They package the student loans you work ceaselessly to pay off into investments for banks that are virtually risk-free because of current student loan discharge policies.',
+      'Worst of all, they take trillions of your dollars made from these machines and invest them into fossil fuels without your consent. They smother the financial freedoms of millions of people to line their pockets with the returns made from destroying the planet.',
     ],
     outcomes: [
+      'Disable the use of our dollars in coal, oil, and gas',
+      'Disable the use of our dollars in Student Loan Asset-Backed Securities (SLABS)',
       'You are likely to make more money from interest by moving your money from for-profit banking',
       'Encourage healthy competition for smaller financial institutions, and encourage large institutions to rethink their policies',
       "Late-Stage will create a digital mosaic mural of all of the community's withdrawal receipts from the major for-profit financial institutions as a collective receipt of our mass dissent of their policies.",
-      'Disable the use of our dollars in Student Loan Asset-Backed Securities (SLABS)',
     ],
     goal: 120_000_000,
     goalUnit: 'dollars',
@@ -148,7 +140,7 @@
     margin: 0 auto 0 auto;
     padding: 40px 0 24px 0;
     width: 100%;
-    max-width: 950px;
+    max-width: 1250px;
   }
 
   :global(.campaign-page .current-campaign .card:first-of-type) {
@@ -181,7 +173,7 @@
     display: grid;
     margin-top: 16px;
     gap: 16px;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 2fr 3fr;
     grid-template-rows: auto auto auto;
     grid-template-areas:
       'how outcomes'

@@ -10,7 +10,7 @@
 
   import { shouldDisplayNav } from '../stores/Navigation'
   import { clickOutside } from '../directives/clickOutside'
-  import { logOut } from '../networking/shared/logOut'
+  import { logOut } from '../networking/shared/logout'
 
   const handleClickOutside = () => shouldDisplayNav.update(() => false)
 </script>

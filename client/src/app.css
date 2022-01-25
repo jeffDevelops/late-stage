@@ -22,11 +22,11 @@
 
 :root.light-theme {
   --app-background: #fafafa;
-  --card-background: #e4e6ea44;
+  --card-background: #e4e6ea55;
   --input-background: #e4e6ea88;
-  --visualization-color: #ced0d2;
-  --text-color: #33221d;
-  --text-color-subdued: #33221dbb;
+  --visualization-color: #dee0e288;
+  --text-color: #33221dee;
+  --text-color-subdued: #33221d88;
 }
 
 :root.dark-theme {
@@ -34,8 +34,8 @@
   --card-background: #2a2a2a55;
   --input-background: #3a3a3a88;
   --visualization-color: #3a3a3a;
-  --text-color: #fffafc;
-  --text-color-subdued: #fffafc99;
+  --text-color: #fffafcee;
+  --text-color-subdued: #fffafcaa;
 }
 
 html {
@@ -133,7 +133,7 @@ h5 {
 p {
   font-family: var(--font-sans);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1.5em;
   margin-bottom: 16px;
@@ -277,7 +277,6 @@ button.primary {
 
 button.primary:hover,
 button.primary:focus {
-  /* transform: perspective(1000px) translateZ(20px); */
   transition: transform 0.2s;
 }
 
@@ -325,6 +324,10 @@ button.text {
   color: var(--error-color) !important;
   text-shadow: 1px 1px 1px var(--app-background);
   font-size: 0.75rem;
+}
+
+.card p:last-child {
+  margin-bottom: 0;
 }
 
 @media screen and (max-width: 600px) {

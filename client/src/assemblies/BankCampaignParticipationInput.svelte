@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
   import Select from 'svelte-select'
+  import { session } from '$app/stores'
   import { env } from '../networking/env'
   import { UploadOptions } from '../types/UploadOptions'
   import UploadIcon from '../components/iconography/Upload.svelte'
@@ -8,6 +9,7 @@
   import BankCampaignSuccessModal from './BankCampaignSuccessModal.svelte'
   import { LocalStorageKeys } from '../types/LocalStorageKeys'
   import { shouldDisplayControls } from '../stores/Controls'
+  import MustLogInModal from '../assemblies/MustLogInModal.svelte'
 
   /**
    * STATE
@@ -19,6 +21,7 @@
   let imagePreviewSrc: string
   let uploading = false
 
+  let isShowingMustLogInModal = false
   let isShowingShopForBetterFinancialInstitutionHelpText = false
   let isShowingWithdrawHelpText = false
   let isShowingReceiptImageHelpText = false
@@ -52,6 +55,14 @@
     imagePreviewSrc = ''
   }
 
+  const handleFormClick = (e) => {
+    if (!$session.user) {
+      isShowingMustLogInModal = true
+      e.preventDefault()
+      return
+    }
+  }
+
   const handleSubmit = async () => {
     if (fileInput.files.length !== 1) return
 
@@ -81,6 +92,11 @@
     // window.location.reload()
   }
 </script>
+
+<MustLogInModal
+  on:dismiss={() => (isShowingMustLogInModal = false)}
+  isDisplayed={isShowingMustLogInModal}
+/>
 
 <BankCampaignSuccessModal
   isDisplayed={isShowingSuccessModal}
@@ -197,7 +213,11 @@
     image need only contain the amount withdrawn, and the institution from which the amount was removed.
   </p>
 
-  <form enctype="multipart/form-data" on:submit|preventDefault={handleSubmit}>
+  <form
+    on:click={handleFormClick}
+    enctype="multipart/form-data"
+    on:submit|preventDefault={handleSubmit}
+  >
     <div class="flex">
       {#if imagePreviewSrc}
         <div class="preview-container">

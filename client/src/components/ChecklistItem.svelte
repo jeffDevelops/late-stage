@@ -12,7 +12,6 @@
 
   export let checked = true
   export let participationLink: string
-  export let shouldDisplayMustLogInModal = false
 
   /**
    * STATE
@@ -30,18 +29,9 @@
   }
 
   const handleClick = async () => {
-    if (!$session.user) {
-      shouldDisplayMustLogInModal = true
-      return
-    }
     await goto(participationLink)
   }
 </script>
-
-<MustLogInModal
-  on:dismiss={() => (shouldDisplayMustLogInModal = false)}
-  isDisplayed={shouldDisplayMustLogInModal}
-/>
 
 <div class="checklist-item" on:mouseenter={handleHover}>
   <Card>

@@ -1,18 +1,20 @@
 <script lang="ts">
   import Card from '../components/Card.svelte'
+  import Controls from '../components/Controls.svelte'
+
   import TwitterIcon from '../components/iconography/Twitter.svelte'
   import TikTokIcon from '../components/iconography/TikTok.svelte'
   import LinktreeIcon from '../components/iconography/Linktree.svelte'
   import RedditIcon from '../components/iconography/Reddit.svelte'
-  import Controls from '../components/Controls.svelte'
+  import IdeaIcon from '../components/iconography/Idea.svelte'
 </script>
 
 <Controls />
 <main id="resources">
   <h1>Resources</h1>
   <p>
-    To learn more about how you can reduce your participation in extractionist capitalism, check out
-    some of the below resources.
+    We've compiled a list of resources to learn more about reducing your participation in extractive
+    capitalism.
   </p>
 
   <Card>
@@ -43,8 +45,11 @@
   </Card>
 
   <Card>
-    <h4>The Great Resignation</h4>
-
+    <h2>The Great Resignation</h2>
+    <p>
+      Find solidarity and comaraderie in navigating the late-stage workplace with the following
+      communities:
+    </p>
     <ul>
       <li>
         <a target="_blank" rel="noopener noreferrer" href="https://www.reddit.com/r/antiwork/"
@@ -60,7 +65,9 @@
   </Card>
 
   <Card>
-    <h4>Finding A Better Bank</h4>
+    <h2>Finding A Better Bank</h2>
+    <h4>Environmental Impact</h4>
+    <p>Learn more about how banks fund climate change, and which banks to avoid.</p>
 
     <ul>
       <li>
@@ -68,8 +75,6 @@
           <a target="_blank" rel="noopener noreferrer" href="https://bankonourfuture.org/">
             Bank On Our Future</a
           >
-
-          <p>Learn more about how banks fund climate change, and which banks to avoid.</p>
         </article>
       </li>
       <li>
@@ -78,6 +83,16 @@
         >
       </li>
     </ul>
+  </Card>
+
+  <Card>
+    <h4><IdeaIcon /> I know of a good resource to feature here!</h4>
+    <p>
+      Would you like to be featured here? Ideas for the platform are sourced and vetted by the
+      community on Reddit.
+    </p>
+
+    <a href="https://www.reddit.com/r/latestage/">r/latestage</a>
   </Card>
 </main>
 
@@ -134,9 +149,14 @@
 
   :global(#resources .card p) {
     color: var(--text-color-subdued);
+    font-size: 0.8rem;
   }
 
-  :global(#resources a svg) {
+  :global(#resources .card p:last-child) {
+    margin-bottom: 0;
+  }
+
+  :global(#resources a svg, #resources .card h4 svg) {
     fill: var(--interactive-color);
     height: 23px;
     width: 23px;
@@ -145,10 +165,5 @@
 
   li:not(:last-of-type) {
     margin-bottom: 8px;
-  }
-
-  li article p {
-    margin-top: 8px;
-    padding-left: 32px;
   }
 </style>

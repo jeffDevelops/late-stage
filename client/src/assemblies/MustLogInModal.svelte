@@ -1,8 +1,21 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
+  import { page } from '$app/stores'
+
+  import { createEventDispatcher, onMount } from 'svelte'
   import Modal from '../components/Modal.svelte'
+  import { navigationStatePriorToLogin } from '../stores/NavigationPriorToLogin'
 
   const dispatch = createEventDispatcher()
+
+  /**
+   * LIFECYCLE
+   */
+  onMount(() => {
+    navigationStatePriorToLogin.set({
+      url: $page.url.pathname,
+      isExternal: false,
+    })
+  })
 
   /**
    * PROPS
@@ -13,9 +26,10 @@
 
 <Modal on:dismiss={() => dispatch('dismiss')} isBlurDismissable={true} {isDisplayed}>
   <div slot="content">
-    <h2>You'll need to log in first.</h2>
+    <h2>You'll need to be logged in first</h2>
 
-    <p>This action requires a free account.</p>
+    <p>To perform this action, you'll need to create a free account or log in.</p>
+    <p>Don't worry. We've saved your place and we'll bring you right back when you're done.</p>
   </div>
 
   <div slot="actions">
@@ -25,4 +39,8 @@
 </Modal>
 
 <style>
+  :global(.actions) {
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+  }
 </style>

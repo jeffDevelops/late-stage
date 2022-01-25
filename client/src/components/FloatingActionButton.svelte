@@ -14,8 +14,8 @@
     max-height: 40px;
     max-width: 40px;
     border-radius: 20px;
-    background-color: var(--interactive-card-color);
-    border: 2px solid #ff5964;
+    background-color: var(--card-background);
+    border: 1px solid #ff5964;
     cursor: pointer;
     margin-bottom: 8px;
     backdrop-filter: blur(10px);
@@ -25,21 +25,22 @@
     justify-content: center;
     align-items: center;
     transition: transform 0.25s, outline 0.25s;
-    transform: scale(1);
+    transform: perspective(1000px) translateZ(0px);
     outline: 1px solid transparent;
   }
   button:hover {
-    transform: scale(1.05);
     transition: transform 0.5s;
+    transform: perspective(1000px) translateZ(40px);
   }
 
-  :global(button svg) {
-    transform: scale(1);
+  :global(button.fab svg) {
     transition: transform 0.25s;
+    height: 16px;
+    width: 16px;
   }
 
-  :global(button:hover > svg) {
-    transform: scale(1.05);
+  :global(button.fab:hover > svg) {
+    transform: perspective(1000px) translateZ(40px);
     transition: transform 0.5s;
   }
 
