@@ -10,7 +10,7 @@
 
   import { shouldDisplayNav } from '../stores/Navigation'
   import { clickOutside } from '../directives/clickOutside'
-  import { logOut } from '../networking/shared/LogOut'
+  import { logOut } from '../networking/shared/logOut'
 
   const handleClickOutside = () => shouldDisplayNav.update(() => false)
 </script>
@@ -229,19 +229,19 @@
     width: 20px;
   }
 
-  :global(a svg.notion, a svg.reddit) {
+  :global(#main-navigation a svg.notion, a svg.reddit) {
     fill: var(--text-color);
     margin-left: 4px;
   }
 
-  :global(a svg.open-in-new) {
+  :global(#main-navigation a svg.open-in-new) {
     fill: var(--interactive-color);
     margin-left: 4px;
     margin-bottom: -1px;
     transition: color 0.1s;
   }
 
-  :global(a:hover svg.open-in-new) {
+  :global(#main-navigation a:hover svg.open-in-new) {
     fill: var(--text-color);
     transition: color 0.1s;
   }

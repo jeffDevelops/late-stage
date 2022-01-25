@@ -8,6 +8,7 @@ const c = [
 	() => import("../../src/routes/verify-email.svelte"),
 	() => import("../../src/routes/campaigns/[id].svelte"),
 	() => import("../../src/routes/checklist.svelte"),
+	() => import("../../src/routes/resources.svelte"),
 	() => import("../../src/routes/register.svelte"),
 	() => import("../../src/routes/log-in.svelte"),
 	() => import("../../src/routes/about.svelte"),
@@ -39,20 +40,23 @@ export const routes = [
 	// src/routes/checklist.svelte
 	[/^\/checklist\/?$/, [c[0], c[8]], [c[1]]],
 
+	// src/routes/resources.svelte
+	[/^\/resources\/?$/, [c[0], c[9]], [c[1]]],
+
 	// src/routes/register.svelte
-	[/^\/register\/?$/, [c[0], c[9]], [c[1]]],
+	[/^\/register\/?$/, [c[0], c[10]], [c[1]]],
 
 	// src/routes/log-in.svelte
-	[/^\/log-in\/?$/, [c[0], c[10]], [c[1]]],
+	[/^\/log-in\/?$/, [c[0], c[11]], [c[1]]],
 
 	// src/routes/about.svelte
-	[/^\/about\/?$/, [c[0], c[11]], [c[1]]],
+	[/^\/about\/?$/, [c[0], c[12]], [c[1]]],
 
 	// src/routes/audit.svelte
-	[/^\/audit\/?$/, [c[0], c[12]], [c[1]]],
+	[/^\/audit\/?$/, [c[0], c[13]], [c[1]]],
 
 	// src/routes/error.svelte
-	[/^\/error\/?$/, [c[0], c[13]], [c[1]]]
+	[/^\/error\/?$/, [c[0], c[14]], [c[1]]]
 ];
 
 // we import the root layout/error components eagerly, so that

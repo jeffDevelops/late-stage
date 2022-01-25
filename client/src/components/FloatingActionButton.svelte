@@ -15,7 +15,7 @@
     max-width: 40px;
     border-radius: 20px;
     background-color: var(--interactive-card-color);
-    border: 1px solid #ff596455;
+    border: 2px solid #ff5964;
     cursor: pointer;
     margin-bottom: 8px;
     backdrop-filter: blur(10px);
@@ -28,12 +28,6 @@
     transform: scale(1);
     outline: 1px solid transparent;
   }
-
-  button:focus {
-    outline: 1px solid var(--interactive-color);
-    transition: outline 0.5s;
-  }
-
   button:hover {
     transform: scale(1.05);
     transition: transform 0.5s;
