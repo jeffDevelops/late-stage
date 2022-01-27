@@ -1,5 +1,5 @@
-export const SEND_PASSWORD_RESET_EMAIL = `#graphql
+export const sendPasswordResetEmail = `#graphql
   mutation SendPasswordResetEmail($email: String!) {
-    sendUserPasswordResetLink(email: $email)
+    sendPasswordResetEmail(email: $email)
   }
 `

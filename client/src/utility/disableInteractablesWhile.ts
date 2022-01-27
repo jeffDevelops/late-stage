@@ -1,4 +1,4 @@
-export const disableInteractablesWhile = async (func: () => Promise<unknown>): Promise<void> => {
+export const disableInteractablesWhile = async <T>(func: () => Promise<T>): Promise<T> => {
   const interactables = document.querySelectorAll(
     'button:not(:disabled), form:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), a',
   )
@@ -12,7 +12,7 @@ export const disableInteractablesWhile = async (func: () => Promise<unknown>): P
   })
 
   // Run the consumer's function
-  await func()
+  const returnValue: T = await func()
 
   // Re-enable all interactables
   interactables.forEach((node) => {
@@ -38,5 +38,5 @@ export const disableInteractablesWhile = async (func: () => Promise<unknown>): P
     }
   })
 
-  return
+  return returnValue
 }

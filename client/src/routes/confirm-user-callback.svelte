@@ -10,7 +10,8 @@
 
     if (!token || !email) {
       return {
-        status: 400,
+        redirect: '/error',
+        status: 303,
       }
     }
 
@@ -86,7 +87,6 @@
     width: calc(100% - 24px);
     max-width: 750px;
     margin: 0 auto;
-    height: calc(100vh - 160px);
   }
 
   :global(.confirm-user-callback h2 svg) {

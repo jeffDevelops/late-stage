@@ -22,15 +22,11 @@ const handleGraphQLErrors: ErrorHandler = (errors) => {
 }
 
 export const post: RequestHandler = async ({ request }): Promise<EndpointOutput> => {
-  console.log('authenticate endpoint')
-
   const body = await request.json()
 
   try {
     const response = await fetch(...gqlRequest(body))
     const deserialized = await response.json()
-
-    console.log({ deserialized })
 
     if (deserialized.errors) {
       const output = handleGraphQLErrors(deserialized.errors)

@@ -21,7 +21,8 @@
 }
 
 :root.light-theme {
-  --app-background: #fafafa;
+  --app-background: #ffffff;
+  --app-background-dark: #ffffff;
   --card-background: #e4e6ea55;
   --input-background: #e4e6ea88;
   --visualization-color: #dee0e288;
@@ -31,6 +32,7 @@
 
 :root.dark-theme {
   --app-background: #1d1d1d;
+  --app-background-dark: #121212;
   --card-background: #2a2a2a55;
   --input-background: #3a3a3a88;
   --visualization-color: #3a3a3a;
@@ -40,6 +42,13 @@
 
 html {
   font-size: 98%;
+  height: 100%;
+  min-height: 100%;
+}
+
+body,
+body * {
+  box-sizing: border-box;
 }
 
 html,
@@ -47,9 +56,10 @@ body {
   background-color: var(--app-background);
 }
 
-body,
-body * {
-  box-sizing: border-box;
+body {
+  width: 100%;
+  height: auto;
+  background-color: var(--app-background);
 }
 
 ::selection {
@@ -237,6 +247,7 @@ textarea.disabled {
   background-color: transparent;
   color: var(--text-color-subdued);
   transition: background-color 0.2s, color 0.2s;
+  cursor: not-allowed;
 }
 
 textarea {

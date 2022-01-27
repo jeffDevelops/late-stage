@@ -1,12 +1,11 @@
 import { Resolver, Mutation, Arg, Ctx } from 'type-graphql'
-import jwt from 'jsonwebtoken'
-import { User } from '@generated/type-graphql/models/User'
 
 import { ErrorWithProps } from '../../utility/ErrorWithProps'
+import { InputValidator } from '../../utility/InputValidator'
 
+import { User } from '@generated/type-graphql/models/User'
 import type { PrismaClient } from '@prisma/client'
 import type { Context } from '../../types/Context'
-import { InputValidator } from '../../utility/InputValidator'
 
 @Resolver()
 export abstract class VerifyEmailAddressResolver {
@@ -44,7 +43,9 @@ export abstract class VerifyEmailAddressResolver {
 
     try {
       this.validateInput(userToUpdate, token, email)
-      return await this.updateUser(tokenPayload, prisma)
+      const user = await this.updateUser(tokenPayload, prisma)
+      await this.invalidateSingleUseToken(user, prisma)
+      return user
     } catch (error: any) {
       /**
        * If a user can be identified, ensure they can only use this

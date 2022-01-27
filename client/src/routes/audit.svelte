@@ -57,7 +57,6 @@
     registerScrollEffect()
 
     if (window?.location.hash === '#audit-report-template') {
-      console.log(window?.location.hash)
       scrollToAuditReportTemplate()
     }
 

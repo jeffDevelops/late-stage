@@ -374,7 +374,8 @@
 
   @media screen and (max-width: 600px) {
     section {
-      padding: 24px 0px 0;
+      max-width: 400px;
+      padding: 60px 0px 0;
     }
 
     .actions {

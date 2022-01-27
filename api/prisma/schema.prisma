@@ -15,13 +15,16 @@ model User {
   id              String  @id @default(cuid())
   email           String  @unique
   username        String  @unique
-  /// @TypeGraphQL.omit(output: true)
-  password        String
   emailIsVerified Boolean
   cred            Int
   isAdmin         Boolean
+
   /// @TypeGraphQL.omit(output: true)
-  magicLinkToken  String?
+  password           String
+  /// @TypeGraphQL.omit(output: true)
+  magicLinkToken     String? // Email address verification token
+  /// @TypeGraphQL.omit(output: true)
+  passwordResetToken String?
 
   banned    Boolean  @default(false)
   createdAt DateTime @default(now())

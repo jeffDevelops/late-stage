@@ -6,7 +6,7 @@ export const unsignCookie = (req: FastifyRequest, cookieName: string) => {
   const cookie: undefined | string = req.cookies[cookieName]
 
   if (!cookie) {
-    throw new ErrorWithProps('Unauthorized - no access cookie')
+    throw new ErrorWithProps(`Unauthorized - no ${cookieName} cookie`)
   }
 
   const unsigned = req.unsignCookie(cookie)

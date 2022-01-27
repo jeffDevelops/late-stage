@@ -2,7 +2,7 @@
   import { onMount, createEventDispatcher } from 'svelte'
   import { fade } from 'svelte/transition'
   import { page, session } from '$app/stores'
-  import { logOut } from '../networking/shared/logOut'
+  import { logOut } from '../networking/shared/logout'
   import { disableInteractablesWhile } from '../utility/disableInteractablesWhile'
   import { clickOutside } from '../directives/clickOutside'
 
@@ -24,10 +24,7 @@
    * METHODS
    */
   const handleLogOut = async () => {
-    return await disableInteractablesWhile(async () => {
-      await logOut()
-      return session.update((previous) => ({ ...previous, user: null }))
-    })
+    return await disableInteractablesWhile(async () => await logOut())
   }
 
   const handleClickOutside = () => dispatch('dismiss')
@@ -35,8 +32,9 @@
 
 <nav use:clickOutside on:click-outside={handleClickOutside} in:fade out:fade class="user-nav">
   {#if $session.user}
-    <a sveltekit:prefetch href="/forgot-password">Reset Password</a>
-    <a href="/#" on:click={handleLogOut}>Log Out</a>
+    <a sveltekit:prefetch href="/reset-password">Reset Password</a>
+    <!-- svelte-ignore a11y-invalid-attribute -->
+    <a href="#" on:click={handleLogOut}>Log Out</a>
   {:else}
     <a sveltekit:prefetch href="/register" class:active={$page.url.pathname === '/register'}
       >Register</a
@@ -62,8 +60,7 @@
     -webkit-backdrop-filter: blur(10px);
   }
 
-  a,
-  .button {
+  a {
     background-color: transparent;
     border: 0;
     color: var(--text-color);
@@ -79,11 +76,6 @@
     letter-spacing: 0.01em;
   }
 
-  .button:first-of-type {
-    margin: 0;
-  }
-
-  .button:hover,
   a:hover,
   a.active {
     box-shadow: none;
@@ -94,7 +86,6 @@
     text-decoration: none;
   }
 
-  .button:focus,
   a.active {
     box-shadow: none;
     transform: none;

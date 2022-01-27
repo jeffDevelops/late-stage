@@ -3,7 +3,10 @@ import fetch from 'isomorphic-fetch'
 
 dotenv.config()
 
-export const gqlRequestInit = <T>(data?: T): RequestInit => {
+export const gqlRequestInit = <T>(
+  data?: T,
+  headers: Record<string, unknown> = {},
+): RequestInit => {
   return {
     mode: 'cors' as RequestMode,
     credentials: 'include' as RequestCredentials,
@@ -12,6 +15,7 @@ export const gqlRequestInit = <T>(data?: T): RequestInit => {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: `Bearer ${process.env.API_KEY}`,
+      ...headers,
     },
     body: data ? JSON.stringify(data) : JSON.stringify({}),
   }

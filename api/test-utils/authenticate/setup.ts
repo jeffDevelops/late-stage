@@ -24,13 +24,9 @@ mutation RegisterUser($userRegistrationInput: UserRegistrationInput!) {
   registerUser(UserRegistrationInput: $userRegistrationInput)
 }`
 
-export const authenticateGQLQuery = (
-  fields: string = DEFAULT_FIELDS,
-): string => `
+export const authenticateGQLQuery = (): string => `
 mutation AuthenticateUser($authenticateUserInput: AuthenticateUserInput!) {
-  authenticateUser(AuthenticateUserInput: $authenticateUserInput) {
-    ${fields}
-  }
+  authenticateUser(AuthenticateUserInput: $authenticateUserInput)
 }
 `
 
@@ -133,6 +129,7 @@ export const authenticateUser = async (
   return await request(requestInit, deserialize)
 }
 
+/** Registers and logs user in, and accompanying database assertions */
 export const setup = async (
   fixture: Pick<User, 'email' | 'username'> = DEFAULT_TEST_USER,
 ) => {

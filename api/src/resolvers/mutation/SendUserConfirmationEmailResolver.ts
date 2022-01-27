@@ -3,11 +3,11 @@ import jwt from 'jsonwebtoken'
 import sgMail from '@sendgrid/mail'
 
 import { ErrorWithProps } from '../../utility/ErrorWithProps'
+import { InputValidator } from '../../utility/InputValidator'
 
 import { User } from '@generated/type-graphql/models/User'
-import { prisma, PrismaClient } from '@prisma/client'
+import type { PrismaClient } from '@prisma/client'
 import type { Context } from '../../types/Context'
-import { InputValidator } from '../../utility/InputValidator'
 
 @Resolver()
 export abstract class SendUserConfirmationEmailResolver {

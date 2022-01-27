@@ -7,6 +7,8 @@
   import LinktreeIcon from '../components/iconography/Linktree.svelte'
   import RedditIcon from '../components/iconography/Reddit.svelte'
   import IdeaIcon from '../components/iconography/Idea.svelte'
+  import BankOnOurFutureLogo from '../components/iconography/BankOnOurFuture.svelte'
+  import BOOFResourceArticle from '../components/BankOnOurFutureResourceArticle.svelte'
 </script>
 
 <Controls />
@@ -71,14 +73,14 @@
 
     <ul>
       <li>
-        <article>
-          <a target="_blank" rel="noopener noreferrer" href="https://bankonourfuture.org/">
-            Bank On Our Future</a
-          >
-        </article>
+        <BOOFResourceArticle>
+          <div slot="logo">
+            <BankOnOurFutureLogo />
+          </div>
+        </BOOFResourceArticle>
       </li>
       <li>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.carbonbubble.net/">
+        <a target="_blank}" rel="noopener noreferrer" href="https://www.carbonbubble.net/">
           Report: The Global Emissions of the US Financial Sector</a
         >
       </li>
@@ -147,6 +149,10 @@
     margin-top: 16px;
   }
 
+  :global(#resources .card h4) {
+    line-height: 1.7em;
+  }
+
   :global(#resources .card p) {
     color: var(--text-color-subdued);
     font-size: 0.8rem;
@@ -165,5 +171,11 @@
 
   li:not(:last-of-type) {
     margin-bottom: 8px;
+  }
+
+  @media screen and (max-width: 600px) {
+    main {
+      padding-top: 72px;
+    }
   }
 </style>

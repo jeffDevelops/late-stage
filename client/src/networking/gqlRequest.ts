@@ -1,5 +1,3 @@
-import { env } from './env'
-
 export const gqlRequest = <T>(data?: T, headers: Record<string, unknown> = {}): RequestInit => {
   return {
     mode: 'cors' as RequestMode,

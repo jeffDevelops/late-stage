@@ -94,7 +94,7 @@ test('AuthenticateUserMutation succeeds if password correct', async () => {
   const deserialized = await authResponse.json()
 
   assert.is(deserialized.errors, undefined)
-  assertIsTestUser(deserialized.data.authenticateUser)
+  assert.is(true, deserialized.data.authenticateUser)
 
   const cookies = setCookieParser.parse(
     setCookieParser.splitCookiesString(authResponse.headers.get('set-cookie')),
@@ -122,26 +122,6 @@ test('AuthenticateUserMutation succeeds if password correct', async () => {
     assert.is(secure, true)
     assert.is(httpOnly, true)
   })
-})
-
-test('AuthenticateUserMutation does not expose password hash', async () => {
-  await registerUser()
-
-  const testUser = await queryTestUser()
-  await assertIsTestUser(testUser)
-
-  const authRequestInit = gqlRequestInit({
-    query: authenticateGQLQuery('password'), // Supply 'password' in query subfields
-    variables: {
-      authenticateUserInput: {
-        email: EMAIL,
-        password: PASSWORD,
-      },
-    },
-  })
-
-  const authResponse = await request(authRequestInit)
-  assertPasswordNotQueryable(authResponse)
 })
 
 test.after.each(async () => {

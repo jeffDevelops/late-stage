@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import type { Context } from '../../types/Context'
 import type { PrismaClient } from '@prisma/client'
 import type { FastifyReply, FastifyRequest } from 'fastify'
+import { unsignCookie } from '../../utility/unsignCookie'
 
 @Resolver()
 export abstract class LogOutResolver {
@@ -21,7 +22,7 @@ export abstract class LogOutResolver {
     await LogOutResolver.revokeRefreshCookie(req, res, prisma)
 
     // Expire the cookie by setting the expiration date to a date in the past
-    res.setCookie('__Host-a', 'expired', {
+    res.setCookie('__Host-a', '', {
       expires: new Date(1),
     })
     return true
@@ -32,19 +33,17 @@ export abstract class LogOutResolver {
     res: FastifyReply,
     prisma: PrismaClient,
   ): Promise<boolean> {
-    const refreshCookie: undefined | string = req.cookies['__Host-r']
-
-    if (!refreshCookie) return true
+    const refreshCookieValue = unsignCookie(req, '__Host-r')
 
     // Expire the cookie by setting the expiration date to a date in the past
-    res.setCookie('__Host-r', 'expired', {
+    res.setCookie('__Host-r', '', {
       expires: new Date(1),
     })
 
-    const { value } = req.unsignCookie(refreshCookie)
-    if (!value) return true
-
-    await LogOutResolver.recordArtificiallyExpiredToken(value, prisma)
+    await LogOutResolver.recordArtificiallyExpiredToken(
+      refreshCookieValue,
+      prisma,
+    )
 
     return true
   }
@@ -61,9 +60,15 @@ export abstract class LogOutResolver {
       return
     }
 
-    const actualExpiration = dayjs(decoded.exp).toDate()
+    /* c8 ignore start */
+    if (!decoded.exp && process.env.NODE_ENV !== 'production') {
+      throw new Error(
+        'Implementation error: exp missing from JWT payload. Token does not expire.',
+      )
+    }
+    /* c8 ignore stop */
 
-    console.log({ actualExpiration })
+    const actualExpiration = dayjs.unix(decoded.exp!).toDate()
 
     await prisma.artificiallyExpiredRefreshToken.create({
       data: {

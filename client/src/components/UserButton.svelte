@@ -15,7 +15,7 @@
   const toggleUserNav = () => (shouldShowUserNavigation = !shouldShowUserNavigation)
 </script>
 
-<div in:fade={{ delay: 600 }} out:fade={{ delay: 600 }}>
+<div in:fade={{ delay: 400 }} out:fade={{ delay: 400 }}>
   <FloatingActionButton on:click={toggleUserNav}>
     {#if !!$currentUser}
       <!-- TODO: Avatar -->

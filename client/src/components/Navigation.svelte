@@ -66,8 +66,8 @@
     <a
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
-      href="/sponsor"
-      class:active={$page.url.pathname === '/sponsor'}>Sponsor</a
+      href="/resources"
+      class:active={$page.url.pathname === '/resources'}>Resources</a
     >
 
     {#if $session.user}

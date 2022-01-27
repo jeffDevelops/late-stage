@@ -51,7 +51,6 @@
     registerScrollEffect()
 
     if (window?.location.hash === '#checklist-idea-template') {
-      console.log(window?.location.hash)
       scrollToChecklistItemIdeaTemplate()
     }
 

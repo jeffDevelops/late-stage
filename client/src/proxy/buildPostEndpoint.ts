@@ -68,8 +68,6 @@ export const buildPostEndpoint: PostEndpointBuilder = (
     const bodyString = await endpointRequest.text()
     const body: Body = JSON.parse(bodyString)
 
-    console.log({ body })
-
     /**
      * Try to make the original request
      */
@@ -77,9 +75,6 @@ export const buildPostEndpoint: PostEndpointBuilder = (
     const { deserialized: originalDeserialized } = await makeRequest(body, {
       cookie: endpointRequest.headers.get('cookie'),
     })
-
-    console.log({ originalDeserialized })
-    console.log(originalDeserialized.errors)
 
     /**
      * Return a success EndpointOutput with the data if successful
@@ -193,6 +188,9 @@ async function makeRequest<Body extends Record<string, unknown>>(body: Body, hea
   const response = await fetch(...gqlRequest(body, headers))
   const deserialized = await response.json()
 
+  console.log({ response, deserialized })
+  console.log(deserialized?.errors)
+
   return {
     response,
     deserialized,
@@ -203,14 +201,7 @@ async function refreshToken({ request, locals }: RequestEvent) {
   const refreshResponse = await fetch(
     ...gqlRequest(
       {
-        query: refreshAccessToken(`
-            id
-            email
-            username
-            emailIsVerified
-            banned
-            createdAt
-          `),
+        query: refreshAccessToken,
       },
       {
         cookie: request.headers.get('cookie'),
@@ -222,7 +213,6 @@ async function refreshToken({ request, locals }: RequestEvent) {
     await refreshResponse.json()
 
   if (!deserialized.errors) {
-    console.log(deserialized.data)
     locals.user = deserialized.data.refreshAccessToken
   }
 

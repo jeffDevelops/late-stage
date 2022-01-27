@@ -11,7 +11,6 @@ export abstract class CurrentUserResolver {
   @Authorized()
   @UseMiddleware(CurrentUser)
   public async currentUser(@Ctx() { user }: Context) {
-    console.log({ user })
     return user
   }
 }

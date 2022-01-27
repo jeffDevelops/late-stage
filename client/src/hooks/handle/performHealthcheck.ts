@@ -9,9 +9,6 @@ export const performHealthcheck = async ({
   event,
 }: HandleInput<LocalsImpl>): Promise<Response> => {
   if (!isPageRequest(event)) return await resolve(event)
-  console.log('getCurrentUser handle hook')
-
-  console.log(`${env.viteSveltekitHost}/proxy/health-check`)
 
   const response = await fetch(`${env.viteHostAddress}/proxy/health-check`, {
     method: 'GET',

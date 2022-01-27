@@ -15,7 +15,9 @@ import {
   VerifyEmailAddressResolver,
   RefreshAccessTokenResolver,
   LogOutResolver,
+  SendPasswordResetEmailResolver,
   ExampleResolver,
+  UpdatePasswordResolver,
 } from '../resolvers/mutation'
 
 import { CurrentUserResolver } from '../resolvers/query'
@@ -31,6 +33,8 @@ export const schema = async () =>
       RefreshAccessTokenResolver,
       LogOutResolver,
       CurrentUserResolver,
+      SendPasswordResetEmailResolver,
+      UpdatePasswordResolver,
 
       // TODO: remove
       ExampleResolver,

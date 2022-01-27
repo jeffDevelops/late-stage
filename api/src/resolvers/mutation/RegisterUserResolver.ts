@@ -1,15 +1,13 @@
 import { Mutation, Resolver, Arg, Field, InputType, Ctx } from 'type-graphql'
-import Mercurius from 'mercurius'
 import { User } from '@generated/type-graphql/models/User.js'
 import bcrypt from 'bcryptjs'
 import sgMail from '@sendgrid/mail'
 
-import { prisma } from '../../../prisma/prisma.config'
+import { ErrorWithProps } from '../../utility/ErrorWithProps'
+
 import { InputValidator } from '../../utility/InputValidator'
 import { Context } from '../../types/Context'
 import { SendUserConfirmationEmailResolver } from '.'
-
-const { ErrorWithProps } = Mercurius
 
 @InputType()
 abstract class UserRegistrationInput implements Partial<User> {
@@ -65,14 +63,14 @@ export abstract class RegisterUserResolver {
     context: Context,
   ): Promise<User | null> {
     try {
-      const usernameExists = await prisma.user.findUnique({
+      const usernameExists = await context.prisma.user.findUnique({
         where: {
           username,
         },
       })
       if (usernameExists) throw new Error('Username exists')
 
-      const newUser = await prisma.user.create({
+      const newUser = await context.prisma.user.create({
         data: {
           email,
           username,

@@ -22,13 +22,9 @@ export const getCurrentUser: Handle<LocalsImpl> = async ({
   /** If the healthcheck fails, there's no point in trying */
   if (!event.locals.apiHealthy) return await resolve(event)
 
-  console.log('getCurrentUser handle hook')
-
-  const { deserialized: originalDeserialized, response: originalResponse } = await makeRequest({
+  const { deserialized: originalDeserialized } = await makeRequest({
     cookie: event.request.headers.get('cookie'),
   })
-
-  console.log({ originalResponse, originalDeserialized })
 
   if (!originalDeserialized.errors) {
     event.locals.user = originalDeserialized.user
@@ -48,7 +44,6 @@ export const getCurrentUser: Handle<LocalsImpl> = async ({
   }
 
   if (originalDeserialized.errors) {
-    console.log(originalDeserialized.errors)
     return await invalidateSession({ event, resolve })
   }
 
@@ -123,28 +118,13 @@ async function invalidateSession({ event, resolve }: HandleInput<LocalsImpl>): P
 
 async function refreshToken({ request, locals }: RequestEvent) {
   const refreshResponse = await fetch(
-    ...gqlRequest(
-      {
-        query: refreshAccessToken(`
-            id
-            email
-            username
-            emailIsVerified
-            banned
-            createdAt
-          `),
-      },
-      {
-        cookie: request.headers.get('cookie'),
-      },
-    ),
+    ...gqlRequest({ query: refreshAccessToken }, { cookie: request.headers.get('cookie') }),
   )
 
   const deserialized: { errors?: GraphQLError[]; data: { refreshAccessToken: unknown } } =
     await refreshResponse.json()
 
   if (!deserialized.errors) {
-    console.log(deserialized.data)
     locals.user = deserialized.data.refreshAccessToken
   }
 

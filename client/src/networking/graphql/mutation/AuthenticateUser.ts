@@ -1,6 +1,4 @@
-export const authenticateUser = (subfields: string): string => `#graphql
+export const authenticateUser = `#graphql
 mutation AuthenticateUser ($authenticateUserInput: AuthenticateUserInput!) {
-  authenticateUser(AuthenticateUserInput: $authenticateUserInput) {
-		${subfields}
-	}
+  authenticateUser(AuthenticateUserInput: $authenticateUserInput)
 }`

@@ -51,6 +51,7 @@
   $: authRoutes = [
     '/log-in',
     '/register',
+    '/forgot-password',
     '/confirm-user-callback',
     ...($session?.user?.emailIsVerified ? ['/verify-user'] : []), // make '/verify-user' inaccessible only when user has verified their email
   ]
@@ -73,6 +74,8 @@
   $: if ($navigating) $shouldDisplayControls = true
 </script>
 
+<div class="background-color" />
+
 <div class="background">
   <Background />
 </div>
@@ -87,11 +90,34 @@
 </div>
 
 <style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .background {
     height: auto;
     width: 100%;
     position: fixed;
     z-index: 0;
+    background-color: transparent;
+  }
+
+  .background-color {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: 0;
+    background-image: linear-gradient(
+      to bottom right,
+      var(--app-background-dark) 0%,
+      var(--app-background) 60%
+    );
+    animation: fade-in 1s forwards ease-in;
   }
 
   .container {

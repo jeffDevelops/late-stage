@@ -1,3 +1,4 @@
+/* c8 ignore start */
 import {
   Resolver,
   Authorized,
@@ -43,3 +44,5 @@ export abstract class ExampleResolver {
     return 'You are an admin / moderator, you can safely drop the database ;)'
   }
 }
+
+/* c8 ignore stop */

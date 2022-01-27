@@ -1,5 +1,3 @@
-import { unsignCookie } from '../utility/unsignCookie'
-
 import type { MiddlewareFn } from 'type-graphql'
 import type { Context } from '../types/Context'
 import { ErrorWithProps } from '../utility/ErrorWithProps'

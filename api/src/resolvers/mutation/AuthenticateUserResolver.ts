@@ -21,7 +21,7 @@ abstract class AuthenticateUserInput implements Partial<User> {
 
 @Resolver()
 export abstract class AuthenticateUserResolver {
-  @Mutation(() => User, { nullable: false })
+  @Mutation(() => Boolean, { nullable: false })
   async authenticateUser(
     @Arg('AuthenticateUserInput', {
       nullable: false,
@@ -30,7 +30,7 @@ export abstract class AuthenticateUserResolver {
     })
     { email, password }: AuthenticateUserInput,
     @Ctx() { prisma, res }: Context,
-  ): Promise<User> {
+  ): Promise<boolean> {
     const user = await this.getUser(prisma, email)
 
     /* c8 ignore start */
@@ -52,7 +52,7 @@ export abstract class AuthenticateUserResolver {
 
     this.issueCookie(refreshToken, res)
 
-    return user
+    return true
   }
 
   private async getUser(

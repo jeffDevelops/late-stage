@@ -1,7 +1,5 @@
-export const refreshAccessToken = (subfields: string): string => `#graphql
+export const refreshAccessToken = `#graphql
 mutation RefreshAccessToken {
-  refreshAccessToken {
-    ${subfields}
-	}
+  refreshAccessToken
 }
 `

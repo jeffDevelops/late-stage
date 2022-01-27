@@ -13,4 +13,5 @@ export const cleanup = async (prisma: PrismaClient): Promise<void> => {
 
 export const registerCleanUpExpiredRefreshTokensCronJob = (
   prisma: PrismaClient,
-) => cron.schedule('0 0 * * 6', async () => await cleanup(prisma))
+  // Every day at midnight
+) => cron.schedule('0 0 * * *', async () => await cleanup(prisma))

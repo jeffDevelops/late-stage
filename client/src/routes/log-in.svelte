@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import { goto, prefetch } from '$app/navigation'
+  import { goto } from '$app/navigation'
   import { session } from '$app/stores'
 
   import InfoIcon from '../components/iconography/Info.svelte'
@@ -8,12 +8,14 @@
   import VisibilityOffIcon from '../components/iconography/VisibilityOff.svelte'
   import Controls from '../components/Controls.svelte'
 
+  import { navigationStatePriorToLogin } from '../stores/NavigationPriorToLogin'
   import { env } from '../networking/env'
   import { gqlRequest } from '../networking/gqlRequest'
   import { authenticateUser } from '../networking/graphql/mutation/AuthenticateUser'
   import { currentUser } from '../networking/graphql/query/CurrentUser'
 
   import { disableInteractablesWhile } from '../utility/disableInteractablesWhile'
+  import { tick } from 'svelte'
 
   /**
    * STATE
@@ -82,7 +84,9 @@
    */
 
   const handleSubmit = async () => {
-    console.log('submit')
+    errors.form = ''
+    await tick()
+
     didAttemptSubmit = true
 
     // Prevent submission if there are any errors
@@ -90,34 +94,20 @@
 
     loading = true
 
-    await disableInteractablesWhile(async () => {
+    const success = await disableInteractablesWhile<boolean>(async () => {
       try {
-        const [_, response] = await Promise.all([
-          prefetch('/'), // TODO: prefetch NavigationPriorToLogIn
-          fetch(
-            `${env.viteSveltekitHost}/proxy/authenticate`,
-            gqlRequest({
-              query: authenticateUser(`
-                id 
-                username
-                email
-                emailIsVerified
-                banned
-                createdAt
-                cred
-                isAdmin
-              `),
-              variables: {
-                authenticateUserInput: {
-                  email,
-                  password,
-                },
+        const response = await fetch(
+          `${env.viteSveltekitHost}/proxy/authenticate`,
+          gqlRequest({
+            query: authenticateUser,
+            variables: {
+              authenticateUserInput: {
+                email,
+                password,
               },
-            }),
-          ).then(async (response) => await response.json()),
-        ])
-
-        console.log({ response })
+            },
+          }),
+        ).then(async (response) => await response.json())
 
         if (response?.error?.message) throw response.error.message
 
@@ -133,13 +123,16 @@
               createdAt
               cred
               isAdmin
-            `),
+              `),
           }),
         )
 
         const deserialized = await currentUserResponse.json()
+        console.log({ deserialized })
 
         session.update((previous) => ({ ...previous, user: deserialized }))
+
+        return true
 
         /**
          * A reactive statement in __layout redirects when session is updated
@@ -147,11 +140,20 @@
          * (like this one!).
          */
       } catch (error) {
+        console.log({ error })
         if (error === 'Unable to find user with provided credentials.') {
           errors.form = `${error} Please check your email and password, and try again.`
         }
+
+        return false
       }
     })
+
+    console.log({ success })
+
+    if (success) {
+      await goto($navigationStatePriorToLogin?.url ?? '/')
+    }
   }
 </script>
 
@@ -195,9 +197,12 @@
           {/if}
         </button>
       </div>
+
       {#if errors.password && didAttemptSubmit}
         <p in:fade out:fade class="error-message">{errors.password}</p>
       {/if}
+
+      <a class="forgot-password" href="/reset-password">Forgot password?</a>
 
       {#if errors.form}
         <p in:fade out:fade class="error-message">{errors.form}</p>
@@ -314,12 +319,17 @@
     padding: 3px 0 0 0;
   }
 
+  .forgot-password {
+    margin-top: 8px;
+    display: inline-block;
+  }
+
   @media screen and (min-width: 1500px) {
     section {
       height: auto;
       position: absolute;
-      bottom: 16vh;
-      right: 16vw;
+      bottom: 14vh;
+      right: 15vw;
     }
   }
 
@@ -327,8 +337,8 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 16vh;
-      right: 16vw;
+      bottom: 14vh;
+      right: 15vw;
     }
   }
 
@@ -336,8 +346,8 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 24vh;
-      right: 15vw;
+      bottom: 16vh;
+      right: 13vw;
     }
   }
 
@@ -345,8 +355,8 @@
     .actions {
       flex-direction: column-reverse;
     }
+
     button.primary,
-    a,
     button.secondary {
       display: block;
       width: 100%;
@@ -356,7 +366,8 @@
 
   @media screen and (max-width: 600px) {
     section {
-      padding: 24px 0px 0;
+      max-width: 400px;
+      padding: 60px 0px 0;
     }
   }
 </style>

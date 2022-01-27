@@ -13,10 +13,10 @@ import type { PrismaClient } from '@prisma/client'
 
 @Resolver()
 export abstract class RefreshAccessTokenResolver {
-  @Mutation(() => User)
+  @Mutation(() => Boolean)
   async refreshAccessToken(
     @Ctx() { prisma, req, res }: Context,
-  ): Promise<User> {
+  ): Promise<boolean> {
     const refreshToken = this.unsignCookie(req, res)
 
     let tokenPayload
@@ -45,7 +45,7 @@ export abstract class RefreshAccessTokenResolver {
 
     this.issueCookie(accessToken, res)
 
-    return eligibleUser
+    return true
   }
 
   private unsignCookie(req: FastifyRequest, res: FastifyReply): string | never {

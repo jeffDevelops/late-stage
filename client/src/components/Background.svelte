@@ -3,7 +3,7 @@
 </script>
 
 <div class="background">
-  <BackgroundSvg fill="#ff5964" />
+  <BackgroundSvg />
 </div>
 
 <style>

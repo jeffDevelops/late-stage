@@ -19,7 +19,7 @@
    */
 
   let petitionInfoDisplayed = false
-  let shouldDisplayExampleCampaignModal = false
+  let shouldDisplayExampleCampaignModal = true
 
   const componentOptions: { [key: Campaign['shortName']]: typeof SvelteComponent } = {
     banks: BankCampaignParticipationInput,
@@ -138,7 +138,7 @@
 <style>
   main {
     margin: 0 auto 0 auto;
-    padding: 40px 0 24px 0;
+    padding: 32px 0 24px 0;
     width: 100%;
     max-width: 1250px;
   }
@@ -194,8 +194,11 @@
   }
 
   @media screen and (max-width: 600px) {
+    main {
+      padding-top: 72px;
+    }
     h1 {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
     }
 
     :global(.campaign-page h1 svg) {
