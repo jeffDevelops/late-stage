@@ -1,12 +1,8 @@
-// import { readFileSync } from 'fs'
-// import { resolve, dirname } from 'path'
-// import { fileURLToPath } from 'url'
-
 import adapter from '@sveltejs/adapter-node'
 import preprocess from 'svelte-preprocess'
+import { config as dotenv } from 'dotenv'
 
-// const __filename = fileURLToPath(import.meta.url)
-// const __dirname = dirname(__filename)
+dotenv()
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -15,30 +11,27 @@ const config = {
   preprocess: preprocess(),
 
   kit: {
-    adapter: adapter({ out: 'build' }),
+    adapter: adapter({
+      out: 'build',
+      env: {
+        host: 'localhost',
+        port: '3000',
+        origin: process.env['VITE_SVELTEKIT_HOST'],
+        // headers: {
+        //   protocol: 'MY_PROTOCOL_HEADER',
+        //   host: 'MY_HOST_HEADER',
+        // },
+      },
+    }),
 
     // hydrate the <div id="svelte"> element in src/app.html
     target: '#svelte',
     vite: {
-      // strictPort: true,
       server: {
-        // https: {
-        //   cert: readFileSync(resolve(__dirname, '../server.crt')),
-        //   key: readFileSync(resolve(__dirname, '../server.key')),
-        // },
-        // host: '0.0.0.0',
-        // strictPort: true,
-        // port: 3000,
         hmr: {
           port: 3000,
           protocol: 'ws',
         },
-        // proxy: {
-        //   'https://ls.localhost': {
-        //     target: 'http://localhost:3001',
-        //     changeOrigin: true,
-        //   },
-        // },
       },
     },
   },

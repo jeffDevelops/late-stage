@@ -1,7 +1,7 @@
-import { c as create_ssr_component, v as validate_component, a as subscribe, b as set_store_value } from "../../chunks/index-f463a23b.js";
-import { s as shouldDisplayControls, L as Logo, n as navigating, p as page, a as session } from "../../chunks/Logo-34311597.js";
-import { n as navigationStatePriorToLogin } from "../../chunks/NavigationPriorToLogin-27ed9fc6.js";
-import "../../chunks/index-3418c82e.js";
+import { c as create_ssr_component, v as validate_component, a as subscribe, b as set_store_value } from "../../chunks/index-4390b0b8.js";
+import { s as shouldDisplayControls, L as Logo, n as navigating, p as page, a as session } from "../../chunks/Logo-e158a041.js";
+import { n as navigationStatePriorToLogin } from "../../chunks/NavigationPriorToLogin-20542646.js";
+import "../../chunks/index-b462fd7a.js";
 var reset = "";
 var app = "";
 var PageTransition_svelte_svelte_type_style_lang = "";
@@ -50,7 +50,7 @@ const Header = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 <div class="${"spacer svelte-18qwgvf"}"></div>`;
 });
 const healthcheckExemptRoutes = [
-  "/error",
+  "/__error",
   "/about",
   "/audit",
   "/checklist-rfcs",
@@ -63,7 +63,7 @@ const css = {
 };
 const load = async ({ url, session: session2 }) => {
   if (!session2.apiHealthy && !healthcheckExemptRoutes.includes(url.pathname)) {
-    return { redirect: "/error", status: 303 };
+    return { redirect: "/__error", status: 303 };
   }
   return { props: { key: url.pathname } };
 };

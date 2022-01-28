@@ -1,5 +1,5 @@
 {
-  "name": "late-stage-api",
+  "name": "api",
   "type": "commonjs",
   "scripts": {
     "migrate:dev": "npx prisma migrate dev --name",

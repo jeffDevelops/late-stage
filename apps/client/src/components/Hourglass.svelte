@@ -117,11 +117,6 @@
     transform: translate(-50%);
   }
 
-  .flip {
-    animation: kfFlip 1000ms ease forwards;
-    animation-iteration-count: 1;
-  }
-
   @keyframes kfSandStream {
     0% {
       height: 0;

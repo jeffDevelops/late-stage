@@ -1,17 +1,24 @@
 {
-	"private": true,
+  "private": true,
   "workspaces": [
     "apps/*"
   ],
   "scripts": {
+    "generate": "turbo run generate",
     "build": "turbo run build",
-    "dev": "turbo run dev --no-cache --parallel --continue",
+    "dev": "concurrently --names \"caddy,turborepo\" --prefix-colors \"#ff5964,#fffafc\" \"caddy run\" \"wait-on tcp:2019 && turbo run dev --no-cache --parallel --continue\"",
+    "start": "turbo run start --parallel",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "clean": "turbo run clean && rm -rf node_modules",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "test:ci": "turbo run test:ci",
+    "format": "prettier --write \"**/*.{ts,md}\"",
+    "deploy": "turbo run deploy",
+    "caddy": "caddy run"
   },
-	"devDependencies": {
-		"turbo": "^1.1.1"
-	}
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "turbo": "^1.1.1",
+    "wait-on": "^6.0.0"
+  },
+  "packageManager": "pnpm@6.10.0"
 }

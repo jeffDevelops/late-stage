@@ -8,6 +8,8 @@ export const performHealthcheck = async ({
   resolve,
   event,
 }: HandleInput<LocalsImpl>): Promise<Response> => {
+  /** Don't run healthcheck on SvelteKit prerenders (builds fail without this line) */
+  if (event.url.hostname === 'sveltekit-prerender') return await resolve(event)
   if (!isPageRequest(event)) return await resolve(event)
 
   const response = await fetch(`${env.viteHostAddress}/proxy/health-check`, {

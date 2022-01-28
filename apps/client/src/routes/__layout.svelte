@@ -2,7 +2,7 @@
   export const load = async ({ url, session }) => {
     if (!session.apiHealthy && !healthcheckExemptRoutes.includes(url.pathname)) {
       return {
-        redirect: '/error',
+        redirect: '/__error',
         status: 303,
       }
     }
@@ -64,7 +64,7 @@
   }
 
   $: if (browser && !$session.apiHealthy && !healthcheckExemptRoutes.includes($page.url.pathname)) {
-    goto('/error')
+    goto('/__error')
   }
 
   beforeNavigate(({ to, cancel }) => {

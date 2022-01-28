@@ -1,4 +1,4 @@
-import { c as create_ssr_component, f as add_attribute, e as escape } from "../../chunks/index-f463a23b.js";
+import { c as create_ssr_component, f as add_attribute, e as escape } from "../../chunks/index-4390b0b8.js";
 var verifyEmail_svelte_svelte_type_style_lang = "";
 const css = {
   code: "main.svelte-e7ttr4.svelte-e7ttr4{padding:72px 48px 0;max-width:750px;width:100%;margin:0 auto}h4.svelte-e7ttr4.svelte-e7ttr4{margin-top:48px}.verify-email h4 svg{fill:var(--interactive-color);margin-bottom:-6px}.verify-email.svelte-e7ttr4 .flex.svelte-e7ttr4{display:flex;justify-content:space-between;align-items:flex-end;gap:16px}.flex.svelte-e7ttr4 div.svelte-e7ttr4{width:calc(100% - 16px - 172px)}form.svelte-e7ttr4.svelte-e7ttr4{margin:0}label.svelte-e7ttr4.svelte-e7ttr4{margin-top:0}@media screen and (max-width: 730px){.flex.svelte-e7ttr4.svelte-e7ttr4{flex-direction:column}.flex.svelte-e7ttr4 button.svelte-e7ttr4{width:100%}.flex.svelte-e7ttr4 div.svelte-e7ttr4{width:100%}}@media screen and (max-width: 600px){main.svelte-e7ttr4.svelte-e7ttr4{padding:72px 0px 0}}",

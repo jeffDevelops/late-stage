@@ -1,9 +1,9 @@
-import { c as create_ssr_component, v as validate_component } from "../../chunks/index-f463a23b.js";
-import { C as Controls } from "../../chunks/Controls-1fb529f9.js";
-import { C as Card } from "../../chunks/Card-ea278822.js";
-import { C as Checklist } from "../../chunks/Checklist-33f1b439.js";
-import "../../chunks/Logo-34311597.js";
-import "../../chunks/index-3418c82e.js";
+import { c as create_ssr_component, v as validate_component } from "../../chunks/index-4390b0b8.js";
+import { C as Controls } from "../../chunks/Controls-6346f8a0.js";
+import { C as Card } from "../../chunks/Card-0ad50115.js";
+import { C as Checklist } from "../../chunks/Checklist-947c96ab.js";
+import "../../chunks/Logo-e158a041.js";
+import "../../chunks/index-b462fd7a.js";
 const Petition = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `<svg enable-background="${"new 0 0 24 24"}" height="${"24px"}" viewBox="${"0 0 24 24"}" width="${"24px"}"><g><rect fill="${"none"}" height="${"24"}" width="${"24"}"></rect></g><g><g><path d="${"M9,4v1.38c-0.83-0.33-1.72-0.5-2.61-0.5c-1.79,0-3.58,0.68-4.95,2.05l3.33,3.33h1.11v1.11c0.86,0.86,1.98,1.31,3.11,1.36 V15H6v3c0,1.1,0.9,2,2,2h10c1.66,0,3-1.34,3-3V4H9z M7.89,10.41V8.26H5.61L4.57,7.22C5.14,7,5.76,6.88,6.39,6.88 c1.34,0,2.59,0.52,3.54,1.46l1.41,1.41l-0.2,0.2c-0.51,0.51-1.19,0.8-1.92,0.8C8.75,10.75,8.29,10.63,7.89,10.41z M19,17 c0,0.55-0.45,1-1,1s-1-0.45-1-1v-2h-6v-2.59c0.57-0.23,1.1-0.57,1.56-1.03l0.2-0.2L15.59,14H17v-1.41l-6-5.97V6h8V17z"}"></path></g></g></svg>`;
 });

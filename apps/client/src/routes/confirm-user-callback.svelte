@@ -10,7 +10,7 @@
 
     if (!token || !email) {
       return {
-        redirect: '/error',
+        redirect: '/__error',
         status: 303,
       }
     }

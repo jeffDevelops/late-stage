@@ -1,11 +1,11 @@
 <svg viewBox="0 0 24 24" fill="#000000"
-	><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" /></svg
+  ><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" /></svg
 >
 
 <style>
-	svg {
-		fill: var(--text-color);
-		width: 60px;
-		height: 60px;
-	}
+  svg {
+    fill: var(--text-color);
+    width: 60px;
+    height: 60px;
+  }
 </style>

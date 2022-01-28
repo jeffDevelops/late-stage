@@ -1,11 +1,11 @@
-import { c as create_ssr_component, v as validate_component } from "../../chunks/index-f463a23b.js";
-import { C as Controls, L as LocalStorageKeys } from "../../chunks/Controls-1fb529f9.js";
-import { C as Card } from "../../chunks/Card-ea278822.js";
-import { a as Checkbox } from "../../chunks/MustLogInModal.svelte_svelte_type_style_lang-fb36eb4e.js";
-import { I as Idea } from "../../chunks/Idea-9112d2f7.js";
-import { I as Info } from "../../chunks/Info-f3d30b05.js";
-import "../../chunks/Logo-34311597.js";
-import "../../chunks/index-3418c82e.js";
+import { c as create_ssr_component, v as validate_component } from "../../chunks/index-4390b0b8.js";
+import { C as Controls, L as LocalStorageKeys } from "../../chunks/Controls-6346f8a0.js";
+import { C as Card } from "../../chunks/Card-0ad50115.js";
+import { a as Checkbox } from "../../chunks/MustLogInModal.svelte_svelte_type_style_lang-11f51de1.js";
+import { I as Idea } from "../../chunks/Idea-7a86352d.js";
+import { I as Info } from "../../chunks/Info-cceca9a5.js";
+import "../../chunks/Logo-e158a041.js";
+import "../../chunks/index-b462fd7a.js";
 var ChecklistItem_svelte_svelte_type_style_lang = "";
 const css$1 = {
   code: ".checklist-item .card{padding-bottom:16px;background-color:var(--interactive-card-color) !important}.hover-effect.svelte-4phlp9.svelte-4phlp9{position:absolute;top:0;left:0;width:100%;height:100%;background-color:var(--interactive-color);z-index:3;border-radius:var(--border-radius);opacity:0.95;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);cursor:pointer;border:none}.hover-effect.svelte-4phlp9 h1.svelte-4phlp9{margin-bottom:0;font-size:1.8rem;color:var(--button-text-color)}.checklist-item label{color:var(--interactive-color);margin-top:0;margin-bottom:0;text-decoration:underline}.checklist-item .card{border:1px solid var(--interactive-color);position:relative}@media screen and (max-width: 600px){.hover-effect.svelte-4phlp9 h1.svelte-4phlp9{font-size:1.2rem}}",

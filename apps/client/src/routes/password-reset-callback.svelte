@@ -7,7 +7,7 @@
     // Loosely validate the url and prevent loading the page when the session email doesn't match the url email
     if (!token || !email || (session?.user?.email && session?.user?.email !== email)) {
       return {
-        redirect: '/error',
+        redirect: '/__error',
         status: 303,
       }
     }

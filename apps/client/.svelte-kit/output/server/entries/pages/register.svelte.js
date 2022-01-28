@@ -1,12 +1,12 @@
-import { c as create_ssr_component, v as validate_component, i as add_classes, f as add_attribute, e as escape } from "../../chunks/index-f463a23b.js";
-import debounce from "lodash/debounce";
-import { I as Info } from "../../chunks/Info-f3d30b05.js";
-import { V as VisibilityOn } from "../../chunks/VisibilityOff.svelte_svelte_type_style_lang-e7094703.js";
-import { C as Controls } from "../../chunks/Controls-1fb529f9.js";
-import { e as env } from "../../chunks/env-66f3c62e.js";
+import { c as create_ssr_component, v as validate_component, i as add_classes, f as add_attribute, e as escape } from "../../chunks/index-4390b0b8.js";
+import lodash from "lodash";
+import { I as Info } from "../../chunks/Info-cceca9a5.js";
+import { V as VisibilityOn } from "../../chunks/VisibilityOff.svelte_svelte_type_style_lang-a615afa2.js";
+import { C as Controls } from "../../chunks/Controls-6346f8a0.js";
+import { e as env } from "../../chunks/env-cb046133.js";
 import { g as gqlRequest } from "../../chunks/gqlRequest-8b3b303a.js";
-import "../../chunks/Logo-34311597.js";
-import "../../chunks/index-3418c82e.js";
+import "../../chunks/Logo-e158a041.js";
+import "../../chunks/index-b462fd7a.js";
 const userWhereUniqueInput = (subfields) => `#graphql
 query UserWhereUniqueInput ($where: UserWhereUniqueInput!) {
   user(where: $where ) {
@@ -20,6 +20,7 @@ const css = {
   map: null
 };
 const Register = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  const { debounce } = lodash;
   let username = "";
   let usernameTaken = false;
   let email = "";

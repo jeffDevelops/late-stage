@@ -1,8 +1,8 @@
-import { c as create_ssr_component, v as validate_component, e as escape } from "../../chunks/index-f463a23b.js";
-import { e as env } from "../../chunks/env-66f3c62e.js";
+import { c as create_ssr_component, v as validate_component, e as escape } from "../../chunks/index-4390b0b8.js";
+import { e as env } from "../../chunks/env-cb046133.js";
 import { g as gqlRequest } from "../../chunks/gqlRequest-8b3b303a.js";
-import { C as Card } from "../../chunks/Card-ea278822.js";
-import { D as DangerTriangle } from "../../chunks/DangerTriangle-b34c9451.js";
+import { C as Card } from "../../chunks/Card-0ad50115.js";
+import { D as DangerTriangle } from "../../chunks/DangerTriangle-724c9700.js";
 const verifyEmailAddress = (subfields) => `#graphql
 mutation VerifyEmailAddress ($email: String!, $token: String!) {
   verifyEmailAddress(token: $token, email: $email) {
@@ -18,7 +18,7 @@ async function load({ fetch, url }) {
   const email = url.searchParams.get("email");
   const token = url.searchParams.get("token");
   if (!token || !email) {
-    return { redirect: "/error", status: 303 };
+    return { redirect: "/__error", status: 303 };
   }
   const response = await fetch(`${env.viteHostAddress}/proxy/verify-email-address`, gqlRequest({
     query: verifyEmailAddress(`

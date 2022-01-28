@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import debounce from 'lodash/debounce'
+  import lodash from 'lodash'
 
   import InfoIcon from '../components/iconography/Info.svelte'
   import VisibilityOnIcon from '../components/iconography/VisibilityOn.svelte'
@@ -14,6 +14,8 @@
 
   import { disableInteractablesWhile } from '../utility/disableInteractablesWhile'
   import { goto, prefetch } from '$app/navigation'
+
+  const { debounce } = lodash
 
   /**
    * STATE

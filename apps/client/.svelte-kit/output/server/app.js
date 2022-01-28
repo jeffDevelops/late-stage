@@ -1,5 +1,24 @@
-import { c as create_ssr_component, s as setContext, v as validate_component, m as missing_component } from "./chunks/index-f463a23b.js";
-import { e as env } from "./chunks/env-66f3c62e.js";
+var __accessCheck = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var __privateGet = (obj, member, getter) => {
+  __accessCheck(obj, member, "read from private field");
+  return getter ? getter.call(obj) : member.get(obj);
+};
+var __privateAdd = (obj, member, value) => {
+  if (member.has(obj))
+    throw TypeError("Cannot add the same private member more than once");
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+};
+var __privateSet = (obj, member, value, setter) => {
+  __accessCheck(obj, member, "write to private field");
+  setter ? setter.call(obj, value) : member.set(obj, value);
+  return value;
+};
+var _use_hashes, _dev, _script_needs_csp, _style_needs_csp, _directives, _script_src, _style_src;
+import { c as create_ssr_component, s as setContext, v as validate_component, m as missing_component } from "./chunks/index-4390b0b8.js";
+import { e as env } from "./chunks/env-cb046133.js";
 import fetch$1 from "isomorphic-fetch";
 import setCookieParser from "set-cookie-parser";
 import { g as gqlRequest } from "./chunks/gqlRequest-35601cf5.js";
@@ -51,15 +70,15 @@ ${``}`;
 function to_headers(object) {
   const headers = new Headers();
   if (object) {
-    for (const key in object) {
-      const value = object[key];
+    for (const key2 in object) {
+      const value = object[key2];
       if (!value)
         continue;
       if (typeof value === "string") {
-        headers.set(key, value);
+        headers.set(key2, value);
       } else {
         value.forEach((value2) => {
-          headers.append(key, value2);
+          headers.append(key2, value2);
         });
       }
     }
@@ -79,8 +98,8 @@ function hash(value) {
   return (hash2 >>> 0).toString(36);
 }
 function decode_params(params) {
-  for (const key in params) {
-    params[key] = params[key].replace(/%23/g, "#").replace(/%3[Bb]/g, ";").replace(/%2[Cc]/g, ",").replace(/%2[Ff]/g, "/").replace(/%3[Ff]/g, "?").replace(/%3[Aa]/g, ":").replace(/%40/g, "@").replace(/%26/g, "&").replace(/%3[Dd]/g, "=").replace(/%2[Bb]/g, "+").replace(/%24/g, "$");
+  for (const key2 in params) {
+    params[key2] = params[key2].replace(/%23/g, "#").replace(/%3[Bb]/g, ";").replace(/%2[Cc]/g, ",").replace(/%2[Ff]/g, "/").replace(/%3[Ff]/g, "?").replace(/%3[Aa]/g, ":").replace(/%40/g, "@").replace(/%26/g, "&").replace(/%3[Dd]/g, "=").replace(/%2[Bb]/g, "+").replace(/%24/g, "$");
   }
   return params;
 }
@@ -156,7 +175,7 @@ function is_pojo(body) {
   }
   return true;
 }
-var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$";
+var chars$1 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$";
 var unsafeChars = /[<>\b\f\n\r\t\0\u2028\u2029]/g;
 var reserved = /^(?:do|if|in|for|int|let|new|try|var|byte|case|char|else|enum|goto|long|this|void|with|await|break|catch|class|const|final|float|short|super|throw|while|yield|delete|double|export|import|native|return|switch|throws|typeof|boolean|default|extends|finally|package|private|abstract|continue|debugger|function|volatile|interface|protected|transient|implements|instanceof|synchronized)$/;
 var escaped = {
@@ -209,8 +228,8 @@ function devalue(value) {
           if (Object.getOwnPropertySymbols(thing).length > 0) {
             throw new Error("Cannot stringify POJOs with symbolic keys");
           }
-          Object.keys(thing).forEach(function(key) {
-            return walk(thing[key]);
+          Object.keys(thing).forEach(function(key2) {
+            return walk(thing[key2]);
           });
       }
     }
@@ -251,8 +270,8 @@ function devalue(value) {
       case "Map":
         return "new " + type + "([" + Array.from(thing).map(stringify).join(",") + "])";
       default:
-        var obj = "{" + Object.keys(thing).map(function(key) {
-          return safeKey(key) + ":" + stringify(thing[key]);
+        var obj = "{" + Object.keys(thing).map(function(key2) {
+          return safeKey(key2) + ":" + stringify(thing[key2]);
         }).join(",") + "}";
         var proto = Object.getPrototypeOf(thing);
         if (proto === null) {
@@ -306,8 +325,8 @@ function devalue(value) {
           break;
         default:
           values_1.push(Object.getPrototypeOf(thing) === null ? "Object.create(null)" : "{}");
-          Object.keys(thing).forEach(function(key) {
-            statements_1.push("" + name + safeProp(key) + "=" + stringify(thing[key]));
+          Object.keys(thing).forEach(function(key2) {
+            statements_1.push("" + name + safeProp(key2) + "=" + stringify(thing[key2]));
           });
       }
     });
@@ -320,8 +339,8 @@ function devalue(value) {
 function getName(num) {
   var name = "";
   do {
-    name = chars[num % chars.length] + name;
-    num = ~~(num / chars.length) - 1;
+    name = chars$1[num % chars$1.length] + name;
+    num = ~~(num / chars$1.length) - 1;
   } while (num >= 0);
   return reserved.test(name) ? name + "_" : name;
 }
@@ -349,11 +368,11 @@ function escapeUnsafeChar(c) {
 function escapeUnsafeChars(str) {
   return str.replace(unsafeChars, escapeUnsafeChar);
 }
-function safeKey(key) {
-  return /^[_$a-zA-Z][_$a-zA-Z0-9]*$/.test(key) ? key : escapeUnsafeChars(JSON.stringify(key));
+function safeKey(key2) {
+  return /^[_$a-zA-Z][_$a-zA-Z0-9]*$/.test(key2) ? key2 : escapeUnsafeChars(JSON.stringify(key2));
 }
-function safeProp(key) {
-  return /^[_$a-zA-Z][_$a-zA-Z0-9]*$/.test(key) ? "." + key : "[" + escapeUnsafeChars(JSON.stringify(key)) + "]";
+function safeProp(key2) {
+  return /^[_$a-zA-Z][_$a-zA-Z0-9]*$/.test(key2) ? "." + key2 : "[" + escapeUnsafeChars(JSON.stringify(key2)) + "]";
 }
 function stringifyString(str) {
   var result = '"';
@@ -486,6 +505,257 @@ function create_prerendering_url_proxy(url) {
     }
   });
 }
+const encoder = new TextEncoder();
+function sha256(data) {
+  if (!key[0])
+    precompute();
+  const out = init.slice(0);
+  const array = encode(data);
+  for (let i = 0; i < array.length; i += 16) {
+    const w = array.subarray(i, i + 16);
+    let tmp;
+    let a;
+    let b;
+    let out0 = out[0];
+    let out1 = out[1];
+    let out2 = out[2];
+    let out3 = out[3];
+    let out4 = out[4];
+    let out5 = out[5];
+    let out6 = out[6];
+    let out7 = out[7];
+    for (let i2 = 0; i2 < 64; i2++) {
+      if (i2 < 16) {
+        tmp = w[i2];
+      } else {
+        a = w[i2 + 1 & 15];
+        b = w[i2 + 14 & 15];
+        tmp = w[i2 & 15] = (a >>> 7 ^ a >>> 18 ^ a >>> 3 ^ a << 25 ^ a << 14) + (b >>> 17 ^ b >>> 19 ^ b >>> 10 ^ b << 15 ^ b << 13) + w[i2 & 15] + w[i2 + 9 & 15] | 0;
+      }
+      tmp = tmp + out7 + (out4 >>> 6 ^ out4 >>> 11 ^ out4 >>> 25 ^ out4 << 26 ^ out4 << 21 ^ out4 << 7) + (out6 ^ out4 & (out5 ^ out6)) + key[i2];
+      out7 = out6;
+      out6 = out5;
+      out5 = out4;
+      out4 = out3 + tmp | 0;
+      out3 = out2;
+      out2 = out1;
+      out1 = out0;
+      out0 = tmp + (out1 & out2 ^ out3 & (out1 ^ out2)) + (out1 >>> 2 ^ out1 >>> 13 ^ out1 >>> 22 ^ out1 << 30 ^ out1 << 19 ^ out1 << 10) | 0;
+    }
+    out[0] = out[0] + out0 | 0;
+    out[1] = out[1] + out1 | 0;
+    out[2] = out[2] + out2 | 0;
+    out[3] = out[3] + out3 | 0;
+    out[4] = out[4] + out4 | 0;
+    out[5] = out[5] + out5 | 0;
+    out[6] = out[6] + out6 | 0;
+    out[7] = out[7] + out7 | 0;
+  }
+  const bytes = new Uint8Array(out.buffer);
+  reverse_endianness(bytes);
+  return base64(bytes);
+}
+const init = new Uint32Array(8);
+const key = new Uint32Array(64);
+function precompute() {
+  function frac(x) {
+    return (x - Math.floor(x)) * 4294967296;
+  }
+  let prime = 2;
+  for (let i = 0; i < 64; prime++) {
+    let is_prime = true;
+    for (let factor = 2; factor * factor <= prime; factor++) {
+      if (prime % factor === 0) {
+        is_prime = false;
+        break;
+      }
+    }
+    if (is_prime) {
+      if (i < 8) {
+        init[i] = frac(prime ** (1 / 2));
+      }
+      key[i] = frac(prime ** (1 / 3));
+      i++;
+    }
+  }
+}
+function reverse_endianness(bytes) {
+  for (let i = 0; i < bytes.length; i += 4) {
+    const a = bytes[i + 0];
+    const b = bytes[i + 1];
+    const c = bytes[i + 2];
+    const d = bytes[i + 3];
+    bytes[i + 0] = d;
+    bytes[i + 1] = c;
+    bytes[i + 2] = b;
+    bytes[i + 3] = a;
+  }
+}
+function encode(str) {
+  const encoded = encoder.encode(str);
+  const length = encoded.length * 8;
+  const size = 512 * Math.ceil((length + 65) / 512);
+  const bytes = new Uint8Array(size / 8);
+  bytes.set(encoded);
+  bytes[encoded.length] = 128;
+  reverse_endianness(bytes);
+  const words = new Uint32Array(bytes.buffer);
+  words[words.length - 2] = Math.floor(length / 4294967296);
+  words[words.length - 1] = length;
+  return words;
+}
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".split("");
+function base64(bytes) {
+  const l = bytes.length;
+  let result = "";
+  let i;
+  for (i = 2; i < l; i += 3) {
+    result += chars[bytes[i - 2] >> 2];
+    result += chars[(bytes[i - 2] & 3) << 4 | bytes[i - 1] >> 4];
+    result += chars[(bytes[i - 1] & 15) << 2 | bytes[i] >> 6];
+    result += chars[bytes[i] & 63];
+  }
+  if (i === l + 1) {
+    result += chars[bytes[i - 2] >> 2];
+    result += chars[(bytes[i - 2] & 3) << 4];
+    result += "==";
+  }
+  if (i === l) {
+    result += chars[bytes[i - 2] >> 2];
+    result += chars[(bytes[i - 2] & 3) << 4 | bytes[i - 1] >> 4];
+    result += chars[(bytes[i - 1] & 15) << 2];
+    result += "=";
+  }
+  return result;
+}
+let csp_ready;
+let generate_nonce;
+let generate_hash;
+if (typeof crypto !== "undefined") {
+  const array = new Uint8Array(16);
+  generate_nonce = () => {
+    crypto.getRandomValues(array);
+    return base64(array);
+  };
+  generate_hash = sha256;
+} else {
+  const name = "crypto";
+  csp_ready = import(name).then((crypto2) => {
+    generate_nonce = () => {
+      return crypto2.randomBytes(16).toString("base64");
+    };
+    generate_hash = (input) => {
+      return crypto2.createHash("sha256").update(input, "utf-8").digest().toString("base64");
+    };
+  });
+}
+const quoted = new Set([
+  "self",
+  "unsafe-eval",
+  "unsafe-hashes",
+  "unsafe-inline",
+  "none",
+  "strict-dynamic",
+  "report-sample"
+]);
+const crypto_pattern = /^(nonce|sha\d\d\d)-/;
+class Csp {
+  constructor({ mode, directives }, { dev, prerender, needs_nonce }) {
+    __privateAdd(this, _use_hashes, void 0);
+    __privateAdd(this, _dev, void 0);
+    __privateAdd(this, _script_needs_csp, void 0);
+    __privateAdd(this, _style_needs_csp, void 0);
+    __privateAdd(this, _directives, void 0);
+    __privateAdd(this, _script_src, void 0);
+    __privateAdd(this, _style_src, void 0);
+    __privateSet(this, _use_hashes, mode === "hash" || mode === "auto" && prerender);
+    __privateSet(this, _directives, dev ? { ...directives } : directives);
+    __privateSet(this, _dev, dev);
+    const d = __privateGet(this, _directives);
+    if (dev) {
+      const effective_style_src2 = d["style-src"] || d["default-src"];
+      if (effective_style_src2 && !effective_style_src2.includes("unsafe-inline")) {
+        d["style-src"] = [...effective_style_src2, "unsafe-inline"];
+      }
+    }
+    __privateSet(this, _script_src, []);
+    __privateSet(this, _style_src, []);
+    const effective_script_src = d["script-src"] || d["default-src"];
+    const effective_style_src = d["style-src"] || d["default-src"];
+    __privateSet(this, _script_needs_csp, !!effective_script_src && effective_script_src.filter((value) => value !== "unsafe-inline").length > 0);
+    __privateSet(this, _style_needs_csp, !dev && !!effective_style_src && effective_style_src.filter((value) => value !== "unsafe-inline").length > 0);
+    this.script_needs_nonce = __privateGet(this, _script_needs_csp) && !__privateGet(this, _use_hashes);
+    this.style_needs_nonce = __privateGet(this, _style_needs_csp) && !__privateGet(this, _use_hashes);
+    if (this.script_needs_nonce || this.style_needs_nonce || needs_nonce) {
+      this.nonce = generate_nonce();
+    }
+  }
+  add_script(content) {
+    if (__privateGet(this, _script_needs_csp)) {
+      if (__privateGet(this, _use_hashes)) {
+        __privateGet(this, _script_src).push(`sha256-${generate_hash(content)}`);
+      } else if (__privateGet(this, _script_src).length === 0) {
+        __privateGet(this, _script_src).push(`nonce-${this.nonce}`);
+      }
+    }
+  }
+  add_style(content) {
+    if (__privateGet(this, _style_needs_csp)) {
+      if (__privateGet(this, _use_hashes)) {
+        __privateGet(this, _style_src).push(`sha256-${generate_hash(content)}`);
+      } else if (__privateGet(this, _style_src).length === 0) {
+        __privateGet(this, _style_src).push(`nonce-${this.nonce}`);
+      }
+    }
+  }
+  get_header(is_meta = false) {
+    const header = [];
+    const directives = { ...__privateGet(this, _directives) };
+    if (__privateGet(this, _style_src).length > 0) {
+      directives["style-src"] = [
+        ...directives["style-src"] || directives["default-src"] || [],
+        ...__privateGet(this, _style_src)
+      ];
+    }
+    if (__privateGet(this, _script_src).length > 0) {
+      directives["script-src"] = [
+        ...directives["script-src"] || directives["default-src"] || [],
+        ...__privateGet(this, _script_src)
+      ];
+    }
+    for (const key2 in directives) {
+      if (is_meta && (key2 === "frame-ancestors" || key2 === "report-uri" || key2 === "sandbox")) {
+        continue;
+      }
+      const value = directives[key2];
+      if (!value)
+        continue;
+      const directive = [key2];
+      if (Array.isArray(value)) {
+        value.forEach((value2) => {
+          if (quoted.has(value2) || crypto_pattern.test(value2)) {
+            directive.push(`'${value2}'`);
+          } else {
+            directive.push(value2);
+          }
+        });
+      }
+      header.push(directive.join(" "));
+    }
+    return header.join("; ");
+  }
+  get_meta() {
+    const content = escape_html_attr(this.get_header(true));
+    return `<meta http-equiv="content-security-policy" content=${content}>`;
+  }
+}
+_use_hashes = new WeakMap();
+_dev = new WeakMap();
+_script_needs_csp = new WeakMap();
+_style_needs_csp = new WeakMap();
+_directives = new WeakMap();
+_script_src = new WeakMap();
+_style_src = new WeakMap();
 async function render_response({
   branch,
   options,
@@ -499,8 +769,16 @@ async function render_response({
   ssr,
   stuff
 }) {
-  const css = new Set(options.manifest._.entry.css);
-  const js = new Set(options.manifest._.entry.js);
+  if (state.prerender) {
+    if (options.csp.mode === "nonce") {
+      throw new Error('Cannot use prerendering if config.kit.csp.mode === "nonce"');
+    }
+    if (options.template_contains_nonce) {
+      throw new Error("Cannot use prerendering if page template contains %svelte.nonce%");
+    }
+  }
+  const stylesheets = new Set(options.manifest._.entry.css);
+  const modulepreloads = new Set(options.manifest._.entry.js);
   const styles = new Map();
   const serialized_data = [];
   let rendered;
@@ -512,9 +790,9 @@ async function render_response({
   if (ssr) {
     branch.forEach(({ node, loaded, fetched, uses_credentials }) => {
       if (node.css)
-        node.css.forEach((url2) => css.add(url2));
+        node.css.forEach((url2) => stylesheets.add(url2));
       if (node.js)
-        node.js.forEach((url2) => js.add(url2));
+        node.js.forEach((url2) => modulepreloads.add(url2));
       if (node.styles)
         Object.entries(node.styles).forEach(([k, v]) => styles.set(k, v));
       if (fetched && page_config.hydrate)
@@ -568,11 +846,39 @@ async function render_response({
   }
   let { head, html: body } = rendered;
   const inlined_style = Array.from(styles.values()).join("\n");
-  if (state.prerender) {
-    if (maxage) {
-      head += `<meta http-equiv="cache-control" content="max-age=${maxage}">`;
-    }
-  }
+  await csp_ready;
+  const csp = new Csp(options.csp, {
+    dev: options.dev,
+    prerender: !!state.prerender,
+    needs_nonce: options.template_contains_nonce
+  });
+  const init_app = `
+		import { start } from ${s(options.prefix + options.manifest._.entry.file)};
+		start({
+			target: ${options.target ? `document.querySelector(${s(options.target)})` : "document.body"},
+			paths: ${s(options.paths)},
+			session: ${try_serialize($session, (error3) => {
+    throw new Error(`Failed to serialize session data: ${error3.message}`);
+  })},
+			route: ${!!page_config.router},
+			spa: ${!ssr},
+			trailing_slash: ${s(options.trailing_slash)},
+			hydrate: ${ssr && page_config.hydrate ? `{
+				status: ${status},
+				error: ${serialize_error(error2)},
+				nodes: [
+					${(branch || []).map(({ node }) => `import(${s(options.prefix + node.entry)})`).join(",\n						")}
+				],
+				url: new URL(${s(url.href)}),
+				params: ${devalue(params)}
+			}` : "null"}
+		});
+	`;
+  const init_service_worker = `
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('${options.service_worker}');
+		}
+	`;
   if (options.amp) {
     head += `
 		<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
@@ -587,56 +893,67 @@ ${rendered.css.code}</style>`;
     }
   } else {
     if (inlined_style) {
+      const attributes = [];
+      if (options.dev)
+        attributes.push(" data-svelte");
+      if (csp.style_needs_nonce)
+        attributes.push(` nonce="${csp.nonce}"`);
+      csp.add_style(inlined_style);
       head += `
-	<style${options.dev ? " data-svelte" : ""}>${inlined_style}</style>`;
+	<style${attributes.join("")}>${inlined_style}</style>`;
     }
-    head += Array.from(css).map((dep) => `
-	<link${styles.has(dep) ? ' disabled media="(max-width: 0)"' : ""} rel="stylesheet" href="${options.prefix + dep}">`).join("");
+    head += Array.from(stylesheets).map((dep) => {
+      const attributes = [
+        'rel="stylesheet"',
+        `href="${options.prefix + dep}"`
+      ];
+      if (csp.style_needs_nonce) {
+        attributes.push(`nonce="${csp.nonce}"`);
+      }
+      if (styles.has(dep)) {
+        attributes.push("disabled", 'media="(max-width: 0)"');
+      }
+      return `
+	<link ${attributes.join(" ")}>`;
+    }).join("");
     if (page_config.router || page_config.hydrate) {
-      head += Array.from(js).map((dep) => `
+      head += Array.from(modulepreloads).map((dep) => `
 	<link rel="modulepreload" href="${options.prefix + dep}">`).join("");
-      head += `
-			<script type="module">
-				import { start } from ${s(options.prefix + options.manifest._.entry.file)};
-				start({
-					target: ${options.target ? `document.querySelector(${s(options.target)})` : "document.body"},
-					paths: ${s(options.paths)},
-					session: ${try_serialize($session, (error3) => {
-        throw new Error(`Failed to serialize session data: ${error3.message}`);
-      })},
-					route: ${!!page_config.router},
-					spa: ${!ssr},
-					trailing_slash: ${s(options.trailing_slash)},
-					hydrate: ${ssr && page_config.hydrate ? `{
-						status: ${status},
-						error: ${serialize_error(error2)},
-						nodes: [
-							${(branch || []).map(({ node }) => `import(${s(options.prefix + node.entry)})`).join(",\n						")}
-						],
-						url: new URL(${s(url.href)}),
-						params: ${devalue(params)}
-					}` : "null"}
-				});
-			<\/script>`;
+      const attributes = ['type="module"'];
+      csp.add_script(init_app);
+      if (csp.script_needs_nonce) {
+        attributes.push(`nonce="${csp.nonce}"`);
+      }
+      head += `<script ${attributes.join(" ")}>${init_app}<\/script>`;
       body += serialized_data.map(({ url: url2, body: body2, json }) => {
-        let attributes = `type="application/json" data-type="svelte-data" data-url=${escape_html_attr(url2)}`;
+        let attributes2 = `type="application/json" data-type="svelte-data" data-url=${escape_html_attr(url2)}`;
         if (body2)
-          attributes += ` data-body="${hash(body2)}"`;
-        return `<script ${attributes}>${json}<\/script>`;
+          attributes2 += ` data-body="${hash(body2)}"`;
+        return `<script ${attributes2}>${json}<\/script>`;
       }).join("\n\n	");
     }
     if (options.service_worker) {
+      csp.add_script(init_service_worker);
       head += `
-			<script>
-				if ('serviceWorker' in navigator) {
-					navigator.serviceWorker.register('${options.service_worker}');
-				}
-			<\/script>`;
+				<script${csp.script_needs_nonce ? ` nonce="${csp.nonce}"` : ""}>${init_service_worker}<\/script>`;
+    }
+  }
+  if (state.prerender) {
+    const http_equiv = [];
+    const csp_headers = csp.get_meta();
+    if (csp_headers) {
+      http_equiv.push(csp_headers);
+    }
+    if (maxage) {
+      http_equiv.push(`<meta http-equiv="cache-control" content="max-age=${maxage}">`);
+    }
+    if (http_equiv.length > 0) {
+      head = http_equiv.join("\n") + head;
     }
   }
   const segments = url.pathname.slice(options.paths.base.length).split("/").slice(2);
   const assets2 = options.paths.assets || (segments.length > 0 ? segments.map(() => "..").join("/") : ".");
-  const html = options.template({ head, body, assets: assets2 });
+  const html = options.template({ head, body, assets: assets2, nonce: csp.nonce });
   const headers = new Headers({
     "content-type": "text/html",
     etag: `"${hash(html)}"`
@@ -646,6 +963,12 @@ ${rendered.css.code}</style>`;
   }
   if (!options.floc) {
     headers.set("permissions-policy", "interest-cohort=()");
+  }
+  if (!state.prerender) {
+    const csp_header = csp.get_header();
+    if (csp_header) {
+      headers.set("content-security-policy", csp_header);
+    }
   }
   return new Response(html, {
     status,
@@ -793,6 +1116,7 @@ async function load_node({
         opts.headers = new Headers(opts.headers);
         const resolved = resolve(event.url.pathname, requested.split("?")[0]);
         let response;
+        let dependency;
         const prefix = options.paths.assets || options.paths.base;
         const filename = (resolved.startsWith(prefix) ? resolved.slice(prefix.length) : resolved).slice(1);
         const filename_html = `${filename}/index.html`;
@@ -809,7 +1133,6 @@ async function load_node({
             response = await fetch(`${url.origin}/${file}`, opts);
           }
         } else if (is_root_relative(resolved)) {
-          const relative = resolved;
           if (opts.credentials !== "omit") {
             uses_credentials = true;
             const cookie = event.request.headers.get("cookie");
@@ -824,20 +1147,13 @@ async function load_node({
           if (opts.body && typeof opts.body !== "string") {
             throw new Error("Request body must be a string");
           }
-          const rendered = await respond(new Request(new URL(requested, event.url).href, opts), options, {
+          response = await respond(new Request(new URL(requested, event.url).href, opts), options, {
             fetched: requested,
             initiator: route
           });
-          if (rendered) {
-            if (state.prerender) {
-              state.prerender.dependencies.set(relative, rendered);
-            }
-            response = rendered;
-          } else {
-            return fetch(new URL(requested, event.url).href, {
-              method: opts.method || "GET",
-              headers: opts.headers
-            });
+          if (state.prerender) {
+            dependency = { response, body: null };
+            state.prerender.dependencies.set(resolved, dependency);
           }
         } else {
           if (resolved.startsWith("//")) {
@@ -852,44 +1168,51 @@ async function load_node({
           const external_request = new Request(requested, opts);
           response = await options.hooks.externalFetch.call(null, external_request);
         }
-        if (response) {
-          const proxy = new Proxy(response, {
-            get(response2, key, _receiver) {
-              async function text() {
-                const body = await response2.text();
-                const headers = {};
-                for (const [key2, value] of response2.headers) {
-                  if (key2 === "set-cookie") {
-                    set_cookie_headers = set_cookie_headers.concat(value);
-                  } else if (key2 !== "etag") {
-                    headers[key2] = value;
-                  }
+        const proxy = new Proxy(response, {
+          get(response2, key2, _receiver) {
+            async function text() {
+              const body = await response2.text();
+              const headers = {};
+              for (const [key3, value] of response2.headers) {
+                if (key3 === "set-cookie") {
+                  set_cookie_headers = set_cookie_headers.concat(value);
+                } else if (key3 !== "etag") {
+                  headers[key3] = value;
                 }
-                if (!opts.body || typeof opts.body === "string") {
-                  fetched.push({
-                    url: requested,
-                    body: opts.body,
-                    json: `{"status":${response2.status},"statusText":${s(response2.statusText)},"headers":${s(headers)},"body":"${escape_json_string_in_html(body)}"}`
-                  });
-                }
-                return body;
               }
-              if (key === "text") {
-                return text;
+              if (!opts.body || typeof opts.body === "string") {
+                fetched.push({
+                  url: requested,
+                  body: opts.body,
+                  json: `{"status":${response2.status},"statusText":${s(response2.statusText)},"headers":${s(headers)},"body":"${escape_json_string_in_html(body)}"}`
+                });
               }
-              if (key === "json") {
-                return async () => {
-                  return JSON.parse(await text());
-                };
+              if (dependency) {
+                dependency.body = body;
               }
-              return Reflect.get(response2, key, response2);
+              return body;
             }
-          });
-          return proxy;
-        }
-        return response || new Response("Not found", {
-          status: 404
+            if (key2 === "arrayBuffer") {
+              return async () => {
+                const buffer = await response2.arrayBuffer();
+                if (dependency) {
+                  dependency.body = new Uint8Array(buffer);
+                }
+                return buffer;
+              };
+            }
+            if (key2 === "text") {
+              return text;
+            }
+            if (key2 === "json") {
+              return async () => {
+                return JSON.parse(await text());
+              };
+            }
+            return Reflect.get(response2, key2, response2);
+          }
         });
+        return proxy;
       },
       stuff: { ...stuff }
     };
@@ -1216,7 +1539,8 @@ async function respond(request, options, state = {}) {
     request,
     url,
     params: {},
-    locals: {}
+    locals: {},
+    platform: state.platform
   };
   const removed = (property, replacement, suffix = "") => ({
     get: () => {
@@ -1261,8 +1585,9 @@ async function respond(request, options, state = {}) {
         }
         let decoded = decodeURI(event2.url.pathname);
         if (options.paths.base) {
-          if (!decoded.startsWith(options.paths.base))
-            return;
+          if (!decoded.startsWith(options.paths.base)) {
+            return new Response(void 0, { status: 404 });
+          }
           decoded = decoded.slice(options.paths.base.length) || "/";
         }
         for (const route of options.manifest._.routes) {
@@ -1279,16 +1604,16 @@ async function respond(request, options, state = {}) {
               const etag = response2.headers.get("etag");
               if (if_none_match_value === etag) {
                 const headers = new Headers({ etag });
-                for (const key of [
+                for (const key2 of [
                   "cache-control",
                   "content-location",
                   "date",
                   "expires",
                   "vary"
                 ]) {
-                  const value = response2.headers.get(key);
+                  const value = response2.headers.get(key2);
                   if (value)
-                    headers.set(key, value);
+                    headers.set(key2, value);
                 }
                 return new Response(void 0, {
                   status: 304,
@@ -1311,6 +1636,7 @@ async function respond(request, options, state = {}) {
             ssr
           });
         }
+        return await fetch(request);
       },
       get request() {
         throw new Error("request in handle has been replaced with event" + details);
@@ -1357,6 +1683,8 @@ const performHealthcheck = async ({
   resolve: resolve2,
   event
 }) => {
+  if (event.url.hostname === "sveltekit-prerender")
+    return await resolve2(event);
   if (!isPageRequest(event))
     return await resolve2(event);
   const response = await fetch(`${env.viteHostAddress}/proxy/health-check`, {
@@ -1463,8 +1791,8 @@ function mergeCookies(refreshResponse, endpointRequest) {
 async function success({ event, resolve: resolve2 }, user, headers = void 0) {
   event.locals.user = user;
   const response = await resolve2(event);
-  Object.keys(headers).forEach((key) => {
-    response.headers.set(key, headers[key]);
+  Object.keys(headers).forEach((key2) => {
+    response.headers.set(key2, headers[key2]);
   });
   return response;
 }
@@ -1481,7 +1809,7 @@ var user_hooks = /* @__PURE__ */ Object.freeze({
   handle,
   getSession
 });
-const template = ({ head, body, assets: assets2 }) => '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="utf-8" />\n    <meta name="description" content="" />\n    <link rel="icon" href="/favicon.png" />\n    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />\n\n    <link rel="preconnect" href="https://fonts.googleapis.com" />\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n    <link\n      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&family=Spartan:wght@100;200;400;500&family=Inconsolata:wght@300&display=swap"\n      rel="stylesheet"\n    />\n\n    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />\n    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"><\/script>\n\n    ' + head + '\n  </head>\n  <body>\n    <div id="svelte">' + body + "</div>\n  </body>\n</html>\n";
+const template = ({ head, body, assets: assets2, nonce }) => '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="utf-8" />\n    <meta name="description" content="" />\n    <link rel="icon" href="/favicon.png" />\n    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />\n\n    <link rel="preconnect" href="https://fonts.googleapis.com" />\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n    <link\n      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&family=Spartan:wght@100;200;400;500&family=Inconsolata:wght@300&display=swap"\n      rel="stylesheet"\n    />\n\n    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />\n    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"><\/script>\n\n    ' + head + '\n  </head>\n  <body>\n    <div id="svelte">' + body + "</div>\n  </body>\n</html>\n";
 let read = null;
 set_paths({ "base": "", "assets": "" });
 const get_hooks = (hooks) => ({
@@ -1502,6 +1830,7 @@ class App {
     const hooks = get_hooks(user_hooks);
     this.options = {
       amp: false,
+      csp: { "mode": "auto", "directives": { "upgrade-insecure-requests": false, "block-all-mixed-content": false } },
       dev: false,
       floc: false,
       get_stack: (error2) => String(error2),
@@ -1528,16 +1857,15 @@ class App {
       router: true,
       target: "#svelte",
       template,
+      template_contains_nonce: false,
       trailing_slash: "never"
     };
   }
-  render(request, {
-    prerender
-  } = {}) {
+  render(request, options = {}) {
     if (!(request instanceof Request)) {
       throw new Error("The first argument to app.render must be a Request object. See https://github.com/sveltejs/kit/pull/3384 for details");
     }
-    return respond(request, this.options, { prerender });
+    return respond(request, this.options, options);
   }
 }
 export { App, override };

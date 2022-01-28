@@ -4,19 +4,32 @@
     "generate": {
       "command": "pnpm generate"
     },
+    "migrate:deploy": {
+      "command": "pnpm migrate:deploy"
+    },
     "test:ci": {
-      "dependsOn": ["^generate"],
+      "dependsOn": ["^build"],
       "outputs": [],
       "command": "pnpm test:ci"
     },
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^caddy", "^build"]
+    },
+    "format": {
+      "outputs": []
     },
     "lint": {
-      "outputs": []
+      "outputs": [],
+      "dependsOn": ["format"]
     },
     "dev": {
       "cache": false
+    },
+    "start": {
+      "dependsOn": ["^build"]
+    },
+    "deploy": {
+      "dependsOn": ["format", "lint", "generate", "migrate:deploy", "test:ci", "build", "start"]
     }
   }
 }

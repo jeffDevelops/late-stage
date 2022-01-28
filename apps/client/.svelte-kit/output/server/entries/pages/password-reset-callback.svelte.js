@@ -1,9 +1,9 @@
-import { c as create_ssr_component, a as subscribe, v as validate_component, f as add_attribute } from "../../chunks/index-f463a23b.js";
-import { C as Card } from "../../chunks/Card-ea278822.js";
-import { V as VisibilityOn } from "../../chunks/VisibilityOff.svelte_svelte_type_style_lang-e7094703.js";
-import { L as Lock } from "../../chunks/Lock-17c66fef.js";
-import { n as navigationStatePriorToLogin } from "../../chunks/NavigationPriorToLogin-27ed9fc6.js";
-import "../../chunks/index-3418c82e.js";
+import { c as create_ssr_component, a as subscribe, v as validate_component, f as add_attribute } from "../../chunks/index-4390b0b8.js";
+import { C as Card } from "../../chunks/Card-0ad50115.js";
+import { V as VisibilityOn } from "../../chunks/VisibilityOff.svelte_svelte_type_style_lang-a615afa2.js";
+import { L as Lock } from "../../chunks/Lock-271953a6.js";
+import { n as navigationStatePriorToLogin } from "../../chunks/NavigationPriorToLogin-20542646.js";
+import "../../chunks/index-b462fd7a.js";
 var passwordResetCallback_svelte_svelte_type_style_lang = "";
 const css = {
   code: "main.svelte-lb28ls.svelte-lb28ls{max-width:500px;margin:72px auto}form.svelte-lb28ls.svelte-lb28ls{width:100%;margin:0 auto;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start}.flex.svelte-lb28ls.svelte-lb28ls{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}.action.svelte-lb28ls.svelte-lb28ls{display:flex;justify-content:flex-end;width:100%}.flex.svelte-lb28ls input.svelte-lb28ls{width:calc(100% - 16px - 40px)}.flex.svelte-lb28ls button.secondary.svelte-lb28ls{width:40px;min-width:0;margin-bottom:0;padding:3px 0 0 0}#password-reset svg{fill:var(--interactive-color);margin-bottom:-4px}button.svelte-lb28ls.svelte-lb28ls{width:100%}",
@@ -13,7 +13,7 @@ async function load({ fetch, url, session }) {
   const email = url.searchParams.get("email");
   const token = url.searchParams.get("token");
   if (!token || !email || session?.user?.email && session?.user?.email !== email) {
-    return { redirect: "/error", status: 303 };
+    return { redirect: "/__error", status: 303 };
   }
   return { status: 200, props: { email, token } };
 }

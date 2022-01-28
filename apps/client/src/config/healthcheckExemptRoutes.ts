@@ -2,7 +2,7 @@
  * Routes that do not need the api to function
  */
 export const healthcheckExemptRoutes = [
-  '/error',
+  '/__error',
   '/about',
   '/audit',
   '/checklist-rfcs',
