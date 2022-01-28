@@ -20,7 +20,7 @@
     },
     "lint": {
       "outputs": [],
-      "dependsOn": ["format"]
+      "dependsOn": ["^format"]
     },
     "dev": {
       "cache": false
