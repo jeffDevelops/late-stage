@@ -3,7 +3,7 @@
   import Controls from '../components/Controls.svelte'
 
   import TwitterIcon from '../components/iconography/Twitter.svelte'
-  import TikTokIcon from '../components/iconography/TikTok.svelte'
+  import TikTokIcon from '../components/iconography/Tiktok.svelte'
   import LinktreeIcon from '../components/iconography/Linktree.svelte'
   import RedditIcon from '../components/iconography/Reddit.svelte'
   import IdeaIcon from '../components/iconography/Idea.svelte'
