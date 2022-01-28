@@ -29,7 +29,7 @@
       "dependsOn": ["^build"]
     },
     "deploy": {
-      "dependsOn": ["format", "lint", "generate", "migrate:deploy", "test:ci", "build"]
+      "dependsOn": ["generate", "migrate:deploy", "build"]
     }
   }
 }
