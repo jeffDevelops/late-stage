@@ -1,0 +1,22 @@
+{
+  "baseBranch": "origin/main",
+  "pipeline": {
+    "generate": {
+      "command": "pnpm generate"
+    },
+    "test:ci": {
+      "dependsOn": ["^generate"],
+      "outputs": [],
+      "command": "pnpm test:ci"
+    },
+    "build": {
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "dev": {
+      "cache": false
+    }
+  }
+}
