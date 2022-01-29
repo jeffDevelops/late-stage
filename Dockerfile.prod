@@ -1,11 +1,20 @@
 FROM ubuntu
 
-# Turbo requires git for hashing
 RUN apt update
+
+# Install curl
+RUN apt-get install curl -y
+
+# Install Caddy
+apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo tee /etc/apt/trusted.gpg.d/caddy-stable.asc
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt install caddy
+
+# Turbo requires git for hashing
 RUN apt install -y git
 
 # Install nodejs
-RUN apt-get install curl -y
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sh -
 RUN apt-get install -y nodejs
 
@@ -29,7 +38,9 @@ RUN mkdir -p /home/app
 
 # Copy monorepo files from host
 COPY . /home/app
+RUN cd /home/app
 
-RUN cd /home/app && pnpm add turbo -DW && pnpm install && pnpm deploy
+RUN caddy start
+RUN pnpm add turbo -DW && pnpm install && pnpm deploy
 
 CMD cd /home/app && pnpm start
