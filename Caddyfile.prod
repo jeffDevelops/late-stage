@@ -1,19 +1,19 @@
-ls.localhost {
+late-stage.com {
 
   handle /graphql {
-    reverse_proxy 0.0.0.0:3001
+    reverse_proxy 127.0.0.1:3001
   }
 
   handle /altair* {
-    reverse_proxy 0.0.0.0:3001
+    reverse_proxy 127.0.0.1:3001
   }
 
   handle /_healthcheck {
-    reverse_proxy 0.0.0.0:3001
+    reverse_proxy 127.0.0.1:3001
   }
 
   handle /* {
-    reverse_proxy 0.0.0.0:3000
+    reverse_proxy 127.0.0.1:3000
   }
 }
 
