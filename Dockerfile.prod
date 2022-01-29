@@ -6,10 +6,10 @@ RUN apt update
 RUN apt-get install curl -y
 
 # Install Caddy
-RUN apt-get install -y debian-keyring debian-archive-keyring apt-transport-https
+RUN apt install -y debian-keyring debian-archive-keyring apt-transport-https
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | tee /etc/apt/trusted.gpg.d/caddy-stable.asc
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
-RUN apt-get install caddy
+RUN apt install caddy
 
 # Turbo requires git for hashing
 RUN apt install -y git
