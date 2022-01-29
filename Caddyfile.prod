@@ -1,0 +1,19 @@
+ls.localhost {
+
+  handle /graphql {
+    reverse_proxy 0.0.0.0:3001
+  }
+
+  handle /altair* {
+    reverse_proxy 0.0.0.0:3001
+  }
+
+  handle /_healthcheck {
+    reverse_proxy 0.0.0.0:3001
+  }
+
+  handle /* {
+    reverse_proxy 0.0.0.0:3000
+  }
+}
+
