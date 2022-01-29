@@ -32,4 +32,4 @@ COPY . /home/app
 
 RUN cd /home/app && pnpm add turbo -DW && pnpm install && pnpm deploy
 
-CMD ["pnpm", "start"]
+CMD cd /home/app && pnpm start
