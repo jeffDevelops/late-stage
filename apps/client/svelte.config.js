@@ -15,12 +15,8 @@ const config = {
       out: 'build',
       env: {
         host: 'localhost',
-        port: '3000',
+        port: 'PORT',
         origin: process.env['VITE_SVELTEKIT_HOST'],
-        // headers: {
-        //   protocol: 'MY_PROTOCOL_HEADER',
-        //   host: 'MY_HOST_HEADER',
-        // },
       },
     }),
 

@@ -137,6 +137,7 @@ importers:
       '@typescript-eslint/parser': ^4.31.1
       dayjs: ^1.10.7
       dotenv: ^14.2.0
+      dotenv-cli: ^4.1.1
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-svelte3: ^3.2.1
@@ -157,6 +158,7 @@ importers:
       '@sveltejs/adapter-node': 1.0.0-next.67
       dayjs: 1.10.7
       dotenv: 14.3.2
+      dotenv-cli: 4.1.1
       isomorphic-fetch: 3.0.0
       lodash: 4.17.21
       set-cookie-parser: 2.4.8
@@ -2296,6 +2298,20 @@ packages:
       is-obj: 2.0.0
     dev: true
 
+  /dotenv-cli/4.1.1:
+    resolution: {integrity: sha512-XvKv1pa+UBrsr3CtLGBsR6NdsoS7znqaHUf4Knj0eZO+gOI/hjj9KgWDP+KjpfEbj6wAba1UpbhaP9VezNkWhg==}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+      dotenv: 8.6.0
+      dotenv-expand: 5.1.0
+      minimist: 1.2.5
+    dev: false
+
+  /dotenv-expand/5.1.0:
+    resolution: {integrity: sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==}
+    dev: false
+
   /dotenv/10.0.0:
     resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
     engines: {node: '>=10'}
@@ -2304,6 +2320,11 @@ packages:
   /dotenv/14.3.2:
     resolution: {integrity: sha512-vwEppIphpFdvaMCaHfCEv9IgwcxMljMw2TnAQBB4VWPvzXQLTb82jwmdOKzlEVUL3gNFT4l4TPKO+Bn+sqcrVQ==}
     engines: {node: '>=12'}
+    dev: false
+
+  /dotenv/8.6.0:
+    resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
+    engines: {node: '>=10'}
     dev: false
 
   /duplexer/0.1.2:
