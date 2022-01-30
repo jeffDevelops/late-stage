@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 svelte-kit dev",
     "build": "svelte-kit build",
-    "start": "node build",
+    "start": "pm2 startOrRestart ecosystem.config.cjs",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",

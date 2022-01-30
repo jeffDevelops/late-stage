@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "outDir": "build",
+    "removeComments": true,
+    "sourceMap": true,
     "esModuleInterop": true,
     "strict": true,
     "allowJs": false,
@@ -15,9 +18,6 @@
     "strictPropertyInitialization": false
   },
   "include": [
-    ".",
+    "src/**/*",
   ],
-  "exclude": [
-    "node_modules"
-  ]
 }

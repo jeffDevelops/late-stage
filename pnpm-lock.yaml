@@ -29,6 +29,8 @@ importers:
       '@types/sanitize-html': ^2.6.2
       '@types/set-cookie-parser': ^2.4.2
       '@types/sinon': ^10.0.6
+      '@types/validator': ^13.7.1
+      '@types/ws': ^8.2.2
       altair-fastify-plugin: ^4.2.1
       bcryptjs: ^2.4.3
       c8: ^7.11.0
@@ -104,6 +106,8 @@ importers:
       '@types/sanitize-html': 2.6.2
       '@types/set-cookie-parser': 2.4.2
       '@types/sinon': 10.0.9
+      '@types/validator': 13.7.1
+      '@types/ws': 8.2.2
       c8: 7.11.0
       concurrently: 7.0.0
       forever: 4.0.2
@@ -871,6 +875,16 @@ packages:
     resolution: {integrity: sha512-xGZVAe61omKnVGedBdTbAveuJ5QyI0LrMIcp0hc1LmVI5IEjs5qG4fM0sv9GIBA2JVoKuf7332IjQX4y5qqMMQ==}
     dependencies:
       '@sinonjs/fake-timers': 7.1.2
+    dev: true
+
+  /@types/validator/13.7.1:
+    resolution: {integrity: sha512-I6OUIZ5cYRk5lp14xSOAiXjWrfVoMZVjDuevBYgQDYzZIjsf2CAISpEcXOkFAtpAHbmWIDLcZObejqny/9xq5Q==}
+    dev: true
+
+  /@types/ws/8.2.2:
+    resolution: {integrity: sha512-NOn5eIcgWLOo6qW8AcuLZ7G8PycXu0xTxxkS6Q18VWFxgPUSOwV0pBj2a/4viNZVu25i7RIB7GttdkAIUUXOOg==}
+    dependencies:
+      '@types/node': 16.11.21
     dev: true
 
   /@typescript-eslint/eslint-plugin/4.33.0_959502c0ea240e86d4d2ba8b8c0fee45:
