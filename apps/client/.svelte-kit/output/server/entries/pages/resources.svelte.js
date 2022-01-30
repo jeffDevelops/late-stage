@@ -7,7 +7,7 @@ import "../../chunks/index-b462fd7a.js";
 const Twitter = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `<svg width="${"24"}" height="${"24"}" viewBox="${"0 0 24 24"}"><path d="${"M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"}"></path></svg>`;
 });
-const TikTok = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+const Tiktok = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `<svg viewBox="${"0 0 2859 3333"}" shape-rendering="${"geometricPrecision"}" text-rendering="${"geometricPrecision"}" image-rendering="${"optimizeQuality"}" fill-rule="${"evenodd"}" clip-rule="${"evenodd"}"><path d="${"M2081 0c55 473 319 755 778 785v532c-266 26-499-61-770-225v995c0 1264-1378 1659-1932 753-356-583-138-1606 1004-1647v561c-87 14-180 36-265 65-254 86-398 247-358 531 77 544 1075 705 992-358V1h551z"}"></path></svg>`;
 });
 const Linktree = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -55,7 +55,7 @@ const Resources = create_ssr_component(($$result, $$props, $$bindings, slots) =>
       <figcaption class="${"svelte-uz4d77"}"><div><h4 class="${"svelte-uz4d77"}">Michael Mezz</h4>
 
           <div class="${"social-container svelte-uz4d77"}"><a href="${"https://twitter.com/michaelmezz"}">${validate_component(Twitter, "TwitterIcon").$$render($$result, {}, {}, {})}</a>
-            <a href="${"https://www.tiktok.com/@michael_mezz"}">${validate_component(TikTok, "TikTokIcon").$$render($$result, {}, {}, {})}</a>
+            <a href="${"https://www.tiktok.com/@michael_mezz"}">${validate_component(Tiktok, "TikTokIcon").$$render($$result, {}, {}, {})}</a>
             <a href="${"https://linktr.ee/michaelmezz"}">${validate_component(Linktree, "LinktreeIcon").$$render($$result, {}, {}, {})}</a></div></div></figcaption></figure>
     <p>Late-Stage was inspired by Michael&#39;s TikTok series &quot;How to reduce your participation in
       extractive capitalism.&quot; Be sure to check out that series and follow for more ideas around

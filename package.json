@@ -12,7 +12,6 @@
     "test": "turbo run test",
     "test:ci": "turbo run test:ci",
     "format": "prettier --write \"**/*.{ts,md}\"",
-    "deploy": "turbo run deploy",
     "caddy": "caddy run"
   },
   "devDependencies": {
