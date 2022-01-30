@@ -6,7 +6,7 @@
     "imports": [
       "_index-4390b0b8.js",
       "_env-cb046133.js",
-      "_gqlRequest-35601cf5.js",
+      "_gqlRequest-ef7d088a.js",
       "_RefreshAccessToken-922ef447.js",
       "_env-288cfb0d.js"
     ]
@@ -16,8 +16,8 @@
     "src": "src/routes/proxy/send-password-reset-email.ts",
     "isEntry": true,
     "imports": [
-      "_buildPostEndpoint-878f8475.js",
-      "_gqlRequest-35601cf5.js",
+      "_buildPostEndpoint-96dd449e.js",
+      "_gqlRequest-ef7d088a.js",
       "_env-288cfb0d.js",
       "_RefreshAccessToken-922ef447.js"
     ]
@@ -27,8 +27,8 @@
     "src": "src/routes/proxy/verify-email-address.ts",
     "isEntry": true,
     "imports": [
-      "_buildPostEndpoint-878f8475.js",
-      "_gqlRequest-35601cf5.js",
+      "_buildPostEndpoint-96dd449e.js",
+      "_gqlRequest-ef7d088a.js",
       "_env-288cfb0d.js",
       "_RefreshAccessToken-922ef447.js"
     ]
@@ -38,7 +38,7 @@
     "src": "src/routes/proxy/update-password.ts",
     "isEntry": true,
     "imports": [
-      "_gqlRequest-35601cf5.js",
+      "_gqlRequest-ef7d088a.js",
       "_env-288cfb0d.js"
     ]
   },
@@ -47,7 +47,7 @@
     "src": "src/routes/proxy/authenticate.ts",
     "isEntry": true,
     "imports": [
-      "_gqlRequest-35601cf5.js",
+      "_gqlRequest-ef7d088a.js",
       "_env-288cfb0d.js"
     ]
   },
@@ -56,8 +56,8 @@
     "src": "src/routes/proxy/confirm-user.ts",
     "isEntry": true,
     "imports": [
-      "_buildPostEndpoint-878f8475.js",
-      "_gqlRequest-35601cf5.js",
+      "_buildPostEndpoint-96dd449e.js",
+      "_gqlRequest-ef7d088a.js",
       "_env-288cfb0d.js",
       "_RefreshAccessToken-922ef447.js"
     ]
@@ -67,8 +67,8 @@
     "src": "src/routes/proxy/current-user.ts",
     "isEntry": true,
     "imports": [
-      "_buildPostEndpoint-878f8475.js",
-      "_gqlRequest-35601cf5.js",
+      "_buildPostEndpoint-96dd449e.js",
+      "_gqlRequest-ef7d088a.js",
       "_env-288cfb0d.js",
       "_RefreshAccessToken-922ef447.js"
     ]
@@ -86,8 +86,8 @@
     "src": "src/routes/proxy/user-where.ts",
     "isEntry": true,
     "imports": [
-      "_buildPostEndpoint-878f8475.js",
-      "_gqlRequest-35601cf5.js",
+      "_buildPostEndpoint-96dd449e.js",
+      "_gqlRequest-ef7d088a.js",
       "_env-288cfb0d.js",
       "_RefreshAccessToken-922ef447.js"
     ]
@@ -97,8 +97,8 @@
     "src": "src/routes/proxy/register.ts",
     "isEntry": true,
     "imports": [
-      "_buildPostEndpoint-878f8475.js",
-      "_gqlRequest-35601cf5.js",
+      "_buildPostEndpoint-96dd449e.js",
+      "_gqlRequest-ef7d088a.js",
       "_env-288cfb0d.js",
       "_RefreshAccessToken-922ef447.js"
     ]
@@ -108,7 +108,7 @@
     "src": "src/routes/proxy/log-out.ts",
     "isEntry": true,
     "imports": [
-      "_gqlRequest-35601cf5.js",
+      "_gqlRequest-ef7d088a.js",
       "_env-288cfb0d.js"
     ]
   },
@@ -316,7 +316,7 @@
       "_index-b462fd7a.js"
     ],
     "css": [
-      "assets/entries/pages/register.svelte-406b7e2e.css"
+      "assets/entries/pages/register.svelte-222385b8.css"
     ]
   },
   "src/routes/log-in.svelte": {
@@ -374,8 +374,8 @@
   "_env-cb046133.js": {
     "file": "chunks/env-cb046133.js"
   },
-  "_gqlRequest-35601cf5.js": {
-    "file": "chunks/gqlRequest-35601cf5.js",
+  "_gqlRequest-ef7d088a.js": {
+    "file": "chunks/gqlRequest-ef7d088a.js",
     "imports": [
       "_env-288cfb0d.js"
     ]
@@ -386,10 +386,10 @@
   "_env-288cfb0d.js": {
     "file": "chunks/env-288cfb0d.js"
   },
-  "_buildPostEndpoint-878f8475.js": {
-    "file": "chunks/buildPostEndpoint-878f8475.js",
+  "_buildPostEndpoint-96dd449e.js": {
+    "file": "chunks/buildPostEndpoint-96dd449e.js",
     "imports": [
-      "_gqlRequest-35601cf5.js",
+      "_gqlRequest-ef7d088a.js",
       "_RefreshAccessToken-922ef447.js"
     ]
   },

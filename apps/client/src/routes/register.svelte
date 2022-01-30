@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
   import lodash from 'lodash'
-  import isEmail from 'validator/lib/isEmail'
+  import validator from 'validator'
 
   import InfoIcon from '../components/iconography/Info.svelte'
   import VisibilityOnIcon from '../components/iconography/VisibilityOn.svelte'
@@ -17,6 +17,7 @@
   import { goto, prefetch } from '$app/navigation'
 
   const { debounce } = lodash
+  const { isEmail } = validator
 
   /**
    * STATE

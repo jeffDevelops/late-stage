@@ -21,7 +21,7 @@ import { c as create_ssr_component, s as setContext, v as validate_component, m 
 import { e as env } from "./chunks/env-cb046133.js";
 import fetch$1 from "isomorphic-fetch";
 import setCookieParser from "set-cookie-parser";
-import { g as gqlRequest } from "./chunks/gqlRequest-35601cf5.js";
+import { g as gqlRequest } from "./chunks/gqlRequest-ef7d088a.js";
 import { r as refreshAccessToken } from "./chunks/RefreshAccessToken-922ef447.js";
 import { sequence } from "@sveltejs/kit/hooks";
 import "./chunks/env-288cfb0d.js";

@@ -3,7 +3,7 @@ export const manifest = {
 	assets: new Set(["Jeff.jpeg","Late-StageCoverPhoto.png","Late-StageIcon.png","LateStageBackground.afdesign","favicon.png"]),
 	_: {
 		mime: {".jpeg":"image/jpeg",".png":"image/png"},
-		entry: {"file":"start-69c313fb.js","js":["start-69c313fb.js","chunks/vendor-7cce70e9.js","chunks/singletons-d19c42e4.js"],"css":["assets/vendor-4ff902fe.css"]},
+		entry: {"file":"start-e486737e.js","js":["start-e486737e.js","chunks/vendor-e5aa1018.js","chunks/singletons-d19c42e4.js"],"css":["assets/vendor-4ff902fe.css"]},
 		nodes: [
 			() => import('./nodes/0.js'),
 			() => import('./nodes/1.js'),
