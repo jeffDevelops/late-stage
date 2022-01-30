@@ -4,10 +4,6 @@ late-stage.com {
     reverse_proxy 127.0.0.1:3001
   }
 
-  handle /altair* {
-    reverse_proxy 127.0.0.1:3001
-  }
-
   handle /_healthcheck {
     reverse_proxy 127.0.0.1:3001
   }

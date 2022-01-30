@@ -13,6 +13,8 @@ export const clientHasBearerToken = (
   const bearerToken: string | null =
     req.headers.authorization?.replace('Bearer ', '') ?? null
 
+  console.log({ bearerToken })
+
   const isAuthorized =
     bearerToken !== null && bearerToken === process.env.API_KEY
 

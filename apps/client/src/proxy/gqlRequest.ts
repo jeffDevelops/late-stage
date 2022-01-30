@@ -10,8 +10,8 @@ export const gqlRequest = <T>(body?: T, headers: HeadersInit = {}): [string, Req
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        Authorization: `Bearer ${env.apiKey}`,
         ...headers,
-        // TODO: authorization header
       },
       body: body ? JSON.stringify(body) : JSON.stringify({}),
     },
