@@ -23,7 +23,7 @@
       "cache": false
     },
     "start": {
-      "dependsOn": ["build"]
+      "dependsOn": ["^build"]
     }
   }
 }
