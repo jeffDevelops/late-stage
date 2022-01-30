@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       script: 'build/src/index.js',
-      name: 'late-stage-api',
+      name: process.env.PROCESS_NAME,
       watch: false,
     },
   ],
