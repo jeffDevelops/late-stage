@@ -15,7 +15,7 @@ export const registerMercurius = async (app: FastifyInstance) => {
     schema,
     path: '/graphql',
     context: (req: FastifyRequest, res: FastifyReply): Context => {
-      clientHasBearerToken(req, res)
+      clientHasBearerToken(req)
 
       return {
         prisma,

@@ -17,6 +17,7 @@
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/lodash": "^4.14.178",
     "@types/set-cookie-parser": "^2.4.2",
+    "@types/validator": "^13.7.1",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "eslint": "^7.32.0",
@@ -39,7 +40,8 @@
     "lodash": "^4.17.21",
     "set-cookie-parser": "^2.4.8",
     "simplemde": "^1.11.2",
-    "svelte-select": "^4.4.7"
+    "svelte-select": "^4.4.7",
+    "validator": "^13.7.0"
   },
   "engines": {
     "node": "16.4.2"

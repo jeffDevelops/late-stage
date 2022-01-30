@@ -132,6 +132,7 @@ importers:
       '@types/isomorphic-fetch': ^0.0.35
       '@types/lodash': ^4.14.178
       '@types/set-cookie-parser': ^2.4.2
+      '@types/validator': ^13.7.1
       '@typescript-eslint/eslint-plugin': ^4.31.1
       '@typescript-eslint/parser': ^4.31.1
       dayjs: ^1.10.7
@@ -151,6 +152,7 @@ importers:
       svelte-select: ^4.4.7
       tslib: ^2.3.1
       typescript: ^4.4.3
+      validator: ^13.7.0
     dependencies:
       '@sveltejs/adapter-node': 1.0.0-next.67
       dayjs: 1.10.7
@@ -160,11 +162,13 @@ importers:
       set-cookie-parser: 2.4.8
       simplemde: 1.11.2
       svelte-select: 4.4.7
+      validator: 13.7.0
     devDependencies:
       '@sveltejs/kit': 1.0.0-next.247_svelte@3.46.3
       '@types/isomorphic-fetch': 0.0.35
       '@types/lodash': 4.14.178
       '@types/set-cookie-parser': 2.4.2
+      '@types/validator': 13.7.1
       '@typescript-eslint/eslint-plugin': 4.33.0_959502c0ea240e86d4d2ba8b8c0fee45
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.5.5
       eslint: 7.32.0

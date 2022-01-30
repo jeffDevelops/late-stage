@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
   import lodash from 'lodash'
+  import isEmail from 'validator/lib/isEmail'
 
   import InfoIcon from '../components/iconography/Info.svelte'
   import VisibilityOnIcon from '../components/iconography/VisibilityOn.svelte'
@@ -27,7 +28,10 @@
   let email = ''
 
   let password = ''
+  let passwordWarning = ''
   let passwordMasked = true
+
+  let honeypot = ''
 
   let loading = false
 
@@ -63,9 +67,15 @@
         return errors
       }
 
-      if (!username.match(/^(?=.{2,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/)) {
+      const unacceptableLeadingAndTrailingCharacters = ['-', '_', '.']
+      const startsWithOrEndsWithUnacceptableCharacter =
+        unacceptableLeadingAndTrailingCharacters.some(
+          (character) => username.startsWith(character) || username.endsWith(character),
+        )
+
+      if (!username.match(/^[a-zA-Z0-9_\.\-]*$/) || startsWithOrEndsWithUnacceptableCharacter) {
         errors.username =
-          'Username must be alphanumeric. Periods and underscores may only be used as separators.'
+          'Username must be alphanumeric. Periods, hyphens, and underscores may only be used as separators.'
         return errors
       }
 
@@ -87,11 +97,7 @@
         return errors
       }
 
-      if (
-        !email.match(
-          /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
-        )
-      ) {
+      if (!isEmail(email)) {
         errors.email = 'Email address format invalid'
         return errors
       }
@@ -115,7 +121,18 @@
       }
 
       errors.password = ''
+      passwordWarning = ''
       return errors
+    })()
+  }
+
+  $: {
+    passwordWarning = (() => {
+      if (password.trim() !== password) {
+        return 'Did you mean to add whitespace to the beginning or end of your password?'
+      }
+
+      return ''
     })()
   }
 
@@ -128,6 +145,16 @@
 
     // Prevent submission if there are any errors
     if (formContainsErrors) return
+
+    if (honeypot) {
+      loading = true
+      return await disableInteractablesWhile(async () => {
+        setTimeout(async () => {
+          loading = false
+          await goto('/verify-email')
+        }, 2000)
+      })
+    }
 
     loading = true
 
@@ -142,8 +169,8 @@
               query: registerUser,
               variables: {
                 userRegistrationInput: {
-                  username,
-                  email,
+                  username: username.trim(),
+                  email: email.trim(),
                   password,
                 },
               },
@@ -211,6 +238,17 @@
         <p in:fade out:fade class="error-message">{errors.email}</p>
       {/if}
 
+      <div class="zip-code">
+        <label for="zip-code">Zip code</label>
+        <input
+          class:disabled={loading}
+          id="zip-code"
+          autocomplete="off"
+          bind:value={honeypot}
+          aria-label="If you are reading this, do not fill this out."
+        />
+      </div>
+
       <label class:disabled={loading} for="register-password">Password</label>
       <div class="flex">
         {#if passwordMasked}
@@ -234,6 +272,10 @@
       </div>
       {#if errors.password && didAttemptSubmit}
         <p in:fade out:fade class="error-message">{errors.password}</p>
+      {/if}
+
+      {#if passwordWarning}
+        <p in:fade out:fade class="password-warning">{passwordWarning}</p>
       {/if}
 
       {#if errors.form}
@@ -296,6 +338,10 @@
     width: 16px;
   }
 
+  :global(.register .secondary svg) {
+    fill: var(--interactive-color);
+  }
+
   :global(.register label svg) {
     margin-bottom: -3px;
     cursor: pointer;
@@ -305,6 +351,21 @@
     width: 100%;
     max-width: 550px;
     margin: 0 auto;
+  }
+
+  .password-warning {
+    color: var(--text-color-subdued);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+  }
+
+  .zip-code {
+    position: absolute;
+    top: 0px;
+    opacity: 0;
+    width: calc(100% - 96px);
   }
 
   button.primary {
@@ -374,10 +435,16 @@
     }
   }
 
+  @media screen and (max-width: 700px) {
+    section {
+      padding: 160px 0px 0;
+    }
+  }
+
   @media screen and (max-width: 600px) {
     section {
       max-width: 400px;
-      padding: 60px 0px 0;
+      padding: 140px 0px 0;
     }
 
     .actions {
