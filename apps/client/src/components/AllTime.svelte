@@ -18,13 +18,13 @@
     createdBy: {
       id: 'Jeff ID',
       email: 'jeff@jeff.com',
-      emailVerified: true,
+      emailIsVerified: true,
       isAdmin: true,
     },
     updatedBy: {
       id: 'Jeff ID',
       email: 'jeff@jeff.com',
-      emailVerified: true,
+      emailIsVerified: true,
       isAdmin: true,
     },
     createdAt: 'created at date',
@@ -49,13 +49,13 @@
     createdBy: {
       id: 'Jeff ID',
       email: 'jeff@jeff.com',
-      emailVerified: true,
+      emailIsVerified: true,
       isAdmin: true,
     },
     updatedBy: {
       id: 'Jeff ID',
       email: 'jeff@jeff.com',
-      emailVerified: true,
+      emailIsVerified: true,
       isAdmin: true,
     },
     createdAt: 'created at date',
@@ -79,13 +79,13 @@
     createdBy: {
       id: 'Jeff ID',
       email: 'jeff@jeff.com',
-      emailVerified: true,
+      emailIsVerified: true,
       isAdmin: true,
     },
     updatedBy: {
       id: 'Jeff ID',
       email: 'jeff@jeff.com',
-      emailVerified: true,
+      emailIsVerified: true,
       isAdmin: true,
     },
     createdAt: 'created at date',
@@ -137,7 +137,7 @@
   <div class="grid">
     <PreviousCampaignCard campaign={exampleBankCampaign} />
     <PreviousCampaignCard campaign={usersCampaign} />
-    <PreviousCampaignCard campaign={subscriptionsCampaign} />
+    <!-- <PreviousCampaignCard campaign={subscriptionsCampaign} /> -->
   </div>
 </section>
 
