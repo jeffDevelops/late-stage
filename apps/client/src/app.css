@@ -4,7 +4,8 @@
   --success-color: #18a999;
   --info-color: #35a7ff;
 
-  --interactive-color: #ff5964;
+  /* --interactive-color: #ff5964; */
+  --interactive-color: #00ff77;
   --interactive-card-color: #ff596415;
 
   --font-display: 'Spartan', sans-serif;
@@ -12,6 +13,7 @@
 
   --border-radius: 8px;
 
+  --app-background: #1d1d1d;
   --app-background: #1d1d1d;
   --card-background: #2a2a2a55;
   --input-background: #3a3a3a88;
