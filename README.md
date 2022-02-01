@@ -8,7 +8,7 @@ Welcome to the public code repository of Late-Stage, an advocacy platform with a
 First and foremost, thank you!
 
 ## I'm technical. Tell me what I need to know.
-- Staging environment (created with pull requests to `main`): https://staging.late-stage.com
+- Staging environment: https://staging.late-stage.com
 - Please fork the repository and make pull requests against the `staging` branch; your changes should be visible in the sandbox when merged to `staging` and the GitHub Action has run
 - Please incorporate at least one test that would fail without your code contribution
 - See "Contributing Code" below
