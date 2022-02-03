@@ -1,0 +1,22 @@
+name: Dev Branch PR
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v1
+      - name: step 1
+        if: github.ref == 'refs/heads/dev' || github.event.pull_request.base.ref == 'dev'
+        run: echo "Hello develop"
+      - name: step 2
+        if: github.event.pull_request.base.ref == 'staging'
+        run: echo "Hello staging"
