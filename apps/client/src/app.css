@@ -1,0 +1,354 @@
+:root {
+  /** Semantic Colors */
+  --error-color: #ff5964;
+  --success-color: #18a999;
+  --info-color: #35a7ff;
+
+  --interactive-color: #ff5964;
+  --interactive-card-color: #ff596415;
+
+  --font-display: 'Spartan', sans-serif;
+  --font-sans: 'Inter', sans-serif;
+
+  --border-radius: 8px;
+
+  --app-background: #1d1d1d;
+  --app-background: #1d1d1d;
+  --card-background: #2a2a2a55;
+  --input-background: #3a3a3a88;
+  --text-color: #fffafc;
+  --text-color-subdued: #fffafc99;
+  --button-text-color: #fffafc;
+}
+
+:root.light-theme {
+  --app-background: #ffffff;
+  --app-background-dark: #ffffff;
+  --card-background: #e4e6ea55;
+  --input-background: #e4e6ea88;
+  --visualization-color: #dee0e288;
+  --text-color: #33221dee;
+  --text-color-subdued: #33221d88;
+}
+
+:root.dark-theme {
+  --app-background: #1d1d1d;
+  --app-background-dark: #121212;
+  --card-background: #2a2a2a55;
+  --input-background: #3a3a3a88;
+  --visualization-color: #3a3a3a;
+  --text-color: #fffafcee;
+  --text-color-subdued: #fffafcaa;
+}
+
+html {
+  font-size: 98%;
+  height: 100%;
+  min-height: 100%;
+}
+
+body,
+body * {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: var(--app-background);
+}
+
+body {
+  width: 100%;
+  height: auto;
+  background-color: var(--app-background);
+}
+
+::selection {
+  background: var(--interactive-color);
+  color: var(--button-text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+pre,
+code,
+label,
+li {
+  color: var(--text-color);
+  font-variant-ligatures: no-common-ligatures;
+}
+
+strong {
+  font-weight: 700;
+  font-size: inherit;
+}
+
+em {
+  font-style: italic;
+  font-size: inherit;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 200;
+  line-height: 1.4em;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: 200;
+  line-height: 1.4em;
+  margin-bottom: 16px;
+  letter-spacing: 0.1em;
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 200;
+  line-height: 1.4em;
+  margin-bottom: 16px;
+}
+
+h4 {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  letter-spacing: 0.1em;
+}
+
+h5 {
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.4em;
+  margin-bottom: 16px;
+  letter-spacing: 0.01em;
+}
+
+p {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.5em;
+  margin-bottom: 16px;
+}
+
+a {
+  font-family: var(--font-sans);
+  color: var(--interactive-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.close-button {
+  border: none;
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.close-button svg {
+  fill: var(--interactive-color);
+  width: 18px;
+  height: 18px;
+}
+
+.info-button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  height: auto;
+  width: auto;
+  padding: 0;
+}
+
+pre {
+  font-family: 'Inconsolata', monospace;
+  line-height: 1.4em;
+  letter-spacing: 0.01em;
+}
+
+code {
+  font-family: 'Inconsolata', monospace;
+  border-radius: 6px;
+  background-color: var(--input-background);
+  color: var(--interactive-color);
+  padding: 0 3px 2px;
+}
+
+li {
+  font-family: var(--font-sans);
+  line-height: 1.5em;
+  font-size: 1rem;
+}
+
+label {
+  display: block;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  line-height: 1.4em;
+  font-size: 0.6rem;
+  font-weight: 700;
+  margin-top: 16px;
+  margin-bottom: 10px;
+  user-select: none;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  height: 40px;
+  border: none;
+  border-radius: var(--border-radius);
+  width: 100%;
+  outline: none;
+  padding: 0 16px;
+  color: var(--text-color);
+  transition: border 0.2s;
+  font-size: 1em;
+  background-color: var(--input-background);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid transparent;
+}
+
+input.disabled,
+textarea.disabled {
+  background-color: transparent;
+  color: var(--text-color-subdued);
+  transition: background-color 0.2s, color 0.2s;
+  cursor: not-allowed;
+}
+
+textarea {
+  padding: 16px;
+}
+
+input:active,
+textarea:active,
+input:focus,
+textarea:focus {
+  border: 1px solid var(--interactive-color);
+  transition: border 0.2s;
+}
+
+button {
+  cursor: pointer;
+  z-index: inherit;
+}
+
+button.primary {
+  background-color: var(--interactive-color);
+  border: 0;
+  border-radius: var(--border-radius);
+  min-height: 40px;
+  color: var(--button-text-color);
+  font-size: 0.9em;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.3em;
+  padding: 8px 24px;
+  text-align: center;
+  min-width: 172px;
+  transition: transform 0.2s;
+  transform: perspective(1000px) translateZ(0px);
+}
+
+button.primary:hover,
+button.primary:focus {
+  transition: transform 0.2s;
+}
+
+button.secondary {
+  border: 1px solid var(--interactive-color);
+  background-color: transparent;
+  border-radius: var(--border-radius);
+  min-height: 40px;
+  color: var(--interactive-color);
+  font-size: 0.9em;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.3em;
+  padding: 8px 24px;
+  text-align: center;
+  min-width: 172px;
+  transition: transform 0.2s;
+  transform: perspective(1000px) translateZ(0px);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+button.primary.disabled,
+button.secondary.disabled,
+a.disabled {
+  transition: filter 0.2s, opacity 0.2s;
+  filter: grayscale(0.5);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button.text {
+  color: var(--interactive-color);
+  background-color: transparent;
+  border: none;
+  font-size: 1em;
+  letter-spacing: 0.01em;
+}
+
+.error-message {
+  font-weight: 400;
+  margin-top: 4px;
+  color: var(--error-color) !important;
+  text-shadow: 1px 1px 1px var(--app-background);
+  font-size: 0.75rem;
+}
+
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 85%;
+  }
+
+  .close-button {
+    padding-top: 2px;
+    padding-left: 6px;
+  }
+}

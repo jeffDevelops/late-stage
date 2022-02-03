@@ -1,0 +1,6 @@
+{
+  "ignore": ["*.test.js", "fixtures/*", "prisma/*", "node_modules/*", ".git"],
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
