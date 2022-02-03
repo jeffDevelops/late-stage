@@ -28,5 +28,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: pnpm build
+      - name: Migrate Dev
+        env:
+          DATABASE_URL: ${{ DATABASE_URL_DEV }}
+      - run: pnpm migrate
+      
+      - name: Test
       - run: pnpm test
+      
+      - name: Build
+      - run: pnpm build
