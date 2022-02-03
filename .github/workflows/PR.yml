@@ -7,28 +7,25 @@ on:
     branches:
       - dev
       - staging
-
+      
 jobs:
-  check_if_dev_branch:
-    runs-on: ubuntu-latest
-    
+  check-if-dev-branch:
     if: github.ref == 'refs/heads/dev' || github.event.pull_request.base.ref == 'dev'
+    runs-on: ubuntu-latest
     steps:
       - name: Check if pull request -> dev
         uses: jeffDevelops/late-stage/.github/workflows/DevPR.yml@dev # <- TODO: Change branch to main
         
-  check_if_staging_branch:
-    runs-on: ubuntu-latest
-    
+  check-if-staging-branch:
     if: github.event.pull_request.base.ref == 'staging'
+    runs-on: ubuntu-latest
     steps:
       - name: Check if pull request -> staging
         run: echo "Running staging branch PR workflow"
       
-  check_if_main_branch:
-    runs-on: ubuntu-latest
-    
+  check-if-main-branch:    
     if: github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
     steps:
       - name: Check if pull request -> main
         run: echo "Running main branch PR workflow"
