@@ -9,20 +9,26 @@ on:
       - staging
 
 jobs:
-  check_branch:
+  check_if_dev_branch:
     runs-on: ubuntu-latest
+    
+    if: github.ref == 'refs/heads/dev' || github.event.pull_request.base.ref == 'dev'
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v1
-        
       - name: Check if pull request -> dev
-        if: github.ref == 'refs/heads/dev' || github.event.pull_request.base.ref == 'dev'
         uses: jeffDevelops/late-stage/.github/workflows/DevPR.yml@dev # <- TODO: Change branch to main
-
-      - name: Check if pull request -> staging
-        if: github.event.pull_request.base.ref == 'staging'
-        run: echo "Running staging branch PR workflow"
         
+  check_if_staging_branch:
+    runs-on: ubuntu-latest
+    
+    if: github.event.pull_request.base.ref == 'staging'
+    steps:
+      - name: Check if pull request -> staging
+        run: echo "Running staging branch PR workflow"
+      
+  check_if_main_branch:
+    runs-on: ubuntu-latest
+    
+    if: github.event.pull_request.base.ref == 'main'
+    steps:
       - name: Check if pull request -> main
-        if: github.event.pull_request.base.ref == 'main'
         run: echo "Running main branch PR workflow"
