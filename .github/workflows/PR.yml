@@ -11,10 +11,7 @@ on:
 jobs:
   check-if-dev-branch:
     if: github.ref == 'refs/heads/dev' || github.event.pull_request.base.ref == 'dev'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check if pull request -> dev
-        uses: jeffDevelops/late-stage/.github/workflows/DevPR.yml@dev # <- TODO: Change branch to main
+    uses: jeffDevelops/late-stage/.github/workflows/DevPR.yml@dev # <- TODO: Change branch to main
         
   check-if-staging-branch:
     if: github.event.pull_request.base.ref == 'staging'
