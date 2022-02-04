@@ -14,11 +14,17 @@ jobs:
     if: github.ref == 'refs/heads/dev' || github.event.pull_request.base.ref == 'dev'
     uses: jeffDevelops/late-stage/.github/workflows/DevPR.yml@dev # <- TODO: Change branch to main
     secrets:
+      # API
       DEV_DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
       DEV_API_KEY: ${{ secrets.DEV_API_KEY }}
       DEV_COOKIE_SECRET: ${{ secrets.DEV_COOKIE_SECRET }}
       DEV_TOKEN_SECRET: ${{ secrets.DEV_TOKEN_SECRET }}
       DEV_SENDGRID_API_KEY: ${{ secrets.DEV_SENDGRID_API_KEY }}
+      # Client
+      DEV_VITE_SVELTEKIT_HOST: ${{ secrets.DEV_VITE_SVELTEKIT_HOST }}
+      DEV_VITE_HOST_ADDRESS: ${{ secrets.DEV_VITE_HOST_ADDRESS }}
+      DEV_API_HOST: ${{ secrets.DEV_API_HOST }}
+      DEV_API_PATH: ${{ secrets.DEV_API_PATH }}
         
   check-if-staging-branch:
     if: github.event.pull_request.base.ref == 'staging'
