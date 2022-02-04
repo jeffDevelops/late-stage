@@ -12,6 +12,14 @@ on:
         required: true
       DEV_SENDGRID_API_KEY:
         required: true
+      DEV_VITE_SVELTEKIT_HOST:
+        required: true
+      DEV_VITE_HOST_ADDRESS:
+        required: true
+      DEV_API_HOST:
+        required: true
+      DEV_API_PATH:
+        required: true
 
 jobs:
   build:
@@ -36,9 +44,8 @@ jobs:
           version: 6.0.2
           run_install: true
 
-      - name: Create api env file
+      - name: Create api .env file
         run: |
-          ls -la
           cd apps/api
           touch .env
 
@@ -51,6 +58,23 @@ jobs:
           echo SENDGRID_API_KEY=${{ secrets.DEV_SENDGRID_API_KEY }} >> .env
           echo PORT=3001 >> .env
 
+          cat .env
+          cd ../../
+          
+      - name: Create client .env file
+        run: |
+          ls -la
+          cd apps/client
+          touch .env
+          
+          echo VITE_SVELTEKIT_HOST=${{ secrets.DEV_VITE_SVELTEKIT_HOST }} >> .env
+          echo VITE_HOST_ADDRESS=${{ secrets.DEV_VITE_HOST_ADDRESS }} >> .env
+          echo API_KEY=${{ secrets.DEV_API_KEY }} >> .env
+          echo API_HOST=${{ secrets.API_HOST }} >> .env
+          echo API_PATH=${{ secrets.API_PATH }} >> .env
+          echo NODE_ENV=test >> .env
+          echo PORT=3000 >> .env
+          
           cat .env
           cd ../../
 
