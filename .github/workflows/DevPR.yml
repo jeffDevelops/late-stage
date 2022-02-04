@@ -1,5 +1,9 @@
 name: Dev Branch PR
-on: workflow_call
+on: 
+  workflow_call:
+    secrets:
+      DEV_DATABASE_URL:
+        required: true
 
 jobs:
   build:
@@ -30,7 +34,7 @@ jobs:
           cd apps/api
           touch .env
           
-          echo DATABASE_URL=${{ env.DEV_DATABASE_URL }} >> .env
+          echo DATABASE_URL=${{ secrets.DEV_DATABASE_URL }} >> .env
           echo CORS_ORIGIN=https://ls.localhost >> .env
           echo API_KEY=${{ env.DEV_API_KEY }} >> .env
           echo TOKEN_SECRET=${{ env.DEV_TOKEN_SECRET }} >> .env
