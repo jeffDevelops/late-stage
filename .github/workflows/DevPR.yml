@@ -1,5 +1,5 @@
 name: Dev Branch PR
-on: 
+on:
   workflow_call:
     secrets:
       DEV_DATABASE_URL:
@@ -27,13 +27,13 @@ jobs:
         with:
           version: 6.0.2
           run_install: true
-          
+
       - name: Create api env file
         run: |
           ls -la
           cd apps/api
           touch .env
-          
+
           echo DATABASE_URL=${{ secrets.DEV_DATABASE_URL }} >> .env
           echo CORS_ORIGIN=https://ls.localhost >> .env
           echo API_KEY=${{ env.DEV_API_KEY }} >> .env
@@ -42,10 +42,10 @@ jobs:
           echo NODE_ENV=test >> .env
           echo SENDGRID_API_KEY=${{ env.DEV_SENDGRID_API_KEY }} >> .env
           echo PORT=3001 >> .env
-          
+
           cat .env
           cd ../../
-          
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -53,5 +53,5 @@ jobs:
         env:
           DATABASE_URL: $DATABASE_URL
       - run: pnpm migrate
-      - run: pnpm test
+      - run: pnpm test:ci
       - run: pnpm build
