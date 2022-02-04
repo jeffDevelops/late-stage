@@ -2,7 +2,15 @@ name: Dev Branch PR
 on:
   workflow_call:
     secrets:
-      DEV_DATABASE_URL:
+      DATABASE_URL:
+        required: true
+      API_KEY:
+        required: true
+      TOKEN_SECRET:
+        required: true
+      COOKIE_SECRET:
+        required: true
+      SENDGRID_API_KEY:
         required: true
 
 jobs:
