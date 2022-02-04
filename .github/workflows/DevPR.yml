@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Create api env file
         run: |
+          ls -la
           cd apps/api
           touch .env
           
