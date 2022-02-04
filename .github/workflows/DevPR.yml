@@ -44,11 +44,11 @@ jobs:
 
           echo DATABASE_URL=${{ secrets.DEV_DATABASE_URL }} >> .env
           echo CORS_ORIGIN=https://ls.localhost >> .env
-          echo API_KEY=${{ env.DEV_API_KEY }} >> .env
-          echo TOKEN_SECRET=${{ env.DEV_TOKEN_SECRET }} >> .env
-          echo COOKIE_SECRET=${{ env.DEV_COOKIE_SECRET }} >> .env
+          echo API_KEY=${{ secrets.DEV_API_KEY }} >> .env
+          echo TOKEN_SECRET=${{ secrets.DEV_TOKEN_SECRET }} >> .env
+          echo COOKIE_SECRET=${{ secrets.DEV_COOKIE_SECRET }} >> .env
           echo NODE_ENV=test >> .env
-          echo SENDGRID_API_KEY=${{ env.DEV_SENDGRID_API_KEY }} >> .env
+          echo SENDGRID_API_KEY=${{ secrets.DEV_SENDGRID_API_KEY }} >> .env
           echo PORT=3001 >> .env
 
           cat .env
