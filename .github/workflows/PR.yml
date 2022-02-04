@@ -15,6 +15,10 @@ jobs:
     uses: jeffDevelops/late-stage/.github/workflows/DevPR.yml@dev # <- TODO: Change branch to main
     secrets:
       DEV_DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
+      DEV_API_KEY: ${{ secrets.DEV_API_KEY }}
+      DEV_COOKIE_SECRET: ${{ secrets.DEV_COOKIE_SECRET }}
+      DEV_TOKEN_SECRET: ${{ secrets.DEV_TOKEN_SECRET }}
+      DEV_SENDGRID_API_KEY: ${{ secrets.DEV_SENDGRID_API_KEY }}
         
   check-if-staging-branch:
     if: github.event.pull_request.base.ref == 'staging'
