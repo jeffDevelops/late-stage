@@ -7,7 +7,8 @@ on:
     branches:
       - dev
       - staging
-      
+  workflow_dispatch:
+  
 jobs:
   check-if-dev-branch:
     if: github.ref == 'refs/heads/dev' || github.event.pull_request.base.ref == 'dev'
