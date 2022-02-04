@@ -50,22 +50,62 @@ The site uses `__Host-`prefixed `HTTPOnly` cookies for authentication between tw
 ## Configure local environment variables
 - A `.env` file must exist at the root of both services (`api` and `client`). An `.env.example` has been provided for each to indicate how those variables should be set.
 
-## I need to make database schema changes
-- Make any changes to the Prisma schema file
-- From the /apps/api directory, run `pnpm migrate:dev -- <the name of my migration>`
-- Prisma will automatically migrate your local database to reflect the new changes *as faithfully as it can*. 
-- If it can't fulfill your schema changes without data loss, it'll offer the options of completely resetting the database (no), or modifying the migration(s) it created to fill in any missing data.
+## Workflow
+Note: the majority of the pnpm commands listed here are mapped in the `turbo.json` and may be run from the root of the repo, except where noted.
+
+Create new branches with `dev` as the source:
+```
+git checkout dev
+git pull origin dev
+git checkout -b <new-branch-name-here>
+```
+
+Install dependencies (in all subdirectories):
+```
+pnpm install
+```
+
+Reset your local database, run migrations, and restore from a dump of the remote db:
+```
+pnpm branch
+```
+
+To make changes to the database schema:
+```
+# From /apps/api
+
+pnpm migrate:dev -- <name of my migration here>
+```
 
 ## Testing
 Stay tuned for client-side tests and E2E tests! Getting set up here is a bit of a challenge with the newness of Svelte and my flat-out refusal to use Facebook tech.
 
-Server-side integration tests are quite extensive. You can run `pnpm test` to run the entire suite, or `FILE=<your path here> pnpm test:file` to isolate test files. Either way, the API process is spawned with `NODE_ENV=test` concurrently with the test suite. This integration test mechanism provides assurance in the fact that tests are run against the actual app (with several test environment limitations), as opposed to against stubbed Fastify instances.
+Server-side integration tests are quite extensive. You can run 
+```
+# From /apps/api
+
+pnpm test
+```
+
+to run the entire suite, or 
+```
+# From /apps/api
+
+FILE=<your path here> pnpm test:file
+```
+to isolate test files. 
+
+Either way, the API process is spawned with `NODE_ENV=test` concurrently with the test suite. This integration test mechanism provides assurance in the fact that tests are run against the actual app (with several test environment limitations), as opposed to against stubbed Fastify instances.
 
 When you're testing with this methodology, you're likely to write assertions against query or mutation responses, or ensuring the presence, absence, or mutation of certain database artifacts. You likely won't have luck in making unit test sorts of assertions, like whether certain functions were called with certain arguments, because the test suite and app are running on separate processes.
 
 You're welcome to start incorporating unit tests, but it's likely to require some additional groundwork to get stubbing and mocking set up extensibly.
 
 ## A note on conscientious dependency management
-This is a platform that is very much against the various institutions for extracting wealth from the working class, and I believe such dark patterns exist within the open source contributions of large tech companies. When large tech companies popularize the open-source technologies they create, they create anticompetitive skills monopolies. Facebook has created an army of React developers perfectly equipped for their recruitment needs; additionally, thousands of companies depend on Meta to continuously maintain foundational software for their businesses to run.
+This is a platform that is very much against the various institutions for extracting wealth from the working class, and I believe such dark patterns exist within the open source contributions of large tech companies.
 
-The reality of Node.js' ecosystem being an utterly massive tree of dependencies and the reality that big tech pioneers software development practices forces Late-Stage to draw a line somewhere: we can't write code down to the metal to skirt around utilizing code written by big tech, because, quite frankly, I don't know how, and we'd never get anything done. Currently, the line in the sand applies to direct dependencies and runnable code: SvelteKit instead of React, `uvu` instead of `jest`, Digital Ocean instead of AWS. Sure, GraphQL was a spec written by Facebook, but it's a treasured alternative to REST, it's merely a spec, and the libraries we're installing to implement that spec aren't Meta-maintained.
+When large tech companies popularize the open-source technologies they create, they create anticompetitive skills monopolies. Facebook has created an army of React developers perfectly equipped for their recruitment needs; additionally, thousands of companies depend on Meta to continuously maintain foundational software for their businesses to run.
+
+The reality of Node.js' ecosystem being an utterly massive tree of dependencies and the reality that big tech pioneers software development practices forces Late-Stage to draw a line somewhere: we can't write code down to the metal to skirt around utilizing code written by big tech, because, quite frankly, I don't know how, and we'd never get anything done.
+
+Currently, the line in the sand applies to direct dependencies and runnable code: SvelteKit instead of React, `uvu` instead of `jest`, Digital Ocean instead of AWS. Sure, GraphQL was a spec written by Facebook, but it's a treasured alternative to REST, it's merely a spec, and the libraries we're installing to implement that spec aren't Meta-maintained.

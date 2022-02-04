@@ -1,6 +1,7 @@
 {
   "baseBranch": "origin/main",
   "pipeline": {
+    "db:reset": {},
     "migrate": {
       "outputs": ["node_modules/@generated/type-graphql"]
     },

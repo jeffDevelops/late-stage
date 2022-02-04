@@ -38,6 +38,7 @@ importers:
       concurrently: ^7.0.0
       dayjs: ^1.10.7
       dotenv: ^10.0.0
+      dotenv-cli: ^4.1.1
       fastify: ^3.25.0
       fastify-cookie: ^5.5.0
       fastify-cors: ^6.0.2
@@ -110,6 +111,7 @@ importers:
       '@types/ws': 8.2.2
       c8: 7.11.0
       concurrently: 7.0.0
+      dotenv-cli: 4.1.1
       forever: 4.0.2
       graphql-fields: 2.0.3
       isomorphic-fetch: 3.0.0
@@ -2306,11 +2308,9 @@ packages:
       dotenv: 8.6.0
       dotenv-expand: 5.1.0
       minimist: 1.2.5
-    dev: false
 
   /dotenv-expand/5.1.0:
     resolution: {integrity: sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==}
-    dev: false
 
   /dotenv/10.0.0:
     resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
@@ -2325,7 +2325,6 @@ packages:
   /dotenv/8.6.0:
     resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
     engines: {node: '>=10'}
-    dev: false
 
   /duplexer/0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}

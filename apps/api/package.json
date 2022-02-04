@@ -2,10 +2,12 @@
   "name": "api",
   "type": "commonjs",
   "scripts": {
+    "branch": "npm run migrate:reset && npm run migrate:restore",
+    "migrate:reset": "npx prisma migrate reset",
+    "migrate:restore": "chmod +x ./database/scripts/restore.sh && dotenv -e .env ./database/scripts/restore.sh",
     "migrate:dev": "npx prisma migrate dev --name",
     "migrate:deploy": "npx prisma migrate deploy",
     "generate": "npx prisma generate",
-    "migrate": "npm run generate && npm run migrate:deploy",
     "build": "tsc --project ./tsconfig.json",
     "dev": "NODE_ENV=development ./node_modules/.bin/nodemon -L --exec npm run dev:process -e ts,json,js",
     "dev:process": "ts-node ./src/index.ts",
