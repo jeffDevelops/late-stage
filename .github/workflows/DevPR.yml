@@ -70,8 +70,8 @@ jobs:
           echo VITE_SVELTEKIT_HOST=${{ secrets.DEV_VITE_SVELTEKIT_HOST }} >> .env
           echo VITE_HOST_ADDRESS=${{ secrets.DEV_VITE_HOST_ADDRESS }} >> .env
           echo API_KEY=${{ secrets.DEV_API_KEY }} >> .env
-          echo API_HOST=${{ secrets.API_HOST }} >> .env
-          echo API_PATH=${{ secrets.API_PATH }} >> .env
+          echo API_HOST=${{ secrets.DEV_API_HOST }} >> .env
+          echo API_PATH=${{ secrets.DEV_API_PATH }} >> .env
           echo NODE_ENV=test >> .env
           echo PORT=3000 >> .env
           
