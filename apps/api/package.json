@@ -15,9 +15,9 @@
     "test": "VERBOSE=true nodemon -L --exec npm run spawn:api:test:all -e ts,json,js",
     "test:ci": "npm run spawn:api:test:all",
     "test:file": "NODE_ENV=test nodemon -e ts,json,js -L --exec npm run spawn:api:test:file",
-    "spawn:api:test:file": "concurrently --names \"api,test\" --prefix-colors \"#ff5964,#fffafc\" \"NODE_ENV=test TEST_PORT=3002 npm run start\" \"npm run wait-on:api && TEST_PORT=3002 NODE_ENV=test VERBOSE=true ts-node --transpile-only $FILE\"",
+    "spawn:api:test:file": "concurrently --names \"api,test\" --prefix-colors \"#ff5964,#fffafc\" \"NODE_ENV=test TEST_PORT=3002 npm run dev:process\" \"npm run wait-on:api && TEST_PORT=3002 NODE_ENV=test VERBOSE=true ts-node --transpile-only $FILE\"",
     "test:all": "./node_modules/.bin/uvu -r ts-node/register",
-    "spawn:api:test:all": "concurrently --names \"api,tests\" --prefix-colors \"#ff5964,#fffafc\" \"NODE_ENV=test TEST_PORT=3002 npm run start\" \"npm run wait-on:api && TEST_PORT=3002 NODE_ENV=test npm run test:all\"",
+    "spawn:api:test:all": "concurrently --names \"api,tests\" --prefix-colors \"#ff5964,#fffafc\" \"NODE_ENV=test TEST_PORT=3002 npm run dev:process\" \"npm run wait-on:api && TEST_PORT=3002 NODE_ENV=test npm run test:all\"",
     "test:coverage": "c8 --include src --exclude=api/test-utils/authenticate npm run test:ci",
     "test:report": "c8 report --reporter=text-lcov > coverage.lcov"
   },
