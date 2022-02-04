@@ -4,6 +4,11 @@
     "migrate": {
       "outputs": ["node_modules/@generated/type-graphql"]
     },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "command": "pnpm test"
+    },
     "test:ci": {
       "dependsOn": ["^build"],
       "outputs": [],
