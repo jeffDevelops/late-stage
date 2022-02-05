@@ -3,7 +3,7 @@
   "type": "commonjs",
   "scripts": {
     "branch": "npm run migrate:reset && npm run migrate:restore",
-    "migrate:reset": "npx prisma migrate reset",
+    "migrate:reset": "npx prisma migrate reset --force",
     "migrate:restore": "chmod +x ./database/scripts/restore.sh && dotenv -e .env ./database/scripts/restore.sh",
     "migrate:dev": "npx prisma migrate dev --name",
     "migrate:deploy": "npx prisma migrate deploy",
