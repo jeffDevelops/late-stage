@@ -1,6 +1,7 @@
 #!/bin/bash
 echo Restoring from $STAGING_DATABASE_URL
 echo to $DATABASE_URL
+echo $PGPASSWORD
 
 
 # Ensure there aren't active connections (psql will error if there are)
