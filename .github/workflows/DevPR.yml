@@ -85,8 +85,20 @@ jobs:
         env:
           DATABASE_URL: $DATABASE_URL
 
+      # Install
       - run: pnpm install --no-frozen-lockfile
+
+      # Reset & Restore Dev DB
+      - run: pnpm branch
+
+      # Run new migrations
       - run: pnpm migrate:deploy
+
+      # Generate TS
       - run: pnpm generate
+
+      # Tests
       - run: pnpm test:ci
+
+      # Build smoke-test
       - run: pnpm build

@@ -4,6 +4,7 @@
     "apps/*"
   ],
   "scripts": {
+    "branch": "turbo run branch",
     "db:reset": "turbo run db:reset",
     "migrate:deploy": "turbo run migrate:deploy",
     "build": "turbo run build",

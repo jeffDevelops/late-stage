@@ -2,6 +2,7 @@
 echo Restoring from $STAGING_DATABASE_URL
 echo to $DATABASE_URL
 
+
 # Ensure there aren't active connections (psql will error if there are)
 connections=$(psql $DATABASE_URL -t -c "SELECT COUNT(*) FROM pg_stat_activity WHERE datname = 'late_stage' AND state = 'idle';")
 
@@ -20,4 +21,8 @@ pg_dump $STAGING_DATABASE_URL \
    --no-tablespaces \
    --no-unlogged-table-data \
    --clean \
-   | psql --dbname late_stage
+   | psql \
+      -h $DATABASE_HOST \
+      -U $DATABASE_USER \
+      --dbname $DATABASE_NAME \
+      -p $DATABASE_PORT
