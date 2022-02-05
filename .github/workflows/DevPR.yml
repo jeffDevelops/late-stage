@@ -37,6 +37,18 @@ jobs:
           touch .env
 
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env
+          echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
+          echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
+          echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
+          echo DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
+
+          # Staging Database
+          echo STAGING_DATABASE_USER=${{ secrets.STAGING_DATABASE_USER }} >> .env
+          echo STAGING_DATABASE_PASSWORD=${{ secrets.STAGING_DATABASE_PASSWORD }} >> .env
+          echo STAGING_DATABASE_HOST=${{ secrets.STAGING_DATABASE_HOST }} >> .env
+          echo STAGING_DATABASE_PORT=${{ secrets.STAGING_DATABASE_PORT }} >> .env
+          echo STAGING_DATABASE_NAME=${{ secrets.STAGING_DATABASE_NAME }} >> .env
           echo CORS_ORIGIN=https://ls.localhost >> .env
           echo API_KEY=${{ secrets.API_KEY }} >> .env
           echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
