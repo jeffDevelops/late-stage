@@ -128,7 +128,6 @@
         )
 
         const deserialized = await currentUserResponse.json()
-        console.log({ deserialized })
 
         session.update((previous) => ({ ...previous, user: deserialized }))
 
@@ -148,8 +147,6 @@
         return false
       }
     })
-
-    console.log({ success })
 
     if (success) {
       await goto($navigationStatePriorToLogin?.url ?? '/')

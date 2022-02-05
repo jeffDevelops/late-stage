@@ -188,9 +188,6 @@ async function makeRequest<Body extends Record<string, unknown>>(body: Body, hea
   const response = await fetch(...gqlRequest(body, headers))
   const deserialized = await response.json()
 
-  console.log({ response, deserialized })
-  console.log(deserialized?.errors)
-
   return {
     response,
     deserialized,
