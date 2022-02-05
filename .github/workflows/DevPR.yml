@@ -1,47 +1,12 @@
 name: Dev Branch PR
 on:
-  workflow_call:
-    secrets:
-      DATABASE_URL:
-        required: true
-      STAGING_DATABASE_URL:
-        required: true
-      DATABASE_USER:
-        required: true
-      DATABASE_PASSWORD:
-        required: true
-      DATABASE_HOST:
-        required: true
-      DATABASE_PORT:
-        required: true
-      DATABASE_NAME:
-        required: true
-      STAGING_DATABASE_USER:
-        required: true
-      STAGING_DATABASE_PASSWORD:
-        required: true
-      STAGING_DATABASE_HOST:
-        required: true
-      STAGING_DATABASE_PORT:
-        required: true
-      STAGING_DATABASE_NAME:
-        required: true
-      API_KEY:
-        required: true
-      TOKEN_SECRET:
-        required: true
-      COOKIE_SECRET:
-        required: true
-      SENDGRID_API_KEY:
-        required: true
-      VITE_SVELTEKIT_HOST:
-        required: true
-      VITE_HOST_ADDRESS:
-        required: true
-      API_HOST:
-        required: true
-      API_PATH:
-        required: true
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+  workflow_dispatch:
 
 jobs:
   build:
