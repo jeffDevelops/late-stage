@@ -36,8 +36,10 @@ jobs:
           --health-retries 5
     
     steps:
-      - name: Install pg_dump
-        run: apt-get install postgresql-client
+      - name: Install psql
+      - run: |
+          apt-get update
+          apt-get install --yes --no-install-recommends postgresql-client
         
       - name: DEBUG
         run: |
