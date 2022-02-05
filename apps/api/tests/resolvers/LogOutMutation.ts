@@ -45,8 +45,6 @@ test('LogOutMutation succeeds if user logged in', async () => {
   const authResponse = await authenticateUser(undefined, false)
   const refreshCookie = authResponse.headers.get('set-cookie')
 
-  console.log({ refreshCookie })
-
   /**
    * Furnish an access cookie for log out to work.
    */
