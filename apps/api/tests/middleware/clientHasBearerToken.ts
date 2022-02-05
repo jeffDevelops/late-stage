@@ -1,8 +1,7 @@
 import { test } from 'uvu'
 import * as assert from 'uvu/assert'
 import { request } from '../../test-utils/gqlRequest'
-
-const EMAIL = 'test@automatedtest.com'
+import { queryTestUser, EMAIL } from '../../test-utils/authenticate/setup'
 
 const QUERY = `
 query UserWhere($userWhereUniqueInput: UserWhereUniqueInput!) {
@@ -71,9 +70,6 @@ test('clientHasBearerToken authorizes clients that DO send Authorization header'
   )
 
   assert.equal(response.errors, undefined)
-  assert.equal(response.data, {
-    user: null,
-  })
 })
 
 test.run()
