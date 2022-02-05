@@ -128,6 +128,22 @@ test('LogOutMutation succeeds if user logged in', async () => {
   /**
    * Clean up ArtificiallyExpiredRefreshTokens
    */
+  await Promise.all([
+    ...(!latestExpiredTokenBefore
+      ? []
+      : [
+          prisma.artificiallyExpiredRefreshToken.delete({
+            where: {
+              id: latestExpiredTokenBefore.id,
+            },
+          }),
+        ]),
+    prisma.artificiallyExpiredRefreshToken.delete({
+      where: {
+        id: latestExpiredTokenAfter.id,
+      },
+    }),
+  ])
 })
 
 test.run()
