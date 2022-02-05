@@ -45,6 +45,8 @@ test('LogOutMutation succeeds if user logged in', async () => {
   const authResponse = await authenticateUser(undefined, false)
   const refreshCookie = authResponse.headers.get('set-cookie')
 
+  console.log({ refreshCookie })
+
   /**
    * Furnish an access cookie for log out to work.
    */
@@ -57,7 +59,9 @@ test('LogOutMutation succeeds if user logged in', async () => {
   )
 
   const refreshResponse1 = await request(refreshInit, false)
+  console.log({ refreshResponse1 })
   const accessCookie = refreshResponse1.headers.get('set-cookie')
+  console.log({ accessCookie })
 
   /**
    * Get the latest expired refresh token.
