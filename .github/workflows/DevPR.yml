@@ -60,13 +60,13 @@ jobs:
 
           cat .env
           cd ../../
-          
+
       - name: Create client .env file
         run: |
           ls -la
           cd apps/client
           touch .env
-          
+
           echo VITE_SVELTEKIT_HOST=${{ secrets.DEV_VITE_SVELTEKIT_HOST }} >> .env
           echo VITE_HOST_ADDRESS=${{ secrets.DEV_VITE_HOST_ADDRESS }} >> .env
           echo API_KEY=${{ secrets.DEV_API_KEY }} >> .env
@@ -74,7 +74,7 @@ jobs:
           echo API_PATH=${{ secrets.DEV_API_PATH }} >> .env
           echo NODE_ENV=test >> .env
           echo PORT=3000 >> .env
-          
+
           cat .env
           cd ../../
 
@@ -85,7 +85,7 @@ jobs:
         env:
           DATABASE_URL: $DATABASE_URL
 
-      - run: pnpm install
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm migrate:deploy
       - run: pnpm generate
       - run: pnpm test:ci
