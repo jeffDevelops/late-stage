@@ -2,6 +2,7 @@
   "baseBranch": "origin/main",
   "pipeline": {
     "branch": {},
+    "migrate:reset": {},
     "migrate:deploy": {
       "outputs": ["node_modules/@generated/type-graphql"]
     },
