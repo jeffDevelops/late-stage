@@ -42,7 +42,7 @@ jobs:
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.0.2
-          run_install: true
+          run_install: false
 
       - name: Create api .env file
         run: |
@@ -85,6 +85,7 @@ jobs:
         env:
           DATABASE_URL: $DATABASE_URL
 
+      - run: pnpm install
       - run: pnpm migrate:deploy
       - run: pnpm generate
       - run: pnpm test:ci
