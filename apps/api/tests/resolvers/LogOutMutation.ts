@@ -103,6 +103,8 @@ test('LogOutMutation succeeds if user logged in', async () => {
       take: 1,
     })
 
+  console.log({ latestExpiredTokenBefore, latestExpiredTokenAfter })
+
   assert.is(
     dayjs(latestExpiredTokenBefore.actualExpiration).isBefore(
       dayjs(latestExpiredTokenAfter.actualExpiration),
