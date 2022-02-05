@@ -1,10 +1,11 @@
 {
   "baseBranch": "origin/main",
   "pipeline": {
-    "db:reset": {},
-    "migrate": {
+    "branch": {},
+    "migrate:deploy": {
       "outputs": ["node_modules/@generated/type-graphql"]
     },
+    "generate": {},
     "test": {
       "dependsOn": ["^build"],
       "outputs": [],

@@ -52,6 +52,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
         env:
           DATABASE_URL: $DATABASE_URL
-      - run: pnpm migrate
+
+      - run: pnpm migrate:deploy
+      - run: pnpm generate
       - run: pnpm test:ci
       - run: pnpm build
