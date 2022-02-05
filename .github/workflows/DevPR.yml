@@ -91,9 +91,6 @@ jobs:
       # Reset DB and Run Migrations
       - run: pnpm migrate:reset
 
-      # Generate TS
-      - run: pnpm generate
-
       # Tests
       - run: pnpm test:ci
 
