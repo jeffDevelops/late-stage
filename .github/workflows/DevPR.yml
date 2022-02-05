@@ -2,23 +2,45 @@ name: Dev Branch PR
 on:
   workflow_call:
     secrets:
-      DEV_DATABASE_URL:
+      DATABASE_URL:
         required: true
-      DEV_API_KEY:
+      STAGING_DATABASE_URL:
         required: true
-      DEV_TOKEN_SECRET:
+      DATABASE_USER:
         required: true
-      DEV_COOKIE_SECRET:
+      DATABASE_PASSWORD:
         required: true
-      DEV_SENDGRID_API_KEY:
+      DATABASE_HOST:
         required: true
-      DEV_VITE_SVELTEKIT_HOST:
+      DATABASE_PORT:
         required: true
-      DEV_VITE_HOST_ADDRESS:
+      DATABASE_NAME:
         required: true
-      DEV_API_HOST:
+      STAGING_DATABASE_USER:
         required: true
-      DEV_API_PATH:
+      STAGING_DATABASE_PASSWORD:
+        required: true
+      STAGING_DATABASE_HOST:
+        required: true
+      STAGING_DATABASE_PORT:
+        required: true
+      STAGING_DATABASE_NAME:
+        required: true
+      API_KEY:
+        required: true
+      TOKEN_SECRET:
+        required: true
+      COOKIE_SECRET:
+        required: true
+      SENDGRID_API_KEY:
+        required: true
+      VITE_SVELTEKIT_HOST:
+        required: true
+      VITE_HOST_ADDRESS:
+        required: true
+      API_HOST:
+        required: true
+      API_PATH:
         required: true
 
 jobs:
@@ -49,13 +71,13 @@ jobs:
           cd apps/api
           touch .env
 
-          echo DATABASE_URL=${{ secrets.DEV_DATABASE_URL }} >> .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
           echo CORS_ORIGIN=https://ls.localhost >> .env
-          echo API_KEY=${{ secrets.DEV_API_KEY }} >> .env
-          echo TOKEN_SECRET=${{ secrets.DEV_TOKEN_SECRET }} >> .env
-          echo COOKIE_SECRET=${{ secrets.DEV_COOKIE_SECRET }} >> .env
+          echo API_KEY=${{ secrets.API_KEY }} >> .env
+          echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
+          echo COOKIE_SECRET=${{ secrets.COOKIE_SECRET }} >> .env
           echo NODE_ENV=test >> .env
-          echo SENDGRID_API_KEY=${{ secrets.DEV_SENDGRID_API_KEY }} >> .env
+          echo SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} >> .env
           echo PORT=3001 >> .env
 
           cat .env
@@ -67,11 +89,11 @@ jobs:
           cd apps/client
           touch .env
 
-          echo VITE_SVELTEKIT_HOST=${{ secrets.DEV_VITE_SVELTEKIT_HOST }} >> .env
-          echo VITE_HOST_ADDRESS=${{ secrets.DEV_VITE_HOST_ADDRESS }} >> .env
-          echo API_KEY=${{ secrets.DEV_API_KEY }} >> .env
-          echo API_HOST=${{ secrets.DEV_API_HOST }} >> .env
-          echo API_PATH=${{ secrets.DEV_API_PATH }} >> .env
+          echo VITE_SVELTEKIT_HOST=${{ secrets.VITE_SVELTEKIT_HOST }} >> .env
+          echo VITE_HOST_ADDRESS=${{ secrets.VITE_HOST_ADDRESS }} >> .env
+          echo API_KEY=${{ secrets.API_KEY }} >> .env
+          echo API_HOST=${{ secrets.API_HOST }} >> .env
+          echo API_PATH=${{ secrets.API_PATH }} >> .env
           echo NODE_ENV=test >> .env
           echo PORT=3000 >> .env
 
@@ -89,7 +111,7 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
 
       # Reset & Restore Dev DB
-      - run: pnpm branch
+      - run: pnpm branch -- --force
 
       # Run new migrations
       - run: pnpm migrate:deploy
