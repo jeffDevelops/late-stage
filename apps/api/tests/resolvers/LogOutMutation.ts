@@ -59,12 +59,10 @@ test('LogOutMutation succeeds if user logged in', async () => {
   )
 
   const refreshResponse1 = await request(refreshInit, false)
-  console.log({ refreshResponse1 })
   const accessCookie = refreshResponse1.headers.get('set-cookie')
-  console.log({ accessCookie })
 
   /**
-   * Get the latest expired refresh token.
+   * Get the latest expired refresh token before log out is called.
    */
   const [latestExpiredTokenBefore] =
     await prisma.artificiallyExpiredRefreshToken.findMany({
@@ -86,6 +84,8 @@ test('LogOutMutation succeeds if user logged in', async () => {
   )
   const response = await request(logoutInit)
 
+  const currentTime = dayjs()
+
   assert.is(response.data.logOut, true)
 
   /**
@@ -103,14 +103,31 @@ test('LogOutMutation succeeds if user logged in', async () => {
       take: 1,
     })
 
-  console.log({ latestExpiredTokenBefore, latestExpiredTokenAfter })
+  /**
+   * If there ISN'T an old one, ensure that the latest one is newer than the date
+   * snapshotted before the test's logout was called.
+   */
+  if (!latestExpiredTokenBefore) {
+    assert.is(
+      currentTime.isBefore(dayjs(latestExpiredTokenAfter.actualExpiration)),
+      true,
+    )
+    /**
+     * Otherwise, ensure that the latest one is newer than the latest one
+     * snapshotted before the test's logout was called.
+     */
+  } else {
+    assert.is(
+      dayjs(latestExpiredTokenBefore.actualExpiration).isBefore(
+        dayjs(latestExpiredTokenAfter.actualExpiration),
+      ),
+      true,
+    )
+  }
 
-  assert.is(
-    dayjs(latestExpiredTokenBefore.actualExpiration).isBefore(
-      dayjs(latestExpiredTokenAfter.actualExpiration),
-    ),
-    true,
-  )
+  /**
+   * Clean up ArtificiallyExpiredRefreshTokens
+   */
 })
 
 test.run()
