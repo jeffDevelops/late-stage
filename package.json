@@ -7,6 +7,7 @@
     "branch": "turbo run branch",
     "migrate:reset": "turbo run migrate:reset",
     "migrate:deploy": "turbo run migrate:deploy",
+    "generate": "turbo run generate",
     "build": "turbo run build",
     "dev": "concurrently --names \"caddy,turborepo\" --prefix-colors \"#ff5964,#fffafc\" \"caddy run\" \"wait-on tcp:2019 && turbo run dev --no-cache --parallel --continue\"",
     "start": "turbo run start --parallel",

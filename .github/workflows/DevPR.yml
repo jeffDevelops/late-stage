@@ -88,11 +88,8 @@ jobs:
       # Install
       - run: pnpm install --no-frozen-lockfile
 
-      # Reset DB
+      # Reset DB and Run Migrations
       - run: pnpm migrate:reset
-
-      # Run new migrations
-      - run: pnpm migrate:deploy
 
       # Generate TS
       - run: pnpm generate
