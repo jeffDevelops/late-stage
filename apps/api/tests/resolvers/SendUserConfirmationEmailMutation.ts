@@ -84,7 +84,8 @@ test('SendUserConfirmationEmailMutation fails if the user has already verified t
     },
   })
 
-  await request(verifyEmailRequestInit)
+  const verifyResponse = await request(verifyEmailRequestInit)
+  console.log({ verifyResponse })
 
   const secondTry = await makeRequest()
 
