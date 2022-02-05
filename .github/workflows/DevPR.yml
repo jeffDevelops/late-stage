@@ -88,7 +88,7 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
 
       # Reset & Restore Dev DB
-      - run: pnpm branch -- --force
+      - run: pnpm branch
 
       # Run new migrations
       - run: pnpm migrate:deploy
