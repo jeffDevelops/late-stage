@@ -37,7 +37,7 @@ jobs:
     
     steps:
       - name: Install pg_dump
-        run: sudo apt-get install postgresql-client
+        run: apt-get install postgresql-client
         
       - name: DEBUG
         run: |
