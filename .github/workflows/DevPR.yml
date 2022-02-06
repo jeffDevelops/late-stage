@@ -108,7 +108,7 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
       
       # Create DB
-      - run: psql -c 'CREATE DATABASE late_stage IF NOT EXISTS;'
+      - run: psql -h postgres -U postgres -c 'CREATE DATABASE late_stage IF NOT EXISTS;'
 
       # Reset DB and Run Migrations
       - run: pnpm migrate:reset
