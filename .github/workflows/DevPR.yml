@@ -15,6 +15,25 @@ jobs:
       matrix:
         node-version: [16.x] # 16.13.2
     environment: dev
+    
+    # Docker Hub image that `container-job` executes in
+    container: node:10.18-jessie
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v2
@@ -36,20 +55,15 @@ jobs:
           cd apps/api
           touch .env
 
-          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
-          echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env
-          echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
-          echo PGPASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
-          echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
-          echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
-          echo DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
+          # GH-Actions container database
+          echo DATABASE_URL=postgres://root:postgres@postgres:5432/late_stage >> .env
+          echo DATABASE_USER=root >> .env
+          echo DATABASE_PASSWORD=postgres >> .env
+          echo PGPASSWORD=postgres >> .env
+          echo DATABASE_HOST=postgres >> .env
+          echo DATABASE_PORT=5432 >> .env
+          echo DATABASE_NAME=late_stage >> .env
 
-          # Staging Database
-          echo STAGING_DATABASE_USER=${{ secrets.STAGING_DATABASE_USER }} >> .env
-          echo STAGING_DATABASE_PASSWORD=${{ secrets.STAGING_DATABASE_PASSWORD }} >> .env
-          echo STAGING_DATABASE_HOST=${{ secrets.STAGING_DATABASE_HOST }} >> .env
-          echo STAGING_DATABASE_PORT=${{ secrets.STAGING_DATABASE_PORT }} >> .env
-          echo STAGING_DATABASE_NAME=${{ secrets.STAGING_DATABASE_NAME }} >> .env
           echo CORS_ORIGIN=https://ls.localhost >> .env
           echo API_KEY=${{ secrets.API_KEY }} >> .env
           echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
@@ -87,6 +101,9 @@ jobs:
 
       # Install
       - run: pnpm install --no-frozen-lockfile
+      
+      # Create DB
+      - run: psql -c 'CREATE DATABASE late_stage IF NOT EXISTS;'
 
       # Reset DB and Run Migrations
       - run: pnpm migrate:reset
