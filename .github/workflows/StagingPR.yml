@@ -1,4 +1,4 @@
-name: Dev Branch PR
+name: Staging Branch PR
 on:
   push:
     branches:
