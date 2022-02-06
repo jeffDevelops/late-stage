@@ -27,11 +27,11 @@ jobs:
           # optional (defaults to `postgres`)
           POSTGRES_DB: late_stage
           # required
-          POSTGRES_PASSWORD: postgres_password
+          POSTGRES_PASSWORD: postgres
           # optional (defaults to `5432`)
           POSTGRES_PORT: 5432
           # optional (defaults to `postgres`)
-          POSTGRES_USER: postgres_user
+          POSTGRES_USER: postgres
         ports:
           # maps tcp port 5432 on service container to the host
           - 5432:5432
@@ -72,7 +72,7 @@ jobs:
           touch .env
 
           # GH-Actions container database
-          echo DATABASE_URL=postgres://root:postgres@postgres:5432/late_stage >> .env
+          echo DATABASE_URL=postgres://postgres:postgres@postgres:5432/late_stage >> .env
           echo DATABASE_USER=postgres >> .env
           echo DATABASE_PASSWORD=postgres >> .env
           echo PGPASSWORD=postgres >> .env
