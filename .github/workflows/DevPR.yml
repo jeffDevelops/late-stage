@@ -49,8 +49,8 @@ jobs:
           apt-get install --yes --no-install-recommends postgresql-client
           
       # Create DB
-      - name: Create DB
-        run: psql -h postgres -U postgres -c 'CREATE DATABASE late_stage IF NOT EXISTS;'
+#       - name: Create DB
+#         run: psql -h postgres -U postgres -c 'CREATE DATABASE late_stage IF NOT EXISTS;'
     
       - uses: actions/checkout@v2
       - name: Cache pnpm modules
