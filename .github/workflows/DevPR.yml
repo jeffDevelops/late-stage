@@ -26,8 +26,8 @@ jobs:
         # Docker Hub image
         image: postgres
         # Provide the password for postgres
-        env:
-          POSTGRES_PASSWORD: postgres
+#         env:
+#           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -63,7 +63,7 @@ jobs:
           # GH-Actions container database
           echo DATABASE_URL=postgres://root:postgres@postgres:5432/late_stage >> .env
           echo DATABASE_USER=root >> .env
-          echo DATABASE_PASSWORD=postgres >> .env
+          echo DATABASE_PASSWORD= >> .env
           echo PGPASSWORD=postgres >> .env
           echo DATABASE_HOST=postgres >> .env
           echo DATABASE_PORT=5432 >> .env
