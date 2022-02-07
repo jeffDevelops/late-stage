@@ -28,7 +28,21 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            ls -a
+            # Create a directory for a backup
+            mkdir /var/www/backups/${{ steps.date.outputs.date }}
+            
+            # Copy the staging directory to the backup
+            cp -r /var/www/staging-late-stage /var/www/backups/${{ steps.date.outputs.data }}/staging-late-stage
+            
+            # Remove the node_modules from the backups to conserve space
+            cd /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
+            rm -rf node_modules
+            rm -rf apps/api/node_modules
+            rm -rf apps/client/node_modules
+            
+            # Print the backups directory, so we know when it's time to clean out old ones
+            ls /var/www/backups
+            
             
     
 #       - name: Install SSH
