@@ -7,13 +7,14 @@ on:
  
 jobs:
   test:
+    runs-on: ubuntu-latest
     steps:
-      - name: TODO: TEST APP FIRST
+      - name: 'TODO: TEST APP FIRST'
         run: echo SMOKE TEST BUILD AND TESTS GO HERE
         
   deploy:
     runs-on: ubuntu-latest
-    evironment: staging
+    environment: staging
     steps:
     
       - name: Install SSH
