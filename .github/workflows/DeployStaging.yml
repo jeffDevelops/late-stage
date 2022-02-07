@@ -32,7 +32,7 @@ jobs:
             mkdir /var/www/backups/${{ steps.date.outputs.date }}
             
             # Copy the staging directory to the backup
-            cp -r /var/www/staging-late-stage /var/www/backups/${{ steps.date.outputs.data }}/staging-late-stage
+            cp -r /var/www/staging-late-stage /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
             
             # Remove the node_modules from the backups to conserve space
             cd /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
@@ -43,32 +43,12 @@ jobs:
             # Print the backups directory, so we know when it's time to clean out old ones
             ls /var/www/backups
             
-            
-    
-#       - name: Install SSH
-#         uses: shimataro/ssh-key-action@v2
-#         with:
-#           key: ${{ secrets.DEPLOYMENT_KEY }} 
-#           known_hosts: 'PLACEHOLDER FOR NEXT STEP'
-        
-#       - name: Keyscan Server And Add Known Hosts
-#         run: ssh-keyscan -H ${{ secrets.DEPLOYMENT_HOST }} >> ~/.ssh/known_hosts
-        
-#       - name: Print Runner SSH Dir
-#         run: |
-#           ls -a /home/runner/.ssh
-#           echo ${{ secrets.SSH_USER }}
-#           echo ${{ secrets.DEPLOYMENT_HOST }}
-          
-
-
-#       - name: Deploy Script
-#         run: |
-#           # Remote into the server
-#           ssh ${{ secrets.SSH_USER }}@${{ secrets.DEPLOYMENT_HOST }} -i /home/runner/.ssh/id_rsa
-          
-#           ls -a
-                    
-          
-
-          
+            # Deploy
+            cd /var/www/staging-late-state
+            git checkout staging
+            git stash
+            git pull origin staging
+            pnpm migrate:deploy
+            pnpm generate
+            pnpm build
+            pnpm start
