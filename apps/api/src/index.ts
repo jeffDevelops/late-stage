@@ -35,6 +35,9 @@ verifyEnv()
   app.listen(process.env.PORT!, (error, address) => {
     if (error) return console.error(error)
 
+    // Notify pm2 that the API is ready to accept requests for 0-downtime graceful restart
+    if (process?.send) process.send('ready')
+
     console.log(`GraphQL server running @ ${address}/altair`)
   })
   /* c8 ignore stop */
