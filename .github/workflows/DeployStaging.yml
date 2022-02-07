@@ -145,7 +145,7 @@ jobs:
             ls /var/www/backups
             
             # Deploy
-            cd /var/www/staging-late-state
+            cd /var/www/staging-late-stage
             git checkout staging
             git stash
             git pull origin staging
