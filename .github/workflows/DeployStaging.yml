@@ -23,7 +23,7 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_KEY }} 
           known_hosts: 'PLACEHOLDER FOR NEXT STEP'
         
-      - name: Add Known Hosts
+      - name: Keyscan Server And Add Known Hosts
         run: ssh-keyscan -H ${{ secrets.DEPLOYMENT_HOST }} >> ~/.ssh/known_hosts
         
       - name: Print Runner SSH Dir
@@ -33,5 +33,17 @@ jobs:
           echo ${{ secrets.DEPLOYMENT_HOST }}
         
       - name: Remote deployment script
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.DEPLOYMENT_HOST }} -i /home/runner/.ssh/id_rsa
-      
+        env:
+          BACKUP_DIRNAME: $(echo $(date -I))
+          
+        run: |
+          # Remote into the server
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.DEPLOYMENT_HOST }} -i /home/runner/.ssh/id_rsa
+          
+          echo $($BACKUP_DIRNAME)
+          
+          # Make a backup file for the previous build
+          sudo mkdir /var/backup/$($BACKUP_DIRNAME)
+          
+          # Copy the contents of the build to the backup directory from the last step
+          
