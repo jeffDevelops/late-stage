@@ -31,10 +31,6 @@ jobs:
           ls -a /home/runner/.ssh
           echo ${{ secrets.SSH_USER }}
           echo ${{ secrets.DEPLOYMENT_HOST }}
-        
-      - name: Remote deployment script
-        env:
-          BACKUP_DIRNAME: $(echo $(date -I))
           
       - name: Get Current Date
         run: echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
