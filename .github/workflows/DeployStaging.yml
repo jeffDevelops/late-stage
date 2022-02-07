@@ -1,16 +1,9 @@
 name: Deploy Staging
 on:
   push:
-<<<<<<< HEAD
-    branches:
-      -staging
-  workflow_dispatch:
- 
-=======
     branches: -staging
   workflow_dispatch:
 
->>>>>>> dev
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -18,11 +11,6 @@ jobs:
       matrix:
         node-version: [16.x] # 16.13.2
     environment: staging
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> dev
     container: node:latest
     services:
       postgres:
@@ -53,11 +41,6 @@ jobs:
         run: |
           apt-get update
           apt-get install --yes --no-install-recommends postgresql-client
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> dev
       - uses: actions/checkout@v2
       - name: Cache pnpm modules
         uses: actions/cache@v2
@@ -92,11 +75,7 @@ jobs:
           echo PORT=3001 >> .env
           cat .env
           cd ../../
-<<<<<<< HEAD
-          
-=======
 
->>>>>>> dev
       - name: Create client .env file
         run: |
           ls -la
@@ -111,11 +90,7 @@ jobs:
           echo PORT=3000 >> .env
           cat .env
           cd ../../
-<<<<<<< HEAD
-          
-=======
 
->>>>>>> dev
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -134,69 +109,46 @@ jobs:
 
       # Build smoke-test
       - run: pnpm build
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> dev
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    environment: staging
-    steps:
-      - name: Get current date (backup directory naming)
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d@%H:%M:%S')"
-<<<<<<< HEAD
-        
-=======
+deploy:
+  needs: test
+  runs-on: ubuntu-latest
+  environment: staging
+  steps:
+    - name: Get current date (backup directory naming)
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d@%H:%M:%S')"
 
->>>>>>> dev
-      - name: Execute Remote SSH commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DEPLOYMENT_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.DEPLOYMENT_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            # Create a directory for a backup
-            mkdir /var/www/backups/${{ steps.date.outputs.date }}
-<<<<<<< HEAD
-            
-            # Copy the staging directory to the backup
-            cp -r /var/www/staging-late-stage /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
-            
-=======
+    - name: Execute Remote SSH commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOYMENT_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.DEPLOYMENT_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          # Create a directory for a backup
+          mkdir /var/www/backups/${{ steps.date.outputs.date }}
 
-            # Copy the staging directory to the backup
-            cp -r /var/www/staging-late-stage /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
+          # Copy the staging directory to the backup
+          cp -r /var/www/staging-late-stage /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
 
->>>>>>> dev
-            # Remove the node_modules from the backups to conserve space
-            cd /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
-            rm -rf node_modules
-            rm -rf apps/api/node_modules
-            rm -rf apps/client/node_modules
-<<<<<<< HEAD
-            
-            # Print the backups directory, so we know when it's time to clean out old ones
-            ls /var/www/backups
-            
-=======
+          # Remove the node_modules from the backups to conserve space
+          cd /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
+          rm -rf node_modules
+          rm -rf apps/api/node_modules
+          rm -rf apps/client/node_modules
 
-            # Print the backups directory, so we know when it's time to clean out old ones
-            ls /var/www/backups
+          ls /var/www/backups
 
->>>>>>> dev
-            # Deploy
-            cd /var/www/staging-late-stage
-            git checkout staging
-            git stash
-            git pull origin staging
-            pnpm install
-            pnpm add -DW turbo
-            pnpm migrate:deploy
-            pnpm generate
-            pnpm build
-            pnpm start
+          # Deploy
+          cd /var/www/staging-late-stage
+          git checkout staging
+          git stash
+          git pull origin staging
+          pnpm install
+          pnpm add -DW turbo
+          pnpm migrate:deploy
+          pnpm generate
+          pnpm build
+          pnpm start

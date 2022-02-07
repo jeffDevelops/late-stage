@@ -6,10 +6,7 @@
 .env
 .env.*
 !.env.example
-<<<<<<< HEAD
-=======
 **/.pnpm-debug.log
->>>>>>> dev
 
 # Turborepo
 .turbo
