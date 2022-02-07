@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "branch": "turbo run branch",
+    "migrate:reset": "turbo run migrate:reset",
+    "migrate:deploy": "turbo run migrate:deploy",
+    "generate": "turbo run generate",
+    "build": "turbo run build",
+    "dev": "concurrently --names \"caddy,turborepo\" --prefix-colors \"#ff5964,#fffafc\" \"caddy run\" \"wait-on tcp:2019 && turbo run dev --no-cache --parallel --continue\"",
+    "start": "turbo run start --parallel",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:ci": "turbo run test:ci",
+    "format": "prettier --write \"**/*.{ts,md}\"",
+    "caddy": "caddy run"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "forever": "^4.0.3",
+    "turbo": "^1.1.1",
+    "wait-on": "^6.0.0"
+  },
+  "packageManager": "pnpm@6.10.0"
+}

@@ -1,0 +1,37 @@
+{
+  "baseBranch": "origin/main",
+  "pipeline": {
+    "branch": {},
+    "migrate:reset": {},
+    "migrate:deploy": {
+      "outputs": ["node_modules/@generated/type-graphql"]
+    },
+    "generate": {},
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "command": "pnpm test"
+    },
+    "test:ci": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "command": "pnpm test:ci"
+    },
+    "build": {
+      "dependsOn": ["^build"]
+    },
+    "format": {
+      "outputs": []
+    },
+    "lint": {
+      "outputs": [],
+      "dependsOn": ["^format"]
+    },
+    "dev": {
+      "cache": false
+    },
+    "start": {
+      "dependsOn": ["^build"]
+    }
+  }
+}
