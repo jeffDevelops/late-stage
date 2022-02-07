@@ -12,7 +12,7 @@
     "dev": "NODE_ENV=development ./node_modules/.bin/nodemon -L --exec npm run dev:process -e ts,json,js",
     "dev:process": "ts-node ./src/index.ts",
     "prod": "NODE_ENV=production npm run start",
-    "start": "pm2 startOrRestart ecosystem.config.js",
+    "start": "pm2 startOrReload --wait-ready --listen-timeout 10000 ecosystem.config.js",
     "wait-on:api": "wait-on http-get://localhost:3002/_healthcheck",
     "test": "VERBOSE=true nodemon -L --exec npm run spawn:api:test:all -e ts,json,js",
     "test:ci": "npm run spawn:api:test:all",
