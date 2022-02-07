@@ -1,0 +1,30 @@
+name: Deploy Staging
+on:
+  push:
+    branches:
+      -staging
+  workflow_dispatch:
+ 
+jobs:
+  test:
+    steps:
+      - name: TODO: TEST APP FIRST
+        run: echo SMOKE TEST BUILD AND TESTS GO HERE
+        
+  deploy:
+    runs-on: ubuntu-latest
+    evironment: staging
+    steps:
+    
+      - name: Install SSH
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.DEPLOYMENT_KEY }} 
+          known_hosts: 'PLACEHOLDER FOR NEXT STEP'
+        
+      - name: Add Known Hosts
+        run: ssh-keyscan -H ${{ secrets.DEPLOYMENT_HOST }} >> ~/.ssh/known_hosts
+        
+      - name: Remote deployment script
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.DEPLOYEMENT_HOST }}
+      
