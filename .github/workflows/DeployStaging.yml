@@ -48,6 +48,7 @@ jobs:
             git checkout staging
             git stash
             git pull origin staging
+            pnpm install
             pnpm migrate:deploy
             pnpm generate
             pnpm build
