@@ -29,7 +29,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             ls -a
-            sudo mkdir /var/backup/${{ steps.date.outputs.date }}
             
     
 #       - name: Install SSH
