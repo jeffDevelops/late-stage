@@ -36,14 +36,16 @@ jobs:
         env:
           BACKUP_DIRNAME: $(echo $(date -I))
           
+      - name: Get Current Date
+        run: echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+
+      - name: Deploy Script
         run: |
           # Remote into the server
           ssh ${{ secrets.SSH_USER }}@${{ secrets.DEPLOYMENT_HOST }} -i /home/runner/.ssh/id_rsa
-          
-          echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-          
+                    
           # Make a backup file for the previous build
-          sudo mkdir /var/backup/$(NOW)
+          sudo mkdir /var/backup/$($NOW)
           
           # Copy the contents of the build to the backup directory from the last step
           
