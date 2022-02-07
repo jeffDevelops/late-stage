@@ -33,5 +33,5 @@ jobs:
           echo ${{ secrets.DEPLOYMENT_HOST }}
         
       - name: Remote deployment script
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.DEPLOYMENT_HOST }}
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.DEPLOYMENT_HOST }} -i /home/runner/.ssh/id_rsa
       
