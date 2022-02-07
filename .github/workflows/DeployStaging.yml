@@ -29,9 +29,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             ls -a
-            # Make a backup file for the previous build
             sudo mkdir /var/backup/${{ steps.date.outputs.date }}
-            # Copy the contents of the build to the backup directory from the last step
             
     
 #       - name: Install SSH
