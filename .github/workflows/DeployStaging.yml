@@ -26,6 +26,12 @@ jobs:
       - name: Add Known Hosts
         run: ssh-keyscan -H ${{ secrets.DEPLOYMENT_HOST }} >> ~/.ssh/known_hosts
         
+      - name: Print Runner SSH Dir
+        run: |
+          ls -a /home/runner/.ssh
+          echo ${{ secrets.SSH_USER }}
+          echo ${{ secrets.DEPLOYMENT_HOST }}
+        
       - name: Remote deployment script
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.DEPLOYEMENT_HOST }}
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.DEPLOYMENT_HOST }}
       
