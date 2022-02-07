@@ -34,12 +34,14 @@ jobs:
           
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d@%H:%M:%S')"
 
       - name: Deploy Script
         run: |
           # Remote into the server
           ssh ${{ secrets.SSH_USER }}@${{ secrets.DEPLOYMENT_HOST }} -i /home/runner/.ssh/id_rsa
+          
+          ls -a
                     
           # Make a backup file for the previous build
           sudo mkdir /var/backup/${{ steps.date.outputs.date }}
