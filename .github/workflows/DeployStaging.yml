@@ -149,6 +149,7 @@ jobs:
             git stash
             git pull origin staging
             pnpm install
+            pnpm add -DW turbo
             pnpm migrate:deploy
             pnpm generate
             pnpm build
