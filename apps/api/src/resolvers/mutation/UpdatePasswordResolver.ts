@@ -2,6 +2,7 @@ import { Resolver, Mutation, Arg, Ctx } from 'type-graphql'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dayjs from 'dayjs'
+import { timingSafeEqual } from 'crypto'
 
 import { ErrorWithProps } from '../../utility/ErrorWithProps'
 import { InputValidator } from '../../utility/InputValidator'
@@ -97,7 +98,12 @@ export abstract class UpdatePasswordResolver {
       )
     }
 
-    if (token !== userToUpdate.passwordResetToken) {
+    if (
+      !timingSafeEqual(
+        Buffer.from(token),
+        Buffer.from(userToUpdate.passwordResetToken),
+      )
+    ) {
       throw new Error(
         'Token in magic link does not match the one that was most recently issued',
       )
