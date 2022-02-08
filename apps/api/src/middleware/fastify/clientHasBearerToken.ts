@@ -1,5 +1,7 @@
 import type { FastifyRequest, FastifyReply } from 'fastify'
 import Mercurius from 'mercurius'
+import { timingSafeEqual } from 'crypto'
+
 const { ErrorWithProps } = Mercurius
 
 export const clientHasBearerToken = (req: FastifyRequest): true | never => {
@@ -11,7 +13,8 @@ export const clientHasBearerToken = (req: FastifyRequest): true | never => {
     req.headers.authorization?.replace('Bearer ', '') ?? null
 
   const isAuthorized =
-    bearerToken !== null && bearerToken === process.env.API_KEY
+    bearerToken !== null &&
+    timingSafeEqual(Buffer.from(bearerToken), Buffer.from(process.env.API_KEY!))
 
   if (!isAuthorized) {
     throw new ErrorWithProps('Unauthorized client', undefined, 401)
