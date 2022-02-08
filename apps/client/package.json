@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 svelte-kit dev",
     "build": "dotenv -e ./.env -- svelte-kit build",
-    "start": "pm2 startOrReload ecosystem.config.cjs",
+    "start": "pm2 startOrRestart ecosystem.config.cjs",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
