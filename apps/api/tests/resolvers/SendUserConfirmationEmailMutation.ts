@@ -56,7 +56,7 @@ test('SendUserConfirmationEmailMutation succeeds under normal circumstances', as
   assert.is(undefined, response.errors)
 })
 
-test('SendUserConfirmationEmailMutation fails if the user has already verified their email', async () => {
+test('SendUserConfirmationEmailMutation fails silently if the user has already verified their email', async () => {
   await setup()
 
   const response = await makeRequest()
@@ -84,18 +84,13 @@ test('SendUserConfirmationEmailMutation fails if the user has already verified t
     },
   })
 
-  const verifyResponse = await request(verifyEmailRequestInit)
+  await request(verifyEmailRequestInit)
 
   const secondTry = await makeRequest()
 
-  assert.is(secondTry.data, null)
-  assert.is(
-    true,
-    secondTry.errors.some(
-      (error: any) =>
-        error.message === 'User email address is already verified',
-    ),
-  )
+  assert.equal(secondTry.data, {
+    sendUserConfirmationEmail: true,
+  })
 })
 
 test.after.each(async () => {
