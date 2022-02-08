@@ -1,4 +1,5 @@
 import { Resolver, Mutation, Arg, Ctx } from 'type-graphql'
+import { timingSafeEqual } from 'crypto'
 
 import { ErrorWithProps } from '../../utility/ErrorWithProps'
 import { InputValidator } from '../../utility/InputValidator'
@@ -79,7 +80,12 @@ export abstract class VerifyEmailAddressResolver {
       )
     }
 
-    if (token !== userToUpdate.magicLinkToken) {
+    if (
+      !timingSafeEqual(
+        Buffer.from(token),
+        Buffer.from(userToUpdate.magicLinkToken),
+      )
+    ) {
       throw new Error(
         'Token in magic link does not match the one that was most recently issued',
       )
