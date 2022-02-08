@@ -4,7 +4,7 @@ on:
     branches:
       - main
     workflow_dispatch:
-    
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -126,17 +126,18 @@ jobs:
           script: |
             # Create a directory for a backup
             mkdir /var/www/backups-prod/${{ steps.date.outputs.date }}
-            
+
             # Copy the prod directory to the backup
             cp -r /var/www/late-stage /var/www/backups-prod/${{ steps.date.outputs.date }}/late-stage
-            
+
             # Remove the node_modules from the backups to conserve space
             cd /var/www/backups-prod/${{ steps.date.outputs.date }}/late-stage
             rm -rf node_modules
             rm -rf apps/api/node_modules
             rm -rf apps/client/node_modules
-            
+
             ls /var/www/backups
+
             # Deploy
             cd /var/www/late-stage
             git checkout main
@@ -147,4 +148,4 @@ jobs:
             pnpm migrate:deploy
             pnpm generate
             pnpm build
-            pnpm start
+            pnpm start -- --force
