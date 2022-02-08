@@ -37,8 +37,7 @@ export abstract class SendUserConfirmationEmailResolver {
     const { id, emailIsVerified } =
       await SendUserConfirmationEmailResolver.getUser(prisma, email)
 
-    if (emailIsVerified)
-      throw new ErrorWithProps('User email address is already verified')
+    if (emailIsVerified) return true
 
     const token = await SendUserConfirmationEmailResolver.issueToken(id, prisma)
 

@@ -1,13 +1,9 @@
-name: Deploy Staging
+name: Deploy Prod
 on:
   push:
-<<<<<<< HEAD
-    branches: -staging
-=======
-    branches: 
-      - staging
->>>>>>> 55c3250eb657e485bfba9be83164a6bdd049b9d5
-  workflow_dispatch:
+    branches:
+      - main
+    workflow_dispatch:
 
 jobs:
   test:
@@ -15,11 +11,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x] # 16.13.2
-    environment: staging
-<<<<<<< HEAD
-
-=======
->>>>>>> 55c3250eb657e485bfba9be83164a6bdd049b9d5
+    environment: production
     container: node:latest
     services:
       postgres:
@@ -50,10 +42,6 @@ jobs:
         run: |
           apt-get update
           apt-get install --yes --no-install-recommends postgresql-client
-<<<<<<< HEAD
-
-=======
->>>>>>> 55c3250eb657e485bfba9be83164a6bdd049b9d5
       - uses: actions/checkout@v2
       - name: Cache pnpm modules
         uses: actions/cache@v2
@@ -88,7 +76,6 @@ jobs:
           echo PORT=3001 >> .env
           cat .env
           cd ../../
-
       - name: Create client .env file
         run: |
           ls -la
@@ -103,16 +90,10 @@ jobs:
           echo PORT=3000 >> .env
           cat .env
           cd ../../
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-<<<<<<< HEAD
-        env:
-          DATABASE_URL: $DATABASE_URL
-=======
->>>>>>> 55c3250eb657e485bfba9be83164a6bdd049b9d5
 
       # Install
       - run: pnpm install --no-frozen-lockfile
@@ -129,7 +110,7 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
-    environment: staging
+    environment: production
     steps:
       - name: Get current date (backup directory naming)
         id: date
@@ -144,13 +125,13 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             # Create a directory for a backup
-            mkdir /var/www/backups/${{ steps.date.outputs.date }}
+            mkdir /var/www/backups-prod/${{ steps.date.outputs.date }}
 
-            # Copy the staging directory to the backup
-            cp -r /var/www/staging-late-stage /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
+            # Copy the prod directory to the backup
+            cp -r /var/www/late-stage /var/www/backups-prod/${{ steps.date.outputs.date }}/late-stage
 
             # Remove the node_modules from the backups to conserve space
-            cd /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
+            cd /var/www/backups-prod/${{ steps.date.outputs.date }}/late-stage
             rm -rf node_modules
             rm -rf apps/api/node_modules
             rm -rf apps/client/node_modules
@@ -158,13 +139,13 @@ jobs:
             ls /var/www/backups
 
             # Deploy
-            cd /var/www/staging-late-stage
-            git checkout staging
+            cd /var/www/late-stage
+            git checkout main
             git stash
-            git pull origin staging
+            git pull origin main
             pnpm install
             pnpm add -DW turbo
             pnpm migrate:deploy
             pnpm generate
             pnpm build
-            pnpm start
+            pnpm start -- --force
