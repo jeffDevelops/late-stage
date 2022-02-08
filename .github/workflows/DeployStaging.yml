@@ -1,12 +1,8 @@
 name: Deploy Staging
 on:
   push:
-<<<<<<< HEAD
-    branches: -staging
-=======
-    branches: 
+    branches:
       - staging
->>>>>>> 55c3250eb657e485bfba9be83164a6bdd049b9d5
   workflow_dispatch:
 
 jobs:
@@ -16,10 +12,7 @@ jobs:
       matrix:
         node-version: [16.x] # 16.13.2
     environment: staging
-<<<<<<< HEAD
 
-=======
->>>>>>> 55c3250eb657e485bfba9be83164a6bdd049b9d5
     container: node:latest
     services:
       postgres:
@@ -50,10 +43,6 @@ jobs:
         run: |
           apt-get update
           apt-get install --yes --no-install-recommends postgresql-client
-<<<<<<< HEAD
-
-=======
->>>>>>> 55c3250eb657e485bfba9be83164a6bdd049b9d5
       - uses: actions/checkout@v2
       - name: Cache pnpm modules
         uses: actions/cache@v2
@@ -108,11 +97,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-<<<<<<< HEAD
-        env:
-          DATABASE_URL: $DATABASE_URL
-=======
->>>>>>> 55c3250eb657e485bfba9be83164a6bdd049b9d5
 
       # Install
       - run: pnpm install --no-frozen-lockfile
