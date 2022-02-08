@@ -147,7 +147,8 @@ test('UpdatePasswordResolver fails when the JWT does not match the one issued in
   const actualRefreshToken = testUser?.passwordResetToken
   assert.ok(actualRefreshToken)
 
-  await wait(1) // 1ms is enough to ensure the token is different
+  await wait(1000)
+
   const fakeRefreshToken = jwt.sign(
     { id: testUser!.id },
     process.env.TOKEN_SECRET!,

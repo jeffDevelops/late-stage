@@ -81,6 +81,9 @@ export abstract class VerifyEmailAddressResolver {
     }
 
     if (
+      // Timing-safe comparison requires equal byte lengths
+      Buffer.from(token).length !==
+        Buffer.from(userToUpdate.magicLinkToken).length ||
       !timingSafeEqual(
         Buffer.from(token),
         Buffer.from(userToUpdate.magicLinkToken),

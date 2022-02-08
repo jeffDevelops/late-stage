@@ -98,12 +98,16 @@ export abstract class UpdatePasswordResolver {
       )
     }
 
-    if (
-      !timingSafeEqual(
+    const tokensEqual =
+      // Buffer byte lengths must be equal before comparing
+      Buffer.from(token).length ===
+        Buffer.from(userToUpdate.passwordResetToken).length &&
+      timingSafeEqual(
         Buffer.from(token),
         Buffer.from(userToUpdate.passwordResetToken),
       )
-    ) {
+
+    if (!tokensEqual) {
       throw new Error(
         'Token in magic link does not match the one that was most recently issued',
       )
