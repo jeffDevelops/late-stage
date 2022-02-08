@@ -137,6 +137,7 @@ jobs:
             rm -rf apps/client/node_modules
             
             ls /var/www/backups
+            
             # Deploy
             cd /var/www/late-stage
             git checkout main
@@ -147,4 +148,4 @@ jobs:
             pnpm migrate:deploy
             pnpm generate
             pnpm build
-            pnpm start
+            pnpm start -- --force
