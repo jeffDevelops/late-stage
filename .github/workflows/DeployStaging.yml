@@ -110,45 +110,45 @@ jobs:
       # Build smoke-test
       - run: pnpm build
 
-deploy:
-  needs: test
-  runs-on: ubuntu-latest
-  environment: staging
-  steps:
-    - name: Get current date (backup directory naming)
-      id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d@%H:%M:%S')"
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Get current date (backup directory naming)
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d@%H:%M:%S')"
 
-    - name: Execute Remote SSH commands
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.DEPLOYMENT_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.DEPLOYMENT_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          # Create a directory for a backup
-          mkdir /var/www/backups/${{ steps.date.outputs.date }}
+      - name: Execute Remote SSH commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOYMENT_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.DEPLOYMENT_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            # Create a directory for a backup
+            mkdir /var/www/backups/${{ steps.date.outputs.date }}
 
-          # Copy the staging directory to the backup
-          cp -r /var/www/staging-late-stage /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
+            # Copy the staging directory to the backup
+            cp -r /var/www/staging-late-stage /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
 
-          # Remove the node_modules from the backups to conserve space
-          cd /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
-          rm -rf node_modules
-          rm -rf apps/api/node_modules
-          rm -rf apps/client/node_modules
+            # Remove the node_modules from the backups to conserve space
+            cd /var/www/backups/${{ steps.date.outputs.date }}/staging-late-stage
+            rm -rf node_modules
+            rm -rf apps/api/node_modules
+            rm -rf apps/client/node_modules
 
-          ls /var/www/backups
+            ls /var/www/backups
 
-          # Deploy
-          cd /var/www/staging-late-stage
-          git checkout staging
-          git stash
-          git pull origin staging
-          pnpm install
-          pnpm add -DW turbo
-          pnpm migrate:deploy
-          pnpm generate
-          pnpm build
-          pnpm start
+            # Deploy
+            cd /var/www/staging-late-stage
+            git checkout staging
+            git stash
+            git pull origin staging
+            pnpm install
+            pnpm add -DW turbo
+            pnpm migrate:deploy
+            pnpm generate
+            pnpm build
+            pnpm start
