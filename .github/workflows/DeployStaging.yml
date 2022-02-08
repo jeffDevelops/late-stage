@@ -1,7 +1,11 @@
 name: Deploy Staging
 on:
   push:
+<<<<<<< HEAD
     branches: 
+=======
+    branches:
+>>>>>>> 8f0e99c (resolves merge conflicts)
       - staging
   workflow_dispatch:
 
@@ -12,6 +16,10 @@ jobs:
       matrix:
         node-version: [16.x] # 16.13.2
     environment: staging
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8f0e99c (resolves merge conflicts)
     container: node:latest
     services:
       postgres:
@@ -44,11 +52,14 @@ jobs:
           apt-get install --yes --no-install-recommends postgresql-client
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 55c3250eb657e485bfba9be83164a6bdd049b9d5
 =======
 >>>>>>> 8c977d38c099ce0d0a512825e00256cc93c5b506
+=======
+>>>>>>> 8f0e99c (resolves merge conflicts)
       - uses: actions/checkout@v2
       - name: Cache pnpm modules
         uses: actions/cache@v2
@@ -105,12 +116,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         env:
           DATABASE_URL: $DATABASE_URL
 =======
 >>>>>>> 55c3250eb657e485bfba9be83164a6bdd049b9d5
 =======
 >>>>>>> 8c977d38c099ce0d0a512825e00256cc93c5b506
+=======
+>>>>>>> 8f0e99c (resolves merge conflicts)
 
       # Install
       - run: pnpm install --no-frozen-lockfile
