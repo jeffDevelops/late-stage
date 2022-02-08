@@ -96,8 +96,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-        env:
-          DATABASE_URL: $DATABASE_URL
 
       # Install
       - run: pnpm install --no-frozen-lockfile
