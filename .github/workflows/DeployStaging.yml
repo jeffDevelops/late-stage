@@ -1,7 +1,7 @@
 name: Deploy Staging
 on:
   push:
-    branches: 
+    branches:
       - staging
   workflow_dispatch:
 
@@ -150,4 +150,4 @@ jobs:
             pnpm migrate:deploy
             pnpm generate
             pnpm build
-            pnpm start
+            pnpm start --force
