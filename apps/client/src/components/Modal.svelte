@@ -165,6 +165,7 @@
 
         <div class="content">
           <slot name="content" />
+          <div class="mobile-spacer" />
         </div>
 
         <div class="mobile-spacer" />
@@ -283,7 +284,7 @@
     }
 
     .mobile-spacer {
-      height: 133px;
+      height: 73px;
       width: 100%;
     }
   }
