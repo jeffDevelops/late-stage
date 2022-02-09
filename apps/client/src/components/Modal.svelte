@@ -32,7 +32,7 @@
     // Targets iOS Chrome
     if (navigator.userAgent.match('CriOS')) {
       shouldDisplayCloseButton = true
-      actionsContainer.style.bottom = '143px' // height of the actions container
+      actionsContainer.style.bottom = '124px' // height of the actions container
     }
   }
 

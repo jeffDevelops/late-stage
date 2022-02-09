@@ -41,10 +41,11 @@
 
 <div class="public-alpha-modal">
   <Modal
+    on:dismiss={dismissModal}
     {isDisplayed}
+    shouldDisplayCloseButton={false}
     isAnimated={false}
     isBlurDismissable={false}
-    shouldDisplayCloseButton={false}
     maxWidth={750}
     zIndex={6}
   >
