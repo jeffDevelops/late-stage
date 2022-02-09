@@ -48,7 +48,7 @@
     maxWidth={750}
     zIndex={6}
   >
-    <div slot="content">
+    <div class="content-container" slot="content">
       <h2>Late-Stage is in public alpha</h2>
 
       <h5>Please note that the site is not operational yet!</h5>
@@ -146,6 +146,10 @@
       transform: translate(0) scale(1);
       opacity: 1;
     }
+  }
+
+  .content-container {
+    overflow: auto;
   }
 
   h5 {
