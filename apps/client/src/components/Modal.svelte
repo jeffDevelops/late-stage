@@ -26,6 +26,7 @@
 
   let modalContainer: HTMLElement
   let contentContainer: HTMLElement
+  let actionsContainer: HTMLElement
 
   const domCorrections: {
     node: HTMLElement
@@ -38,13 +39,21 @@
       document.documentElement.style.setProperty('--vh', `${window.innerHeight / 100}px`)
       contentContainer.style.setProperty('--vh', `${window.innerHeight / 100 - 73}px`)
 
+      // Targets iOS Chrome
       if (navigator.userAgent.match('CriOS')) {
+        actionsContainer.style.bottom = '70px' // height of the actions container
       }
     }
 
-    window.addEventListener('load', fixHeight)
+    fixHeight()
+
     window.addEventListener('resize', fixHeight)
     window.addEventListener('orientationchange', fixHeight)
+
+    return () => {
+      window.removeEventListener('resize', fixHeight)
+      window.removeEventListener('orientationchange', fixHeight)
+    }
   })
 
   onDestroy(() => {
@@ -184,7 +193,7 @@
           <slot name="content" />
         </div>
 
-        <div class="actions" style="z-index: {zIndex + 2};">
+        <div bind:this={actionsContainer} class="actions" style="z-index: {zIndex + 2};">
           <slot name="actions" />
         </div>
       </div>
