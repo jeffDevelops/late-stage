@@ -165,10 +165,7 @@
 
         <div class="content">
           <slot name="content" />
-          <div class="mobile-spacer" />
         </div>
-
-        <div class="mobile-spacer" />
 
         <div class="actions">
           <slot name="actions" />
@@ -240,11 +237,6 @@
     background-color: var(--app-background);
   }
 
-  .mobile-spacer {
-    height: 0;
-    width: 100%;
-  }
-
   :global(.modal .actions :not(button):first-child) {
     display: flex;
     justify-content: space-between;
@@ -252,14 +244,11 @@
     gap: 8px;
   }
 
-  .mobile-spacer {
-    height: 0px;
-    width: 100%;
-  }
-
   @media screen and (max-width: 500px) {
     .modal {
-      height: 100vh;
+      min-height: 100vh;
+      /* mobile viewport bug fix */
+      min-height: -webkit-fill-available;
       width: 100vw;
       border-radius: 0;
       overflow: hidden;
@@ -272,17 +261,7 @@
       height: calc(100vh - 73px);
     }
 
-    .mobile-spacer {
-      height: 133px;
-      width: 100%;
-    }
-
     .actions {
-      width: 100%;
-    }
-
-    .mobile-spacer {
-      height: 24px;
       width: 100%;
     }
   }
