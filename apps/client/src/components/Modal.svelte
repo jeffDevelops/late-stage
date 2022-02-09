@@ -31,6 +31,7 @@
     if (!browser || !actionsContainer) return
     // Targets iOS Chrome
     if (navigator.userAgent.match('CriOS')) {
+      shouldDisplayCloseButton = true
       actionsContainer.style.bottom = '143px' // height of the actions container
     }
   }
@@ -121,15 +122,11 @@
 
   const enableScrollLock = () => {
     if (!browser) return
-    const scrollingNode: Element = document?.scrollingElement
-    // ;(scrollingNode as HTMLElement).style.overflow = 'hidden'
     document.querySelector('html').style.overflow = 'hidden'
   }
 
   const disableScrollLock = () => {
     if (!browser) return
-    const scrollingNode: Element = document?.scrollingElement
-    // ;(scrollingNode as HTMLElement).style.overflow = 'auto'
     document.querySelector('html').style.overflow = 'auto'
   }
 

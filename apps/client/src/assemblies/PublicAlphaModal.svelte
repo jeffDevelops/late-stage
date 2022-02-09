@@ -60,12 +60,16 @@
 
       <h5>Okay, so what <em>can</em> I do on the website?</h5>
       <p>
-        For more information, see our <a href="/about" rel="noopener noreferrer" target="_blank"
-          >about</a
+        For more information, see our <a
+          on:mousedown={dismissModal}
+          href="/about"
+          rel="noopener noreferrer"
+          target="_blank">about</a
         > page.
       </p>
       <p>
         If you'd like to see where the project is headed, check out our <a
+          on:mousedown={dismissModal}
           href="https://late-stage.notion.site/f8709ff5bbed4fcb9bda3d802fabdac0?v=86dd875520eb4384a8a01424da6ad666"
           rel="noopener noreferrer"
           target="_blank">roadmap</a
@@ -73,12 +77,16 @@
       </p>
       <p>
         If you'd like a say in how the project is going, join our Reddit community at <a
+          on:mousedown={dismissModal}
           href="https://www.reddit.com/r/latestage/"
           rel="noopener noreferrer"
           target="_blank">r/latestage</a
         >, or our
-        <a href="https://discord.gg/DAa7mCae" rel="noopener noreferrer" target="_blank"
-          >Discord server</a
+        <a
+          on:mousedown={dismissModal}
+          href="https://discord.gg/DAa7mCae"
+          rel="noopener noreferrer"
+          target="_blank">Discord server</a
         >.
       </p>
     </div>
