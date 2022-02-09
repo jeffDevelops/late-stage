@@ -79,7 +79,7 @@
         >, or our
         <a href="https://discord.gg/DAa7mCae" rel="noopener noreferrer" target="_blank"
           >Discord server</a
-        >
+        >.
       </p>
     </div>
 

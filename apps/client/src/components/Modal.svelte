@@ -25,6 +25,7 @@
    */
 
   let modalContainer: HTMLElement
+  let contentContainer: HTMLElement
 
   const domCorrections: {
     node: HTMLElement
@@ -35,7 +36,7 @@
   onMount(() => {
     function fixHeight() {
       document.documentElement.style.setProperty('--vh', `${window.innerHeight / 100}px`)
-      modalContainer.style.setProperty('--vh', `${window.innerHeight / 100}px`)
+      contentContainer.style.setProperty('--vh', `${window.innerHeight / 100 - 73}px`)
     }
 
     window.addEventListener('load', fixHeight)
@@ -167,8 +168,10 @@
         in:fadeEffect
         out:fadeEffect
         style="
-    --modal-max-width: {maxWidth}px;
-    "
+          --modal-max-width: {maxWidth}px;
+          
+          z-index: {zIndex + 1};
+        "
       >
         {#if shouldDisplayCloseButton}
           <button on:click={dismissModal} class="close-button" in:fade out:fade>╳</button>
@@ -178,7 +181,7 @@
           <slot name="content" />
         </div>
 
-        <div class="actions">
+        <div class="actions" style="z-index: {zIndex + 2};">
           <slot name="actions" />
         </div>
       </div>
@@ -272,7 +275,9 @@
     }
 
     .actions {
+      position: fixed;
       width: 100%;
+      bottom: 0;
     }
   }
 </style>
