@@ -278,13 +278,11 @@
     }
 
     .actions {
-      position: absolute;
-      bottom: 0;
       width: 100%;
     }
 
     .mobile-spacer {
-      height: 73px;
+      height: 24px;
       width: 100%;
     }
   }
