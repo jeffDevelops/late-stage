@@ -15,17 +15,10 @@
   export let zIndex = 99
 
   /**
-   * STATE
-   */
-
-  let parentWillBreakPositionFixed = false
-
-  /**
    * LIFECYCLE
    */
 
   let modalContainer: HTMLElement
-  let contentContainer: HTMLElement
   let actionsContainer: HTMLElement
 
   const domCorrections: {
@@ -36,9 +29,6 @@
 
   onMount(() => {
     function fixHeight() {
-      document.documentElement.style.setProperty('--vh', `${window.innerHeight / 100}px`)
-      contentContainer.style.setProperty('--vh', `${window.innerHeight / 100 - 73}px`)
-
       // Targets iOS Chrome
       if (navigator.userAgent.match('CriOS')) {
         actionsContainer.style.bottom = '70px' // height of the actions container
@@ -58,6 +48,7 @@
 
   onDestroy(() => {
     setTimeout(() => restoreDOM(), 500)
+    disableScrollLock()
   })
 
   /**
@@ -146,7 +137,7 @@
     rectifyBrokenPositioning()
   } else if (!isDisplayed && browser) {
     disableScrollLock()
-    setTimeout(() => restoreDOM(), 400)
+    setTimeout(() => restoreDOM(), 400) // wait until the modal has been removed from view
   }
 
   /**
@@ -189,7 +180,7 @@
           <button on:click={dismissModal} class="close-button" in:fade out:fade>╳</button>
         {/if}
 
-        <div class="content" bind:this={contentContainer}>
+        <div class="content">
           <slot name="content" />
         </div>
 
