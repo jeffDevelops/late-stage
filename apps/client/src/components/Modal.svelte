@@ -37,6 +37,9 @@
     function fixHeight() {
       document.documentElement.style.setProperty('--vh', `${window.innerHeight / 100}px`)
       contentContainer.style.setProperty('--vh', `${window.innerHeight / 100 - 73}px`)
+
+      if (navigator.userAgent.match('CriOS')) {
+      }
     }
 
     window.addEventListener('load', fixHeight)
@@ -177,7 +180,7 @@
           <button on:click={dismissModal} class="close-button" in:fade out:fade>╳</button>
         {/if}
 
-        <div class="content">
+        <div class="content" bind:this={contentContainer}>
           <slot name="content" />
         </div>
 
