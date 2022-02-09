@@ -27,11 +27,11 @@
     originalValue: string
   }[] = []
 
-  function fixHeightOnChromeiOS() {
+  const fixHeightOnChromeiOS = () => {
     if (!browser || !actionsContainer) return
-    // Targets iOS Chrome
+
     if (navigator.userAgent.match('CriOS')) {
-      shouldDisplayCloseButton = true
+      alert('firing')
       actionsContainer.style.bottom = '124px' // height of the actions container
     }
   }
@@ -132,6 +132,7 @@
 
   $: if (isDisplayed && browser) {
     if (modalContainer) modalContainer.focus()
+
     fixHeightOnChromeiOS()
     enableScrollLock()
     rectifyBrokenPositioning()
