@@ -239,6 +239,11 @@
     background-color: var(--app-background);
   }
 
+  .mobile-spacer {
+    height: 0;
+    width: 100%;
+  }
+
   :global(.modal .actions :not(button):first-child) {
     display: flex;
     justify-content: space-between;
@@ -274,6 +279,11 @@
     .actions {
       position: fixed;
       bottom: 0;
+      width: 100%;
+    }
+
+    .mobile-spacer {
+      height: 133px;
       width: 100%;
     }
   }
