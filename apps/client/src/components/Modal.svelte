@@ -32,6 +32,17 @@
     originalValue: string
   }[] = []
 
+  onMount(() => {
+    function fixHeight() {
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight / 100}px`)
+      modalContainer.style.setProperty('--vh', `${window.innerHeight / 100}px`)
+    }
+
+    window.addEventListener('load', fixHeight)
+    window.addEventListener('resize', fixHeight)
+    window.addEventListener('orientationchange', fixHeight)
+  })
+
   onDestroy(() => {
     setTimeout(() => restoreDOM(), 500)
   })
