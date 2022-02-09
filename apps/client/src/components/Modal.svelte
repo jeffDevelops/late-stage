@@ -272,7 +272,7 @@
     }
 
     .mobile-spacer {
-      height: 133px;
+      height: 73px;
       width: 100%;
     }
   }
