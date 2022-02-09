@@ -278,7 +278,7 @@
     }
 
     .actions {
-      position: fixed;
+      position: absolute;
       bottom: 0;
       width: 100%;
     }
