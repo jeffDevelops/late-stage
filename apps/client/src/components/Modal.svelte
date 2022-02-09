@@ -165,9 +165,8 @@
 
         <div class="content">
           <slot name="content" />
+          <div class="mobile-spacer" />
         </div>
-
-        <div class="mobile-spacer" />
 
         <div class="actions">
           <slot name="actions" />
