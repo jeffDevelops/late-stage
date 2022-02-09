@@ -167,6 +167,8 @@
           <slot name="content" />
         </div>
 
+        <div class="mobile-spacer" />
+
         <div class="actions">
           <slot name="actions" />
         </div>
@@ -244,6 +246,11 @@
     gap: 8px;
   }
 
+  .mobile-spacer {
+    height: 0px;
+    width: 100%;
+  }
+
   @media screen and (max-width: 500px) {
     .modal {
       height: 100vh;
@@ -257,6 +264,11 @@
       padding-top: 40px;
       overflow: auto;
       height: calc(100vh - 73px);
+    }
+
+    .mobile-spacer {
+      height: 133px;
+      width: 100%;
     }
 
     .actions {
