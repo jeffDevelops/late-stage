@@ -111,7 +111,7 @@ jobs:
   #     - run: pnpm build
 
   deploy:
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
     environment: staging
     steps:
