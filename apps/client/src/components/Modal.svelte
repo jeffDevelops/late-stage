@@ -121,14 +121,14 @@
   const enableScrollLock = () => {
     if (!browser) return
     const scrollingNode: Element = document?.scrollingElement
-    ;(scrollingNode as HTMLElement).style.overflow = 'hidden'
+    // ;(scrollingNode as HTMLElement).style.overflow = 'hidden'
     document.querySelector('html').style.overflow = 'hidden'
   }
 
   const disableScrollLock = () => {
     if (!browser) return
     const scrollingNode: Element = document?.scrollingElement
-    ;(scrollingNode as HTMLElement).style.overflow = 'auto'
+    // ;(scrollingNode as HTMLElement).style.overflow = 'auto'
     document.querySelector('html').style.overflow = 'auto'
   }
 
