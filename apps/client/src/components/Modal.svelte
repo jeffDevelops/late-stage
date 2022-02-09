@@ -31,7 +31,6 @@
     if (!browser || !actionsContainer) return
 
     if (navigator.userAgent.match('CriOS')) {
-      alert('firing')
       actionsContainer.style.bottom = '124px' // height of the actions container
     }
   }
