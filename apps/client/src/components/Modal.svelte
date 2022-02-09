@@ -27,22 +27,22 @@
     originalValue: string
   }[] = []
 
-  onMount(() => {
-    function fixHeight() {
-      // Targets iOS Chrome
-      if (navigator.userAgent.match('CriOS')) {
-        actionsContainer.style.bottom = '70px' // height of the actions container
-      }
+  function fixHeightOnChromeiOS() {
+    // Targets iOS Chrome
+    if (navigator.userAgent.match('CriOS')) {
+      actionsContainer.style.bottom = '143px' // height of the actions container
     }
+  }
 
-    fixHeight()
+  onMount(() => {
+    fixHeightOnChromeiOS()
 
-    window.addEventListener('resize', fixHeight)
-    window.addEventListener('orientationchange', fixHeight)
+    window.addEventListener('resize', fixHeightOnChromeiOS)
+    window.addEventListener('orientationchange', fixHeightOnChromeiOS)
 
     return () => {
-      window.removeEventListener('resize', fixHeight)
-      window.removeEventListener('orientationchange', fixHeight)
+      window.removeEventListener('resize', fixHeightOnChromeiOS)
+      window.removeEventListener('orientationchange', fixHeightOnChromeiOS)
     }
   })
 
@@ -134,7 +134,7 @@
 
   $: if (isDisplayed && browser) {
     if (modalContainer) modalContainer.focus()
-
+    fixHeightOnChromeiOS()
     enableScrollLock()
     rectifyBrokenPositioning()
   } else if (!isDisplayed && browser) {
