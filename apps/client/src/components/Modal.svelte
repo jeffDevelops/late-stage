@@ -251,7 +251,6 @@
       min-height: -webkit-fill-available;
       width: 100vw;
       border-radius: 0;
-      overflow: hidden;
       padding-top: 0;
     }
 
