@@ -57,11 +57,6 @@
         The content you see here is likely how it will <em>look</em> when we begin running campaigns,
         but the community is still finalizing our first campaigns and checklist objectives.
       </p>
-      <p>
-        The static content you see is likely to be in the spirit of what Late-Stage will set out to
-        do, but is pending the guidance of our community of experts and advocates, and only serves
-        to communicate how the site will operate.
-      </p>
 
       <h5>Okay, so what <em>can</em> I do on the website?</h5>
       <p>
@@ -81,11 +76,10 @@
           href="https://www.reddit.com/r/latestage/"
           rel="noopener noreferrer"
           target="_blank">r/latestage</a
-        >, and submit an RFC to propose a
-        <a href="/campaign-rfcs" rel="noopener noreferrer" target="_blank">campaign</a>
-        or
-        <a href="/checklist-rfcs" rel="noopener noreferrer" target="_blank">Late-Stage Checklist</a>
-        idea.
+        >, or our
+        <a href="https://discord.gg/DAa7mCae" rel="noopener noreferrer" target="_blank"
+          >Discord server</a
+        >
       </p>
     </div>
 

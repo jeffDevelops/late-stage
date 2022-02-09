@@ -6,6 +6,7 @@
   import Logo from './Logo.svelte'
   import NotionLogo from './iconography/Notion.svelte'
   import RedditLogo from './iconography/Reddit.svelte'
+  import DiscordLogo from './iconography/Discord.svelte'
   import OpenInNew from './iconography/OpenInNew.svelte'
 
   import { shouldDisplayNav } from '../stores/Navigation'
@@ -111,6 +112,10 @@
       <a on:mouseup={handleClickOutside} href="https://www.reddit.com/r/latestage/"
         >r/latestage <div><RedditLogo /> <OpenInNew /></div></a
       >
+      <a on:mouseup={handleClickOutside} href="https://discord.gg/DAa7mCae"
+        >Discord <div><DiscordLogo /> <OpenInNew /></div></a
+      >
+
       <a on:mouseup={handleClickOutside} href="https://www.reddit.com/r/antiwork/"
         >r/antiwork <div><RedditLogo /> <OpenInNew /></div></a
       >
