@@ -28,6 +28,7 @@
   }[] = []
 
   function fixHeightOnChromeiOS() {
+    if (!browser) return
     // Targets iOS Chrome
     if (navigator.userAgent.match('CriOS')) {
       actionsContainer.style.bottom = '143px' // height of the actions container
