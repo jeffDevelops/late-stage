@@ -15,10 +15,3 @@
     </g>
   </g>
 </svg>
-
-<style>
-  svg {
-    fill: var(--text-color);
-    stroke: var(--text-color);
-  }
-</style>

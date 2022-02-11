@@ -51,7 +51,6 @@
   $: authRoutes = [
     '/log-in',
     '/register',
-    '/forgot-password',
     '/confirm-user-callback',
     ...($session?.user?.emailIsVerified ? ['/verify-user'] : []), // make '/verify-user' inaccessible only when user has verified their email
   ]
