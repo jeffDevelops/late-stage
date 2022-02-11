@@ -1,6 +1,6 @@
 <script lang="ts">
   import { session } from '$app/stores'
-  import { ip } from '../stores/ip'
+  import { ip } from '../stores/IP'
   import FloatingActionButton from './FloatingActionButton.svelte'
   import Shield from './iconography/Shield.svelte'
   import { popularEmailDomains } from '../config/popularEmailDomains'
