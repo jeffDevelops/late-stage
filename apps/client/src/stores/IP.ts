@@ -14,6 +14,8 @@ export type IPState =
         geoplugin_city: string
         geoplugin_region: string
         geoplugin_countryCode: string
+        geoplugin_countryName: string
+        geoplugin_continentName: string
         geoplugin_latitude: string
         geoplugin_longitude: string
         geoplugin_locationAccuracyRadius: string
@@ -47,7 +49,7 @@ const getIP = async (): Promise<void> => {
     const geoResponse = await fetch(`${env.viteSveltekitHost}/proxy/ip-geolocation?ip=${ip}`)
     const deserializedGeoResponse = await geoResponse.json()
 
-    if (deserializedGeoResponse?.geoplugin_status === 200) {
+    if (deserializedGeoResponse?.geoplugin_status.toString().startsWith('2')) {
       set({ didConfirmBrowsingWithVPN: false, ip, geo: deserializedGeoResponse, browsingFromNewIP })
 
       localStorage.setItem(
@@ -60,6 +62,7 @@ const getIP = async (): Promise<void> => {
         }),
       )
     } else {
+      console.log({ deserializedGeoResponse })
       set('ERROR')
     }
   } catch (error) {

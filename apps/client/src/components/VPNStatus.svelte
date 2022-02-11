@@ -23,6 +23,8 @@
   $: if (typeof $ip === 'object' && !$ip.browsingFromNewIP && $ip.didConfirmBrowsingWithVPN) {
     notBrowsingWithVPN = false
   }
+
+  $: console.log({ notBrowsingWithVPN, $ip })
 </script>
 
 <Card>
@@ -53,8 +55,17 @@
       <span class="value">{typeof $ip === 'object' && $ip.geo.geoplugin_region}</span>
     </p>
     <p class="info-text ip-info">
-      <strong>Country</strong>:
+      <strong>Country Code</strong>:
       <span class="value">{typeof $ip === 'object' && $ip.geo.geoplugin_countryCode}</span>
+    </p>
+    <p class="info-text ip-info">
+      <strong>Continent</strong>:
+      <span class="value">{typeof $ip === 'object' && $ip.geo.geoplugin_continentName}</span>
+    </p>
+
+    <p class="info-text ip-info">
+      <strong>Country Name</strong>:
+      <span class="value">{typeof $ip === 'object' && $ip.geo.geoplugin_countryName}</span>
     </p>
     <p class="info-text ip-info">
       <strong>Latitude</strong>:
