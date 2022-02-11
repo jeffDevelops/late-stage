@@ -5,7 +5,7 @@ export { VerifyEmailAddressResolver } from './VerifyEmailAddressResolver'
 export { RefreshAccessTokenResolver } from './RefreshAccessTokenResolver'
 export { LogOutResolver } from './LogOutResolver'
 export { SendPasswordResetEmailResolver } from './SendPasswordResetEmailResolver'
-export { UpdatePasswordResolver } from './UpdatePasswordResolver'
+// export { UpdatePasswordResolver } from './UpdatePasswordResolver'
 export { UpdateEmailAddressResolver } from './UpdateEmailAddressResolver'
 export { UpdateUsernameResolver } from './UpdateUsernameResolver'
 
