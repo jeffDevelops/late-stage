@@ -3,7 +3,7 @@
   import ThumbsUp from '../components/iconography/ThumbsUp.svelte'
   import ThumbsDown from '../components/iconography/ThumbsDown.svelte'
 
-  import { ip } from '../stores/ip'
+  import { ip } from '../stores/IP'
 
   /**
    * STATE
@@ -110,10 +110,21 @@
     </p>
 
     <ul>
-      <li><a href="https://nordvpn.com/pricing/">Nord VPN</a></li>
-      <li><a href="https://www.expressvpn.com/order">ExpressVPN</a></li>
       <li>
-        <a href="https://www.cyberghostvpn.com/en_US/buy/cyberghost-vpn-4">Cyberghost VPN</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://nordvpn.com/pricing/">Nord VPN</a
+        >
+      </li>
+      <li>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.expressvpn.com/order"
+          >ExpressVPN</a
+        >
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.cyberghostvpn.com/en_US/buy/cyberghost-vpn-4">Cyberghost VPN</a
+        >
       </li>
     </ul>
   {/if}

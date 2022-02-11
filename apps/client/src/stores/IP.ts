@@ -44,7 +44,7 @@ const getIP = async (): Promise<void> => {
       }
     }
 
-    const geoResponse = await fetch(`${env.viteSveltekitHost}/proxy/ipGeolocation?ip=${ip}`)
+    const geoResponse = await fetch(`${env.viteSveltekitHost}/proxy/ip-geolocation?ip=${ip}`)
     const deserializedGeoResponse = await geoResponse.json()
 
     if (deserializedGeoResponse?.geoplugin_status === 200) {

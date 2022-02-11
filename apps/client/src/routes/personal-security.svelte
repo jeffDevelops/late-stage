@@ -36,6 +36,17 @@
 
         <EmailAddressStatus />
         <VPNStatus />
+
+        <footer class="credits">
+          <p>IP and Geolocation Detection Powered By:</p>
+
+          <div class="flex">
+            <a target="_blank" rel="noopener noreferrer" href="https://www.ipify.org/">ipify API</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://www.geoplugin.com/"
+              >geoPlugin</a
+            >
+          </div>
+        </footer>
       </Card>
     </div>
 
@@ -100,6 +111,47 @@
     line-height: 1.8em;
   }
 
+  :global(.my-security-status > .card) {
+    position: relative;
+    padding-bottom: 72px;
+    overflow: auto;
+  }
+
+  .credits {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    font-size: 0.8em;
+    color: #999;
+    width: 100%;
+    padding: 16px;
+    border-top: 1px solid var(--interactive-color);
+    background-color: var(--card-background);
+  }
+
+  .credits .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 0 auto;
+  }
+
+  .credits p {
+    color: var(--text-color-subdued);
+    font-size: 0.8rem;
+    display: block;
+    text-align: center;
+    width: auto;
+    margin: 0 auto 8px;
+  }
+
+  .credits a {
+    display: block;
+  }
+
   :global(.personal-security h2 svg) {
     fill: var(--interactive-color);
     height: 32px;
@@ -143,6 +195,10 @@
 
   :global(.personal-security .my-security-status > .card .card) {
     margin-top: 16px;
+  }
+
+  :global(.personal-security .my-security-status > .card .card:last-of-type) {
+    margin-bottom: 16px;
   }
 
   :global(.personal-security .grid > div > .card) {
