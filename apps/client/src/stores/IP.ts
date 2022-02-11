@@ -71,7 +71,7 @@ const getIP = async (): Promise<void> => {
 }
 
 getIP()
-if (browser) setInterval(getIP, 30000)
+if (browser) setInterval(getIP, 10000)
 
 export const ip = {
   subscribe,
