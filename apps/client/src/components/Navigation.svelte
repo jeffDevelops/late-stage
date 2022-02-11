@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fly } from 'svelte/transition'
-  import { page, session, url } from '$app/stores'
+  import { page, session } from '$app/stores'
   import { browser } from '$app/env'
 
   import Logo from './Logo.svelte'
@@ -10,10 +10,19 @@
   import OpenInNew from './iconography/OpenInNew.svelte'
 
   import { shouldDisplayNav } from '../stores/Navigation'
+  import { ip } from '../stores/IP'
   import { clickOutside } from '../directives/clickOutside'
   import { logOut } from '../networking/shared/logout'
+  import { popularEmailDomains } from '../config/popularEmailDomains'
 
   const handleClickOutside = () => shouldDisplayNav.update(() => false)
+
+  /**
+   * REACTIVE
+   */
+  $: userHasCommonEmailAddress = popularEmailDomains.some((emailDomain) =>
+    $session.user?.email.includes(`@${emailDomain}.`),
+  )
 </script>
 
 {#if $shouldDisplayNav}
@@ -69,6 +78,16 @@
       sveltekit:prefetch
       href="/resources"
       class:active={$page.url.pathname === '/resources'}>Resources</a
+    >
+
+    <a
+      on:mouseup={handleClickOutside}
+      sveltekit:prefetch
+      href="/personal-security"
+      class:active={$page.url.pathname === '/resources'}
+      >Privacy & Anonymity {#if userHasCommonEmailAddress || (typeof $ip === 'object' && !$ip.didConfirmBrowsingWithVPN)}
+        <div class="notification">!</div>
+      {/if}</a
     >
 
     {#if $session.user}
@@ -223,6 +242,31 @@
   .log-out-button:focus {
     box-shadow: none;
     transform: none;
+  }
+
+  .notification {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    max-height: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    min-width: 20px;
+    background-color: var(--interactive-color);
+    color: var(--button-text-color);
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    font-family: var(--font-display);
+    padding-top: 4px;
+  }
+
+  a:hover .notification {
+    background-color: var(--button-text-color);
+    transition: background-color 0.1s, color 0.1s;
+    color: var(--interactive-color);
   }
 
   :global(a svg) {

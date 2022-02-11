@@ -53,9 +53,3 @@
     </g>
   </g>
 </svg>
-
-<style>
-  svg {
-    fill: var(--text-color);
-  }
-</style>

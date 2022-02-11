@@ -7,4 +7,5 @@ export const healthcheckExemptRoutes = [
   '/audit',
   '/checklist-rfcs',
   '/campaign-rfcs',
+  '/personal-security',
 ]
