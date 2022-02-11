@@ -32,7 +32,6 @@
 
   .notification {
     border-radius: 50%;
-    border: 2px solid var(--text-color);
     height: 28px;
     width: 28px;
     max-height: 28px;
@@ -43,7 +42,7 @@
     top: -16px;
     left: -16px;
     background-color: var(--interactive-color);
-    color: var(--text-color);
+    color: var(--button-text-color);
     font-weight: 700;
     display: flex;
     justify-content: center;
