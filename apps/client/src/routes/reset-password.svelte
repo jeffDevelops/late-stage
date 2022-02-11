@@ -1,3 +1,12 @@
+<script lang="ts" context="module">
+  // ROUTE DISABLED, BUT CODE KEPT IF NEEDED LATER
+  export const load = async () => ({
+    redirect: '/',
+    status: 303,
+  })
+  // ROUTE DISABLED, BUT CODE KEPT IF NEEDED LATER
+</script>
+
 <script lang="ts">
   import { fade } from 'svelte/transition'
   import { session } from '$app/stores'

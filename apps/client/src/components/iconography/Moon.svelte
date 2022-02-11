@@ -21,8 +21,4 @@
     fill: var(--text-color);
     stroke: var(--text-color);
   }
-  svg.moon-icon {
-    width: 13px;
-    height: 13px;
-  }
 </style>

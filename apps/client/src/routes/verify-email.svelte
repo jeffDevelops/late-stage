@@ -5,6 +5,8 @@
   import { gqlRequest } from '../networking/gqlRequest'
   import { confirmUser } from '../networking/graphql/mutation/ConfirmUser'
   import CheckIcon from '../components/iconography/Checkmark.svelte'
+  import EmailIcon from '../components/iconography/Email.svelte'
+  import Card from '../components/Card.svelte'
 
   /**
    * STATE
@@ -63,40 +65,50 @@
 </script>
 
 <main class="verify-email">
-  <h1>Verify Your Email</h1>
+  <h1><EmailIcon /> Verify Your Email</h1>
 
-  <p>Thank you for signing up!</p>
+  <Card>
+    <h4>Thank you for signing up!</h4>
 
-  <p>
-    An email was sent to the email address you provided. You'll need to click the confirmation link
-    in that email to finish registering.
-  </p>
+    <p>
+      An email was sent to the email address you provided. You'll need to click the confirmation
+      link in that email to confirm your email address.
+    </p>
 
-  <p>For your security, it expires in five minutes.</p>
+    <p>For your security, it expires in five minutes.</p>
 
-  <p>You may now close this tab in your browser.</p>
+    <p>You may now close this tab in your browser.</p>
+  </Card>
 
   {#if !didRequestResend}
-    <h4 out:fade in:fade>Didn't get an email?</h4>
-    <form on:submit|preventDefault={handleSendConfirmationEmailAgain} out:fade in:fade class="flex">
-      <div>
-        <label for="verify-email-input">Email Address</label>
-        <input id="verify-email-input" type="text" bind:value={email} />
+    <div out:fade in:fade>
+      <Card>
+        <h4>Didn't get an email?</h4>
+        <form on:submit|preventDefault={handleSendConfirmationEmailAgain} class="flex">
+          <div>
+            <label for="verify-email-input">Email Address</label>
+            <input id="verify-email-input" type="text" bind:value={email} />
 
-        {#if emailError && didAttemptSubmit}
-          <p class="error-message">{emailError}</p>
-        {/if}
-      </div>
+            {#if emailError && didAttemptSubmit}
+              <p class="error-message">{emailError}</p>
+            {/if}
+          </div>
 
-      <button
-        style="margin-bottom: {emailError && didAttemptSubmit ? '37px' : '0'};"
-        type="submit"
-        class:disabled={didRequestResend}
-        class="secondary">Send It Again</button
-      >
-    </form>
+          <button
+            style="margin-bottom: {emailError && didAttemptSubmit ? '37px' : '0'};"
+            type="submit"
+            class:disabled={didRequestResend}
+            class="secondary">Send It Again</button
+          >
+        </form>
+      </Card>
+    </div>
   {:else}
-    <h4 in:fade={{ delay: 400 }} out:fade><CheckIcon /> Verification email sent!</h4>
+    <div out:fade in:fade>
+      <Card>
+        <h4 in:fade={{ delay: 400 }} out:fade><CheckIcon /> Verification email sent!</h4>
+      </Card>
+    </div>
   {/if}
 </main>
 
@@ -108,13 +120,13 @@
     margin: 0 auto;
   }
 
-  h4 {
-    margin-top: 48px;
-  }
-
   :global(.verify-email h4 svg) {
     fill: var(--interactive-color);
     margin-bottom: -6px;
+  }
+
+  :global(.verify-email .card) {
+    margin-bottom: 16px;
   }
 
   .verify-email .flex {
@@ -134,6 +146,13 @@
 
   label {
     margin-top: 0;
+  }
+
+  :global(.verify-email h1 svg) {
+    height: 32px;
+    width: 32px;
+    fill: var(--interactive-color);
+    margin-right: 8px;
   }
 
   @media screen and (max-width: 730px) {

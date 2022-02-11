@@ -1,4 +1,12 @@
-import { Mutation, Resolver, Arg, Field, InputType, Ctx } from 'type-graphql'
+import {
+  Mutation,
+  Resolver,
+  Arg,
+  Field,
+  InputType,
+  Ctx,
+  registerEnumType,
+} from 'type-graphql'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dayjs from 'dayjs'
@@ -10,10 +18,38 @@ import type { PrismaClient } from '@prisma/client'
 import type { FastifyReply } from 'fastify'
 import type { CookieSerializeOptions } from 'fastify-cookie'
 
+export enum AuthCredential {
+  EMAIL = 'EMAIL',
+  USERNAME = 'USERNAME',
+}
+
+registerEnumType(AuthCredential, {
+  name: 'AuthCredential',
+  description: 'The credential being used to authenticate with',
+  valuesConfig: {
+    USERNAME: {
+      description:
+        'Specify USERNAME when the user is using their username to log in',
+    },
+    EMAIL: {
+      description: 'Specify EMAIL when the user is using their email to log in',
+    },
+  },
+})
+
 @InputType()
 abstract class AuthenticateUserInput implements Partial<User> {
-  @Field((_type) => String, { nullable: false })
+  @Field((_type) => String, { nullable: true })
   email: string
+
+  @Field((_type) => String, { nullable: true })
+  username: string
+
+  @Field((_type) => AuthCredential, {
+    nullable: false,
+    description: 'The credential being used to authenticate with',
+  })
+  credential: AuthCredential
 
   @Field((_type) => String, { nullable: false })
   password: string
@@ -28,10 +64,15 @@ export abstract class AuthenticateUserResolver {
       description: 'Authenticate user',
       validate: true,
     })
-    { email, password }: AuthenticateUserInput,
+    { email, username, password, credential }: AuthenticateUserInput,
     @Ctx() { prisma, res }: Context,
   ): Promise<boolean> {
-    const user = await this.getUser(prisma, email)
+    const user = await this.getUser({
+      prisma,
+      email,
+      username,
+      credential,
+    })
 
     /* c8 ignore start */
 
@@ -55,13 +96,34 @@ export abstract class AuthenticateUserResolver {
     return true
   }
 
-  private async getUser(
-    prisma: PrismaClient,
-    email: string,
-  ): Promise<User> | never {
+  private async getUser({
+    prisma,
+    email,
+    username,
+    credential,
+  }: {
+    prisma: PrismaClient
+    email?: string
+    username?: string
+    credential: AuthCredential
+  }): Promise<User> | never {
+    const credentialType =
+      credential === AuthCredential.EMAIL ? 'email' : 'username'
+    const credentialValue =
+      credential === AuthCredential.EMAIL ? email : username
+
+    /**
+     * Validate the specified credential is present
+     */
+    if (!credentialValue) {
+      throw new ErrorWithProps(
+        `Bad request: missing credential ${credentialType}`,
+      )
+    }
+
     const user = await prisma.user.findUnique({
       where: {
-        email,
+        [credentialType]: credentialValue,
       },
     })
 

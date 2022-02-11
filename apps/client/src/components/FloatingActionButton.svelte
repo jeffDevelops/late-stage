@@ -28,6 +28,7 @@
     transform: perspective(1000px) translateZ(0px);
     outline: 1px solid transparent;
   }
+
   button:hover {
     transition: transform 0.5s;
     transform: perspective(1000px) translateZ(40px);
@@ -35,8 +36,6 @@
 
   :global(button.fab svg) {
     transition: transform 0.25s;
-    height: 16px;
-    width: 16px;
   }
 
   :global(button.fab:hover > svg) {

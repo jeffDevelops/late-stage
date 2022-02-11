@@ -244,7 +244,6 @@
 
   .content {
     min-height: 40px;
-    height: auto;
     padding: 16px 40px;
   }
 
@@ -275,6 +274,7 @@
       padding-top: 40px;
       overflow: auto;
       height: calc(100vh - 73px);
+      max-height: calc(100vh - 73px);
     }
 
     .actions {

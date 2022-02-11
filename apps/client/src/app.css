@@ -1,7 +1,7 @@
 :root {
   /** Semantic Colors */
   --error-color: #ff5964;
-  --success-color: #18a999;
+  --success-color: #089989;
   --info-color: #35a7ff;
 
   --interactive-color: #ff5964;
@@ -25,10 +25,10 @@
   --app-background: #ffffff;
   --app-background-dark: #ffffff;
   --card-background: #e4e6ea55;
-  --input-background: #e4e6ea88;
+  --input-background: #d4d6da99;
   --visualization-color: #dee0e288;
   --text-color: #33221dee;
-  --text-color-subdued: #33221d88;
+  --text-color-subdued: #33221daa;
 }
 
 :root.dark-theme {
@@ -156,8 +156,10 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+a:hover,
+a:focus-visible {
   text-decoration: underline;
+  outline: none;
 }
 
 .close-button {
@@ -287,11 +289,6 @@ button.primary {
   transform: perspective(1000px) translateZ(0px);
 }
 
-button.primary:hover,
-button.primary:focus {
-  transition: transform 0.2s;
-}
-
 button.secondary {
   border: 1px solid var(--interactive-color);
   background-color: transparent;
@@ -307,10 +304,21 @@ button.secondary {
   padding: 8px 24px;
   text-align: center;
   min-width: 172px;
-  transition: transform 0.2s;
-  transform: perspective(1000px) translateZ(0px);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
+  transition: transform 0.2s;
+  transform: perspective(1000px) translateZ(0px);
+}
+
+button.primary:hover,
+button.primary:focus,
+button.primary:focus-visible,
+button.secondary:hover,
+button.secondary:focus,
+button.secondary:focus-visible {
+  transition: transform 0.2s;
+  transform: perspective(1000px) translateZ(10px);
+  outline: 2px solid var(--interactive-color);
 }
 
 button.primary.disabled,
@@ -328,6 +336,12 @@ button.text {
   border: none;
   font-size: 1em;
   letter-spacing: 0.01em;
+}
+
+button.text:hover,
+button.text:focus-visible {
+  text-decoration: underline;
+  outline: none;
 }
 
 .error-message {

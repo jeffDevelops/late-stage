@@ -22,5 +22,7 @@
 
   :global(.navigation-button svg) {
     fill: var(--interactive-color);
+    height: 22px;
+    width: 22px;
   }
 </style>

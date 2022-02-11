@@ -22,7 +22,7 @@ export abstract class InputValidator {
 
     if (
       !username.match(
-        /^(?=.{2,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
+        /^(?=.{2,20}$)(?![_.\-])(?!.*[_.\-]{2})[a-zA-Z0-9._\-]+(?<![_.\-])$/,
       )
     ) {
       throw new ErrorWithProps(

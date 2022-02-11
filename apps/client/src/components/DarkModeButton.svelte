@@ -32,7 +32,14 @@
   :global(.dark-mode-button svg) {
     stroke: var(--interactive-color);
     fill: var(--interactive-color);
-    width: 14px;
-    height: 14px;
+    width: 22px;
+    height: 22px;
+  }
+
+  :global(.dark-mode-button .moon-icon) {
+    stroke: var(--interactive-color);
+    fill: var(--interactive-color);
+    width: 18px;
+    height: 18px;
   }
 </style>

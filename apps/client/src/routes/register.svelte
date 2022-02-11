@@ -6,6 +6,7 @@
   import InfoIcon from '../components/iconography/Info.svelte'
   import VisibilityOnIcon from '../components/iconography/VisibilityOn.svelte'
   import VisibilityOffIcon from '../components/iconography/VisibilityOff.svelte'
+  import ThrowawayEmailMessage from '../components/ThrowawayEmailMessage.svelte'
   import Controls from '../components/Controls.svelte'
 
   import { env } from '../networking/env'
@@ -22,6 +23,8 @@
   /**
    * STATE
    */
+
+  let shouldDisplayThrowawayEmailMessage = false
 
   let username = ''
   let usernameTaken = false
@@ -216,9 +219,21 @@
 
 <Controls />
 
+<ThrowawayEmailMessage
+  on:dismiss={() => (shouldDisplayThrowawayEmailMessage = false)}
+  isDisplayed={shouldDisplayThrowawayEmailMessage}
+/>
+
 <main>
   <section in:fade out:fade class="register">
     <h1>Register</h1>
+
+    <p class="disclosure">
+      Registering for Late-Stage is a little different than you might be used to!<button
+        class="text"
+        on:click={() => (shouldDisplayThrowawayEmailMessage = true)}>Know the risks.</button
+      >
+    </p>
 
     <form on:submit|preventDefault={handleSubmit}>
       <label for="register-username">Username</label>
@@ -228,9 +243,10 @@
       {/if}
 
       <label for="register-email"
-        >Email <span
+        >Throwaway Email Address <span
+          on:click={() => (shouldDisplayThrowawayEmailMessage = true)}
           class="tooltip-container"
-          title="Your email is used log in and recover your account if your forget your password."
+          title="Your email can be used to log in to your account, but it's mostly a security measure to prevent bots and spam. Use a throwaway / temporary email address."
           ><InfoIcon /></span
         ></label
       >
@@ -288,7 +304,8 @@
           ><button class="secondary"><span>Already a member?</span> Log In</button></a
         >
         <button
-          class:disabled={didAttemptSubmit && formContainsErrors}
+          disabled={loading || (didAttemptSubmit && formContainsErrors)}
+          class:disabled={loading || (didAttemptSubmit && formContainsErrors)}
           type="submit"
           class="primary">Register</button
         >
@@ -320,6 +337,17 @@
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.05em;
+  }
+
+  p.disclosure {
+    color: var(--text-color);
+    font-size: unset;
+    font-weight: 400;
+    padding: 24px;
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: var(--card-background);
   }
 
   :global(.register h3 svg) {

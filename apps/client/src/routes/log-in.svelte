@@ -3,10 +3,11 @@
   import { goto } from '$app/navigation'
   import { session } from '$app/stores'
 
-  import InfoIcon from '../components/iconography/Info.svelte'
   import VisibilityOnIcon from '../components/iconography/VisibilityOn.svelte'
   import VisibilityOffIcon from '../components/iconography/VisibilityOff.svelte'
   import Controls from '../components/Controls.svelte'
+  import EmailIcon from '../components/iconography/Email.svelte'
+  import AccountIcon from '../components/iconography/Account.svelte'
 
   import { navigationStatePriorToLogin } from '../stores/NavigationPriorToLogin'
   import { env } from '../networking/env'
@@ -21,8 +22,11 @@
    * STATE
    */
 
+  /** Toggle to allow user to log in with username or email address */
+  let loggingInWithEmail = false
+
+  let username = ''
   let email = ''
-  let emailTaken = false
 
   let password = ''
   let passwordMasked = true
@@ -31,6 +35,7 @@
 
   let errors = {
     email: '',
+    username: '',
     password: '',
 
     form: '',
@@ -44,15 +49,29 @@
 
   $: formContainsErrors = Object.values(errors).some((value) => !!value)
 
+  // Username errors
+  $: {
+    errors = (() => {
+      if (!username && !loggingInWithEmail) {
+        errors.username = 'Username is required'
+        return errors
+      }
+
+      errors.username = ''
+      return errors
+    })()
+  }
+
   // Email errors
   $: {
     errors = (() => {
-      if (!email) {
+      if (!email && loggingInWithEmail) {
         errors.email = 'Email address is required'
         return errors
       }
 
       if (
+        loggingInWithEmail &&
         !email.match(
           /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
         )
@@ -102,7 +121,9 @@
             query: authenticateUser,
             variables: {
               authenticateUserInput: {
-                email,
+                email: loggingInWithEmail ? email : undefined,
+                username: loggingInWithEmail ? undefined : username,
+                credential: loggingInWithEmail ? 'EMAIL' : 'USERNAME',
                 password,
               },
             },
@@ -123,7 +144,7 @@
               createdAt
               cred
               isAdmin
-              `),
+            `),
           }),
         )
 
@@ -161,16 +182,42 @@
     <h1>Log In</h1>
 
     <form on:submit|preventDefault={handleSubmit}>
-      <label for="log-in-email"
-        >Email <span
-          class="tooltip-container"
-          title="Your email is used to identify you within the system without having to remember your username, and prevents you from getting locked out of your account in the event you forget your password."
-          ><InfoIcon /></span
-        ></label
-      >
-      <input id="log-in-email" bind:value={email} />
-      {#if errors.email && (didAttemptSubmit || emailTaken)}
-        <p in:fade out:fade class="error-message">{errors.email}</p>
+      {#if loggingInWithEmail}
+        <div class="column">
+          <label for="log-in-email">Email Address</label>
+          <div class="flex">
+            <input type="text" id="log-in-email" bind:value={email} />
+            <button
+              class:disabled={loading}
+              type="button"
+              on:click={() => (loggingInWithEmail = !loggingInWithEmail)}
+              class="secondary"
+            >
+              <AccountIcon />
+            </button>
+          </div>
+        </div>
+      {:else}
+        <div class="column">
+          <label for="log-in-password">Username</label>
+          <div class="flex">
+            <input type="text" id="log-in-username" bind:value={username} />
+            <button
+              class:disabled={loading}
+              type="button"
+              on:click={() => (loggingInWithEmail = !loggingInWithEmail)}
+              class="secondary"
+            >
+              <EmailIcon />
+            </button>
+          </div>
+        </div>
+      {/if}
+
+      {#if ((loggingInWithEmail && errors.email) || (!loggingInWithEmail && errors.username)) && didAttemptSubmit}
+        <p in:fade out:fade class="error-message">
+          {loggingInWithEmail ? errors.email : errors.username}
+        </p>
       {/if}
 
       <label for="log-in-password">Password</label>
@@ -199,8 +246,6 @@
         <p in:fade out:fade class="error-message">{errors.password}</p>
       {/if}
 
-      <a class="forgot-password" href="/reset-password">Forgot password?</a>
-
       {#if errors.form}
         <p in:fade out:fade class="error-message">{errors.form}</p>
       {/if}
@@ -211,7 +256,8 @@
           ></a
         >
         <button
-          class:disabled={didAttemptSubmit && formContainsErrors}
+          disabled={loading || (didAttemptSubmit && formContainsErrors)}
+          class:disabled={loading || (didAttemptSubmit && formContainsErrors)}
           type="submit"
           class="primary">Log In</button
         >
@@ -316,6 +362,12 @@
     padding: 3px 0 0 0;
   }
 
+  .column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
   .forgot-password {
     margin-top: 8px;
     display: inline-block;
@@ -351,6 +403,10 @@
   @media screen and (max-width: 700px) {
     .actions {
       flex-direction: column-reverse;
+    }
+
+    .actions a {
+      width: 100%;
     }
 
     button.primary,

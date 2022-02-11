@@ -1,6 +1,6 @@
 import { test } from 'uvu'
 import * as assert from 'uvu/assert'
-import fetch from 'isomorphic-fetch'
+import dayjs from 'dayjs'
 import setCookieParser from 'set-cookie-parser'
 import { gqlRequestInit, request } from '../../test-utils/gqlRequest'
 import {
@@ -11,10 +11,10 @@ import {
   authenticateGQLQuery,
   registerUser,
   assertIsTestUser,
+  USERNAME,
 } from '../../test-utils/authenticate/setup'
 import { teardown } from '../../test-utils/authenticate/teardown'
-import { assertPasswordNotQueryable } from '../../test-utils/assertions/passwordNotQueryable'
-import dayjs from 'dayjs'
+import { AuthCredential } from '../../src/resolvers/mutation/AuthenticateUserResolver'
 
 test.before(async () => {
   assert.equal(await queryTestUser(), null)
@@ -44,6 +44,7 @@ test('AuthenticateUserMutation does not succeed if password incorrect', async ()
     authenticateUserInput: {
       email: EMAIL,
       password: INCORRECT_PASSWORD,
+      credential: AuthCredential.EMAIL,
     },
   }
 
@@ -74,7 +75,7 @@ test('AuthenticateUserMutation does not succeed if password incorrect', async ()
   assert.is(authResponse.headers.get('set-cookie'), null)
 })
 
-test('AuthenticateUserMutation succeeds if password correct', async () => {
+test('AuthenticateUserMutation succeeds with email if password correct', async () => {
   await registerUser()
 
   const testUser = await queryTestUser()
@@ -86,6 +87,58 @@ test('AuthenticateUserMutation succeeds if password correct', async () => {
       authenticateUserInput: {
         email: EMAIL,
         password: PASSWORD,
+        credential: AuthCredential.EMAIL,
+      },
+    },
+  })
+
+  const authResponse = await request(authRequestInit, false)
+  const deserialized = await authResponse.json()
+
+  assert.is(deserialized.errors, undefined)
+  assert.is(true, deserialized.data.authenticateUser)
+
+  const cookies = setCookieParser.parse(
+    setCookieParser.splitCookiesString(authResponse.headers.get('set-cookie')),
+  )
+
+  const refreshCookie = cookies.find(({ name }) => name === '__Host-r')
+
+  // Assert refresh cookie expires in 7 days with 3 seconds of leniency
+  assert.is(dayjs().diff(dayjs(refreshCookie?.expires), 'days') < 7, true)
+
+  assert.is(
+    dayjs(refreshCookie?.expires).diff(dayjs(), 'seconds') >=
+      // 3 seconds of leniency...
+      60 * 60 * 24 * 6 + // 6 days
+        60 * 60 * 23 + // 23 hours
+        60 * 59 + // 59 minutes
+        57, // 57 seconds
+    true,
+  )
+
+  assert.is(cookies.length, 1)
+  cookies.forEach(({ domain, path, secure, httpOnly }) => {
+    assert.is(domain, undefined)
+    assert.is(path, '/')
+    assert.is(secure, true)
+    assert.is(httpOnly, true)
+  })
+})
+
+test('AuthenticateUserMutation succeeds with username if password correct', async () => {
+  await registerUser()
+
+  const testUser = await queryTestUser()
+  assertIsTestUser(testUser)
+
+  const authRequestInit = gqlRequestInit({
+    query: authenticateGQLQuery(),
+    variables: {
+      authenticateUserInput: {
+        username: USERNAME,
+        password: PASSWORD,
+        credential: AuthCredential.USERNAME,
       },
     },
   })

@@ -134,7 +134,7 @@
 
   main {
     position: relative;
-    padding: 0 64px 64px;
+    padding: 0 48px 64px;
   }
 
   @media screen and (max-width: 600px) {

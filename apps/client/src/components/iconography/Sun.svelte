@@ -57,7 +57,5 @@
 <style>
   svg {
     fill: var(--text-color);
-    width: 20px;
-    height: 20px;
   }
 </style>

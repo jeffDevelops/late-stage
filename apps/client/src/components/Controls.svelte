@@ -4,6 +4,7 @@
   import NavigationButton from '../components/NavigationButton.svelte'
   import DarkModeButton from '../components/DarkModeButton.svelte'
   import UserButton from '../components/UserButton.svelte'
+  import PersonalSecurityButton from '../components/PersonalSecurityButton.svelte'
   import PublicAlphaModal from '../assemblies/PublicAlphaModal.svelte'
   import { shouldDisplayControls } from '../stores/Controls'
 </script>
@@ -14,6 +15,7 @@
     <NavigationButton />
     <DarkModeButton />
     <UserButton />
+    <PersonalSecurityButton />
     <PublicAlphaModal />
   </div>
 {/if}

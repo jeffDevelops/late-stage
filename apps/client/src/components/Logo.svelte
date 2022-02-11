@@ -4,8 +4,10 @@
   h1 {
     text-transform: uppercase;
     letter-spacing: 0.25em;
+    text-align: center;
     font-weight: 300;
     font-size: 18px;
-    margin-bottom: 0;
+    margin: 0 auto;
+    width: auto;
   }
 </style>

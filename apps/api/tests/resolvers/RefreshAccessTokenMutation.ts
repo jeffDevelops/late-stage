@@ -19,7 +19,7 @@ test.after.each(async () => {
   await teardown()
 })
 
-const refreshAccessTokenMutation = `#graphql
+export const refreshAccessTokenMutation = `#graphql
 mutation RefreshAccessToken {
   refreshAccessToken
 }`

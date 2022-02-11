@@ -1,6 +1,12 @@
+<!-- THIS ROUTE DISABLED FOR NOW -->
 <script context="module" lang="ts">
   import type { LoadInput, LoadOutput } from '@sveltejs/kit'
-  export async function load({ fetch, url, session }: LoadInput): Promise<LoadOutput> {
+  export async function load({ url, session }: LoadInput): Promise<LoadOutput> {
+    return {
+      redirect: '/',
+      status: 303,
+    }
+
     const email = url.searchParams.get('email')
     const token = url.searchParams.get('token')
 
@@ -23,7 +29,7 @@
 </script>
 
 <script lang="ts">
-  import { goto, prefetch } from '$app/navigation'
+  import { goto } from '$app/navigation'
   import { session } from '$app/stores'
   import Card from '../components/Card.svelte'
   import VisibilityOnIcon from '../components/iconography/VisibilityOn.svelte'

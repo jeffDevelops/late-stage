@@ -1,8 +1,11 @@
+import 'reflect-metadata'
 import * as assert from 'uvu/assert'
 import type { Prisma, User } from '@prisma/client'
 import { prisma } from '../../prisma/prisma.config'
 import { gqlRequestInit, request } from '../gqlRequest'
 import { teardown } from './teardown'
+import { refreshAccessTokenMutation } from '../../tests/resolvers/RefreshAccessTokenMutation'
+import { AuthCredential } from '../../src/resolvers/mutation/AuthenticateUserResolver'
 
 export const EMAIL = 'test@automatedtest.com'
 export const USERNAME = 'automated_test'
@@ -41,7 +44,9 @@ const USER_REGISTRATION_VARIABLES = {
 const AUTHENTICATE_USER_VARIABLES = {
   authenticateUserInput: {
     email: EMAIL,
+    username: USERNAME,
     password: PASSWORD,
+    credential: AuthCredential.EMAIL,
   },
 }
 
@@ -117,6 +122,7 @@ export const authenticateUser = async (
         authenticateUserInput: {
           email: fixture.email,
           password: PASSWORD,
+          credential: AuthCredential.EMAIL,
         },
       }
     : AUTHENTICATE_USER_VARIABLES
@@ -142,4 +148,24 @@ export const setup = async (
   await authenticateUser(fixture)
 
   assertIsTestUser(await queryTestUser(), fixture)
+}
+
+export const refreshAccessToken = async () => {
+  const authResponse = await authenticateUser(undefined, false)
+  const refreshCookie = authResponse.headers.get('set-cookie')
+
+  const refreshInit = gqlRequestInit(
+    {
+      query: refreshAccessTokenMutation,
+    },
+    { cookie: refreshCookie },
+  )
+
+  const refreshResponse = await request(refreshInit, false)
+  const deserialized = await refreshResponse.json()
+  const accessCookie = refreshResponse.headers.get('set-cookie')
+
+  assert.is(deserialized.data.refreshAccessToken, true)
+
+  return accessCookie
 }

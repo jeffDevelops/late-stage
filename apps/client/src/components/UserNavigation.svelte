@@ -32,7 +32,7 @@
 
 <nav use:clickOutside on:click-outside={handleClickOutside} in:fade out:fade class="user-nav">
   {#if $session.user}
-    <a sveltekit:prefetch href="/reset-password">Reset Password</a>
+    <a sveltekit:prefetch href="/user-settings">User Settings</a>
     <!-- svelte-ignore a11y-invalid-attribute -->
     <a href="#" on:click={handleLogOut}>Log Out</a>
   {:else}
