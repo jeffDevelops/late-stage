@@ -1,5 +1,7 @@
+import { browser } from '$app/env'
 import { writable } from 'svelte/store'
 import type { Writable } from 'svelte/types/runtime/store'
+import { LocalStorageKeys } from '../types/LocalStorageKeys'
 
 interface NavigationStatePriorToLogin {
   url: string
@@ -8,6 +10,17 @@ interface NavigationStatePriorToLogin {
 
 const { subscribe, set }: Writable<NavigationStatePriorToLogin | null> =
   writable<NavigationStatePriorToLogin | null>(null)
+
+const loadLocalStorageValue = () => {
+  if (!browser) return
+
+  const value = localStorage.getItem(LocalStorageKeys.NavigationStatePriorToLogin)
+  if (value) {
+    set(JSON.parse(value))
+  }
+}
+
+loadLocalStorageValue()
 
 /**
  * @description
@@ -23,5 +36,8 @@ const { subscribe, set }: Writable<NavigationStatePriorToLogin | null> =
  */
 export const navigationStatePriorToLogin = {
   subscribe,
-  set,
+  set: (newValue: NavigationStatePriorToLogin | null): void => {
+    localStorage.setItem(LocalStorageKeys.NavigationStatePriorToLogin, JSON.stringify(newValue))
+    set(newValue)
+  },
 }

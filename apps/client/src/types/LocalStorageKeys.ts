@@ -3,4 +3,5 @@ export enum LocalStorageKeys {
   HasAcknowledgedAlphaSoftware = 'hasAcknowledgedAlphaSoftware',
   HasCompletedBankChecklistItem = 'hasCompletedBankChecklistItem',
   IP = 'IP',
+  NavigationStatePriorToLogin = 'navigationStatePriorToLogin',
 }

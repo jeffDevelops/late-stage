@@ -13,7 +13,7 @@
   )
 </script>
 
-<a class="personal-security-button" sveltekit:prefetch href="/personal-security">
+<a class="personal-security-button" sveltekit:prefetch href="/privacy">
   <FloatingActionButton type="button">
     {#if userHasCommonEmailAddress || (typeof $ip === 'object' && !$ip.didConfirmBrowsingWithVPN)}
       <div class="notification">!</div>

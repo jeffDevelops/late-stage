@@ -1,8 +1,8 @@
 import { browser } from '$app/env'
 import { writable } from 'svelte/store'
-import type { Writable } from 'svelte/types/runtime/store'
 import { env } from '../networking/env'
 import { LocalStorageKeys } from '../types/LocalStorageKeys'
+import type { Writable } from 'svelte/types/runtime/store'
 
 export type IPState =
   | 'LOADING'

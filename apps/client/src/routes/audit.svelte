@@ -309,5 +309,9 @@
     main {
       padding: 72px 0 16px;
     }
+
+    :global(.audit .quick-links .card) {
+      padding-left: 32px;
+    }
   }
 </style>

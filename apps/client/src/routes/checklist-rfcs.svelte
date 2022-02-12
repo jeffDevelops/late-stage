@@ -79,7 +79,7 @@
 
 <Controls />
 
-<main class="audit">
+<main class="checklist-rfcs">
   <h1>RFC - Checklist</h1>
 
   <h4>What is an RFC?</h4>
@@ -196,7 +196,7 @@
 </main>
 
 <style>
-  :global(.audit .opaque .card) {
+  :global(.checklist-rfcs .opaque .card) {
     transition: background-color 1s, box-shadow 1s, backdrop-filter 1s;
     border-top-right-radius: 0 !important;
     border-top-left-radius: 0 !important;
@@ -205,7 +205,7 @@
     -webkit-backdrop-filter: blur(14px);
   }
 
-  :global(.audit .opaque .card) {
+  :global(.checklist-rfcs .opaque .card) {
     transition: background-color 1s, box-shadow 1s, backdrop-filter 1s;
   }
 
@@ -216,16 +216,16 @@
     max-width: 750px;
   }
 
-  :global(.audit h2 svg) {
+  :global(.checklist-rfcs h2 svg) {
     fill: var(--interactive-color);
     margin-bottom: -3px;
   }
 
-  :global(.audit .card:not(:first-of-type), .audit section) {
+  :global(.checklist-rfcs .card:not(:first-of-type), .checklist-rfcs section) {
     margin-top: 16px;
   }
 
-  :global(.audit .code-icon) {
+  :global(.checklist-rfcs .code-icon) {
     margin-right: 8px;
   }
 
@@ -259,6 +259,10 @@
   @media screen and (max-width: 600px) {
     main {
       padding: 72px 0 16px;
+    }
+
+    :global(.checklist-rfcs .quick-links .card) {
+      padding-left: 32px;
     }
   }
 </style>

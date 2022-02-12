@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { session } from '$app/stores'
+
   import Card from '../components/Card.svelte'
   import ThumbsUp from '../components/iconography/ThumbsUp.svelte'
   import ThumbsDown from '../components/iconography/ThumbsDown.svelte'
 
+  import { navigationStatePriorToLogin } from '../stores/NavigationPriorToLogin'
   import { popularEmailDomains } from '../config/popularEmailDomains'
-  import { session } from '$app/stores'
 
   /**
    * REACTIVE
@@ -29,9 +31,21 @@
   </h4>
 
   {#if !$session.user}
-    <p class="info-text">Not logged in</p>
-    <a sveltekit:prefetch href="/log-in">Log In</a>
-    <a sveltekit:prefetch href="/register">Register</a>
+    <p class="info-text">
+      Late-Stage determines whether your identity might be traceable based on whether your email
+      domain is one of the most common email domains, as opposed to a throwaway email address. Log
+      in or register to continue.
+    </p>
+    <a
+      on:mousedown={() => ($navigationStatePriorToLogin = { url: '/privacy', isExternal: false })}
+      sveltekit:prefetch
+      href="/log-in">Log In</a
+    >
+    <a
+      on:mousedown={() => ($navigationStatePriorToLogin = { url: '/privacy', isExternal: false })}
+      sveltekit:prefetch
+      href="/register">Register</a
+    >
   {:else}
     {#if userHasCommonEmailAddress}
       <p class="info-text">
@@ -70,6 +84,12 @@
 
     <a href="/user-settings" class="button">Change Email / Username</a>
   {/if}
+
+  <h4 class="info-text">Why even require an email address?</h4>
+  <p class="info-text">
+    Requiring an extra factor during user registration helps prevent spam accounts from being
+    created, and prevents bots from registering.
+  </p>
 </Card>
 
 <style>
@@ -89,5 +109,9 @@
 
   a:first-of-type {
     margin-bottom: 8px;
+  }
+
+  h4.info-text {
+    margin-top: 32px;
   }
 </style>
