@@ -260,7 +260,8 @@
     align-items: center;
     font-size: 0.8rem;
     font-family: var(--font-display);
-    padding-top: 4px;
+    padding-top: 3px;
+    padding-left: 1px;
   }
 
   a:hover .notification {
