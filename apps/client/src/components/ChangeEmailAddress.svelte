@@ -4,7 +4,6 @@
   import { session } from '$app/stores'
   import { goto, prefetch } from '$app/navigation'
   import Card from './Card.svelte'
-  import Modal from './Modal.svelte'
   import EmailIcon from './iconography/Email.svelte'
 
   import { gqlRequest } from '../networking/gqlRequest'
@@ -12,6 +11,7 @@
   import { disableInteractablesWhile } from '../utility/disableInteractablesWhile'
   import { updateEmailAddress } from '../networking/graphql/mutation/UpdateEmailAddress'
   import { confirmUser } from '../networking/graphql/mutation/ConfirmUser'
+  import { navigationStatePriorToLogin } from '../stores/NavigationPriorToLogin'
 
   const { isEmail } = validator
 
@@ -125,6 +125,9 @@
         errors.form = 'An unknown error occurred. Please try again later.'
       }
     })
+
+    // Bring the user back here when finished
+    $navigationStatePriorToLogin = { url: '/user-settings', isExternal: false }
 
     if (success) await goto('/verify-email')
   }

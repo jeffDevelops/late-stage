@@ -83,8 +83,8 @@
     <a
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
-      href="/personal-security"
-      class:active={$page.url.pathname === '/resources'}
+      href="/privacy"
+      class:active={$page.url.pathname === '/privacy'}
       >Privacy & Anonymity {#if userHasCommonEmailAddress || (typeof $ip === 'object' && !$ip.didConfirmBrowsingWithVPN)}
         <div class="notification">!</div>
       {/if}</a

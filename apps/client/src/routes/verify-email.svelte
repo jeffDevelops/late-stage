@@ -65,7 +65,7 @@
 </script>
 
 <main class="verify-email">
-  <h1><EmailIcon /> Verify Your Email</h1>
+  <h1><EmailIcon /> Check Your Email</h1>
 
   <Card>
     <h4>Thank you for signing up!</h4>
@@ -106,7 +106,9 @@
   {:else}
     <div out:fade in:fade>
       <Card>
-        <h4 in:fade={{ delay: 400 }} out:fade><CheckIcon /> Verification email sent!</h4>
+        <h4 class="sent" in:fade={{ delay: 400 }} out:fade>
+          <CheckIcon /> Verification email sent!
+        </h4>
       </Card>
     </div>
   {/if}
@@ -120,9 +122,14 @@
     margin: 0 auto;
   }
 
+  .verify-email h4.sent {
+    margin-bottom: 0;
+  }
+
   :global(.verify-email h4 svg) {
     fill: var(--interactive-color);
     margin-bottom: -6px;
+    margin-right: 8px;
   }
 
   :global(.verify-email .card) {

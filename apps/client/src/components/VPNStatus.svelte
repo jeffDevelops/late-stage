@@ -2,6 +2,7 @@
   import Card from '../components/Card.svelte'
   import ThumbsUp from '../components/iconography/ThumbsUp.svelte'
   import ThumbsDown from '../components/iconography/ThumbsDown.svelte'
+  import Spinner from './iconography/Spinner.svelte'
 
   import { ip } from '../stores/IP'
 
@@ -23,8 +24,6 @@
   $: if (typeof $ip === 'object' && !$ip.browsingFromNewIP && $ip.didConfirmBrowsingWithVPN) {
     notBrowsingWithVPN = false
   }
-
-  $: console.log({ notBrowsingWithVPN, $ip })
 </script>
 
 <Card>
@@ -32,6 +31,10 @@
     {#if notBrowsingWithVPN === false}
       <span class="success-svg">
         <ThumbsUp />
+      </span>
+    {:else if $ip === 'LOADING'}
+      <span class="loading-svg">
+        <Spinner />
       </span>
     {:else}
       <ThumbsDown />
