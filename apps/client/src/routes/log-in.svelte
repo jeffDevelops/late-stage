@@ -368,11 +368,6 @@
     width: 100%;
   }
 
-  .forgot-password {
-    margin-top: 8px;
-    display: inline-block;
-  }
-
   @media screen and (min-width: 1500px) {
     section {
       height: auto;
