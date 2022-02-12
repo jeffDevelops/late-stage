@@ -206,6 +206,10 @@
   }
 
   @media screen and (max-width: 800px) {
+    main {
+      width: 100%;
+    }
+
     .grid {
       grid-template-columns: 100%;
       grid-template-rows: repeat(3, minmax(204px, auto));

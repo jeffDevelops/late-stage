@@ -58,7 +58,14 @@
   :global(.user-settings svg) {
     fill: var(--interactive-color);
   }
+
   :global(.user-settings .card) {
     margin-bottom: 16px;
+  }
+
+  @media screen and (max-width: 600px) {
+    main {
+      width: 100%;
+    }
   }
 </style>
