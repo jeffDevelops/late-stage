@@ -1,19 +1,14 @@
-<a
-  href="https://bankonourfuture.org/"
-  class="resource-article"
-  target="_blank"
-  rel="noopener noreferrer"
->
+<a href="https://bank.green" class="resource-article" target="_blank" rel="noopener noreferrer">
   <article>
     <div class="logo">
       <slot name="logo" />
     </div>
 
     <div>
-      <p><strong>We can stop the world's banks from funding climate change.</strong></p>
+      <p><strong>Is your money being used to fund climate chaos?</strong></p>
       <p>
-        Redirecting the money that’s funding more coal, oil and gas is one of the most important
-        ways we can stop the climate crisis.
+        Bank.Green is sounding the alarm on the climate-destroying activities of banks while
+        recommending sustainable alternatives and empowering consumer action.
       </p>
     </div>
   </article>
@@ -28,7 +23,7 @@
     align-items: center;
     gap: 64px;
     overflow: hidden;
-    background-color: #a2e801;
+    background-color: #2a3145;
   }
 
   .logo {
@@ -52,7 +47,7 @@
   }
 
   p {
-    color: #060801 !important;
+    color: #ffffff !important;
     margin-bottom: 8px;
   }
 

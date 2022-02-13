@@ -1,5 +1,5 @@
 <a
-  href="https://bankonourfuture.org/"
+  href="https://enlightened-solutions.com"
   class="resource-article"
   target="_blank"
   rel="noopener noreferrer"
@@ -10,49 +10,42 @@
     </div>
 
     <div>
-      <p><strong>We can stop the world's banks from funding climate change.</strong></p>
-      <p>
-        Redirecting the money that’s funding more coal, oil and gas is one of the most important
-        ways we can stop the climate crisis.
-      </p>
+      <p><strong>Enlightened Solutions</strong></p>
+      <p>A workplace research, individual advocacy, and organizational change firm.</p>
     </div>
   </article>
 </a>
 
 <style>
   article {
-    padding: 16px 24px;
+    padding: 0px 24px;
     display: flex;
     border-radius: var(--border-radius);
     justify-content: flex-start;
     align-items: center;
-    gap: 64px;
+    gap: 40px;
     overflow: hidden;
-    background-color: #a2e801;
+    background-color: #5072a9;
   }
 
   .logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80px;
-    height: 80px;
-    margin-left: 16px;
+    width: 120px;
+    height: 120px;
+    min-width: 120px;
   }
 
-  :global(.resource-article svg) {
-    height: 120px !important;
+  :global(.resource-article img) {
+    height: auto !important;
     width: 120px !important;
-  }
-
-  :global(.resource-article .logo g) {
-    height: 80px !important;
-    width: 80px !important;
-    fill: #060801 !important;
+    margin-top: 8px;
+    margin-left: -8px;
   }
 
   p {
-    color: #060801 !important;
+    color: #ffffff !important;
     margin-bottom: 8px;
   }
 
@@ -74,11 +67,16 @@
     article {
       flex-direction: column;
       gap: 8px;
+      padding-bottom: 16px;
     }
 
     article .logo {
       align-self: flex-start;
-      margin-left: 24px;
+      margin-left: -8px;
+    }
+
+    article div {
+      width: 100%;
     }
   }
 </style>
