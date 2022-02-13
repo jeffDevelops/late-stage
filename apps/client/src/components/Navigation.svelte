@@ -41,7 +41,7 @@
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
       href="/"
-      class:active={typeof window !== 'undefined' && $page.url.pathname === '/'}>Petition</a
+      class:active={typeof window !== 'undefined' && $page.url.pathname === '/'}>Home</a
     >
 
     <a
@@ -148,9 +148,9 @@
 <style>
   nav {
     position: fixed;
-    top: 0;
+    top: 16px;
     left: 0;
-    height: calc(100vh - 24px);
+    height: calc(100vh - 48px);
     width: calc(100% / 3);
     background-color: var(--card-background);
     box-shadow: var(--page-shadow);
@@ -264,7 +264,8 @@
     padding-left: 1px;
   }
 
-  a:hover .notification {
+  a:hover .notification,
+  a.active .notification {
     background-color: var(--button-text-color);
     transition: background-color 0.1s, color 0.1s;
     color: var(--interactive-color);

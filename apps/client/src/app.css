@@ -242,7 +242,7 @@ textarea {
   padding: 0 16px;
   color: var(--text-color);
   transition: border 0.2s;
-  font-size: 1em;
+  font-size: 16px;
   background-color: var(--input-background);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);

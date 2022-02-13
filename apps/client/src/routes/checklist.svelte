@@ -1,6 +1,7 @@
 <script lang="ts">
   import { LocalStorageKeys } from '../types/LocalStorageKeys'
   import ChecklistItem from '../components/ChecklistItem.svelte'
+  import ChecklistIcon from '../components/iconography/Checklist.svelte'
   import Controls from '../components/Controls.svelte'
   import Card from '../components/Card.svelte'
   import IdeaIcon from '../components/iconography/Idea.svelte'
@@ -11,7 +12,7 @@
 
 <main class="checklist">
   <section>
-    <h1>Checklist</h1>
+    <h1><ChecklistIcon /> Checklist</h1>
     <p>
       These are things you can do today to limit your participation in extractionist capitalism.
     </p>
@@ -56,6 +57,13 @@
     margin: 0 auto;
   }
 
+  :global(.checklist h1 svg) {
+    fill: var(--interactive-color);
+    margin-right: 8px;
+    height: 32px;
+    width: 32px;
+  }
+
   .disclosure {
     margin-top: 16px;
   }
@@ -70,7 +78,7 @@
   }
 
   .disclosure p {
-    font-weight: 300;
+    font-weight: 400;
   }
 
   :global(.checklist .disclosure:last-of-type .card) {

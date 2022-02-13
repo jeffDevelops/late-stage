@@ -128,17 +128,17 @@
       right: 0;
       height: 100vh;
     }
-  }
 
-  main {
-    position: relative;
-    padding: 0 48px 64px;
-    overflow-x: hidden;
+    main {
+      position: relative;
+      padding: 80px 48px 64px;
+      overflow-x: hidden;
+    }
   }
 
   @media screen and (max-width: 600px) {
     main {
-      padding: 0 24px 64px 24px;
+      padding: 80px 24px 64px 24px;
     }
   }
 </style>
