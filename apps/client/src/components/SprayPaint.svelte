@@ -21,7 +21,7 @@
     font-size: 20vw;
     text-transform: none;
     line-height: 0.8em;
-    background: url('./images/brick-wall.jpg') center;
+    background: url('/images/brick-wall.jpg') center;
     background-size: cover;
     -webkit-background-clip: text;
     background-clip: text;
