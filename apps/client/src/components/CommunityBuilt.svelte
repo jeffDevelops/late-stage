@@ -13,7 +13,7 @@
         If you are an expert in <strong
           >sociology, economics, political science, law, campaign strategy, or if you are a
           passionate advocate</strong
-        >, we need your insights to steer the development of this project..
+        >, we need your insights to steer the development of this project.
       </p>
       <p>
         If you are an expert in <strong
