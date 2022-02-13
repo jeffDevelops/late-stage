@@ -74,7 +74,7 @@
           <div slot="logo">
             <img
               class="enlightened-solutions-logo"
-              src="./images/ESLOgoForPNWebsite.webp"
+              src="./images/ESLogoForPNWebsite.webp"
               alt="Enlightened Solutions Project Noir Logo"
             />
           </div>
