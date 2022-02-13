@@ -142,10 +142,11 @@ jobs:
             cd /var/www/late-stage
             git checkout main
             git stash
-            git pull origin main
+            git fetch
+            git reset origin/main --hard
             pnpm install
             pnpm add -DW turbo
             pnpm migrate:deploy
             pnpm generate
-            pnpm build
+            pnpm build -- --force
             pnpm start -- --force
