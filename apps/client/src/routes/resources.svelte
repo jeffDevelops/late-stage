@@ -2,6 +2,7 @@
   import Card from '../components/Card.svelte'
   import Controls from '../components/Controls.svelte'
 
+  import InfoIcon from '../components/iconography/Info.svelte'
   import TwitterIcon from '../components/iconography/Twitter.svelte'
   import TikTokIcon from '../components/iconography/Tiktok.svelte'
   import LinktreeIcon from '../components/iconography/Linktree.svelte'
@@ -17,7 +18,7 @@
 
 <Controls />
 <main id="resources">
-  <h1>Resources</h1>
+  <h1><InfoIcon /> Resources</h1>
   <p>
     We've compiled a list of resources to learn more about reducing your participation in extractive
     capitalism, insititutional racism, wealth inequality, and human rights violations.
@@ -147,6 +148,13 @@
     padding: 0 0 24px 0;
     width: 100%;
     max-width: 800px;
+  }
+
+  :global(#resources h1 svg) {
+    fill: var(--interactive-color);
+    height: 32px;
+    width: 32px;
+    margin-left: 8px;
   }
 
   .flex {
