@@ -150,5 +150,5 @@ jobs:
             pnpm add -DW turbo
             pnpm migrate:deploy
             pnpm generate
-            pnpm build
-            pnpm start --force
+            pnpm build -- --force
+            pnpm start -- --force
