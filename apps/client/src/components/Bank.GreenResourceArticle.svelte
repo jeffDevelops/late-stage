@@ -74,6 +74,8 @@
     article .logo {
       align-self: flex-start;
       margin-left: 24px;
+      margin-top: -16px;
+      margin-bottom: -16px;
     }
   }
 </style>

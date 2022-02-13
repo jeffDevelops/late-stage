@@ -8,6 +8,7 @@
   import RedditIcon from '../components/iconography/Reddit.svelte'
   import IdeaIcon from '../components/iconography/Idea.svelte'
   import EnlightenedSolutionsResourceArticle from '../components/EnlightedSolutionsResourceArticle.svelte'
+  import ProjectNoirResourceArticle from '../components/ProjectNoirResourceArticle.svelte'
   import BankGreenResourceArticle from '../components/Bank.GreenResourceArticle.svelte'
   import BankGreenLogo from '../components/iconography/Bank.Green.svelte'
   import BankOnOurFutureLogo from '../components/iconography/BankOnOurFuture.svelte'
@@ -50,10 +51,14 @@
   </Card>
 
   <Card>
-    <h2>Individual Advocacy and Organizational Change</h2>
-
+    <h2>Individual Advocacy</h2>
+    <p>
+      By providing people with an interactive checklist, Late-Stage is an individual advocacy app
+      that seeks to empower individuals by distilling activism into bite-sized units. Its checklist
+      and campaigns are driven by expert research and analysis.
+    </p>
     <ul>
-      <li>
+      <li class="enlightened-solutions-group">
         <EnlightenedSolutionsResourceArticle>
           <div slot="logo">
             <img
@@ -63,6 +68,16 @@
             />
           </div>
         </EnlightenedSolutionsResourceArticle>
+
+        <ProjectNoirResourceArticle>
+          <div slot="logo">
+            <img
+              class="enlightened-solutions-logo"
+              src="./images/ESLOgoForPNWebsite.webp"
+              alt="Enlightened Solutions Project Noir Logo"
+            />
+          </div>
+        </ProjectNoirResourceArticle>
       </li>
     </ul>
   </Card>
@@ -131,7 +146,7 @@
     margin: 0 auto 0 auto;
     padding: 0 0 24px 0;
     width: 100%;
-    max-width: 750px;
+    max-width: 800px;
   }
 
   .flex {
@@ -197,13 +212,28 @@
     margin-bottom: -6px;
   }
 
+  :global(#resources a:focus-visible) {
+    text-decoration: none;
+  }
+
+  li {
+    display: flex;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
   li:not(:last-of-type) {
     margin-bottom: 16px;
   }
 
   .enlightened-solutions-logo {
-    width: 100%;
     height: auto;
+  }
+
+  @media (max-width: 802px) {
+    .enlightened-solutions-group {
+      flex-direction: column;
+    }
   }
 
   @media screen and (max-width: 600px) {

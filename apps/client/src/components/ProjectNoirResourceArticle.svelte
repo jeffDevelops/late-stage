@@ -1,6 +1,6 @@
 <a
-  id="enlightened-solutions"
-  href="https://enlightened-solutions.com"
+  id="project-noir"
+  href="https://www.projectnoircle.com/"
   class="resource-article"
   target="_blank"
   rel="noopener noreferrer"
@@ -11,43 +11,45 @@
     </div>
 
     <div>
-      <p><strong>Enlightened Solutions</strong></p>
-      <p>A workplace research, individual advocacy, and organizational change firm.</p>
+      <p><strong>Project Noir</strong></p>
+      <p>
+        In 2020, Cleveland was ranked the worst city in America for Black Women by
+        CityLab/Bloomberg. Enlightened Solutions interviewed 450+ Black Women + Femmes in Northeast
+        Ohio, to amplify their experiences in education, healthcare and workplaces.
+      </p>
     </div>
   </article>
 </a>
 
 <style>
   a {
-    width: calc(34% - 8px);
-    height: 100%;
-    display: block;
+    width: calc(66% - 8px);
   }
 
   article {
     height: 164px;
-    padding: 16px 20px 16px 16px;
+    padding: 16px 24px;
     display: flex;
     border-radius: var(--border-radius);
     justify-content: flex-start;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
     overflow: hidden;
-    background-color: #5072a9;
+    background-color: #679693;
   }
 
   .logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
   }
 
-  :global(#enlightened-solutions.resource-article img) {
+  :global(#project-noir.resource-article img) {
     height: auto !important;
-    width: 48px !important;
+    width: 60px !important;
     margin-top: 8px;
     margin-left: -8px;
   }
@@ -79,22 +81,6 @@
     article {
       height: auto;
     }
-
-    .logo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 76px;
-      height: 76px;
-      min-width: 76px;
-    }
-
-    :global(#enlightened-solutions.resource-article img) {
-      height: auto !important;
-      width: 76px !important;
-      margin-top: 8px;
-      margin-left: -8px;
-    }
   }
 
   @media screen and (max-width: 600px) {
@@ -102,11 +88,11 @@
       flex-direction: column;
       gap: 8px;
       padding-bottom: 16px;
+      padding-left: 16px;
     }
 
     article .logo {
       align-self: flex-start;
-      margin-left: -8px;
     }
 
     article div {
@@ -114,14 +100,8 @@
       width: 100%;
     }
 
-    article div {
-      margin-top: 0px;
-      width: 100%;
-    }
-
-    :global(#enlightened-solutions.resource-article img) {
+    :global(#project-noir.resource-article img) {
       margin-left: 0;
-      margin-top: 0;
     }
   }
 </style>
