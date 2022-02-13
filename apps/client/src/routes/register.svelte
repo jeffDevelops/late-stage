@@ -229,7 +229,7 @@
     <h1>Register</h1>
 
     <p class="disclosure">
-      Registering for Late-Stage is a little different than you might be used to!<button
+      Registering for Late-Stage is a little different than you might be used to! <button
         class="text"
         on:click={() => (shouldDisplayThrowawayEmailMessage = true)}>Know the risks.</button
       >
@@ -340,8 +340,8 @@
   }
 
   p.disclosure {
-    color: var(--text-color);
-    font-size: unset;
+    color: var(--text-color-subdued);
+    font-size: 0.9rem;
     font-weight: 400;
     padding: 24px;
     border-radius: var(--border-radius);
@@ -412,6 +412,11 @@
     text-transform: none;
   }
 
+  button.text {
+    dislay: inline;
+    padding: 0;
+  }
+
   .actions {
     margin-top: 16px;
     display: flex;
@@ -450,7 +455,7 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 14vh;
+      bottom: 10vh;
       right: 15vw;
     }
   }
@@ -459,8 +464,8 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 16vh;
-      right: 13vw;
+      bottom: 11vh;
+      right: 16vw;
     }
   }
 

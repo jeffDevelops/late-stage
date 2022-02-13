@@ -119,17 +119,11 @@
     {#if allTimeInfoDisplayed}
       <Card>
         <div in:fade out:fade>
-          <button class="close-button" on:click={() => (allTimeInfoDisplayed = false)}
-            ><CloseIcon /></button
-          >
+          <button class="close-button" on:click={() => (allTimeInfoDisplayed = false)}>×</button>
           <p>
             Campaigns exist to focus community attention on time-sensitive actions, but they remain
             open after their deadline expires. For example, you can still tally your removal of
             personal funds from for-profit banks.
-          </p>
-
-          <p>
-            Participate anonymously or log in to participate as part of your Late-Stage Checklist.
           </p>
         </div>
       </Card>
@@ -154,12 +148,13 @@
   .all-time p {
     color: var(--text-color-subdued);
     letter-spacing: 0.01em;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 0.8rem;
   }
 
   :global(.all-time > .card) {
     margin-top: 32px;
+    padding-bottom: 4px;
   }
 
   :global(.all-time > .card > .flex:first-child) {
@@ -172,6 +167,11 @@
     width: 20px;
     margin-bottom: -4px;
     cursor: pointer;
+  }
+
+  .close-button {
+    color: var(--interactive-color);
+    font-size: 1.25rem;
   }
 
   .flex {

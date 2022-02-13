@@ -11,8 +11,6 @@
   </header>
 {/if}
 
-<div class="spacer" />
-
 <style>
   header {
     position: fixed;
@@ -30,10 +28,5 @@
   a {
     text-decoration: none;
     color: var(--text-color);
-  }
-
-  .spacer {
-    height: 56px;
-    margin-bottom: 16px;
   }
 </style>

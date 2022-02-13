@@ -16,8 +16,8 @@
     <h1>What is Late-Stage?</h1>
 
     <p>
-      Late-Stage is an advocacy platform that strives to shed light on opportunities to eradicate
-      extractionist patterns in our society.
+      Late-Stage is an individual advocacy platform that strives to shed light on opportunities for
+      individuals to eradicate extractionist patterns in our society.
     </p>
 
     <Card>
@@ -136,6 +136,10 @@
 
   article section p:last-of-type {
     margin: 0;
+  }
+
+  p {
+    color: var(--text-color-subdued);
   }
 
   @media screen and (max-width: 600px) {

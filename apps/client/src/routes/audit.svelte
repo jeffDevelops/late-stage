@@ -135,14 +135,14 @@
     </p>
 
     <ul>
-      <li>- Sociology</li>
-      <li>- Economics</li>
-      <li>- Environmental impact</li>
-      <li>- Diversity and inclusion</li>
-      <li>- Accessibility</li>
-      <li>- Web Security</li>
-      <li>- User Experience</li>
-      <li>- Legal</li>
+      <li><span class="bullet">•</span> Sociology</li>
+      <li><span class="bullet">•</span> Economics</li>
+      <li><span class="bullet">•</span> Environmental impact</li>
+      <li><span class="bullet">•</span> Diversity and inclusion</li>
+      <li><span class="bullet">•</span> Accessibility</li>
+      <li><span class="bullet">•</span> Web Security</li>
+      <li><span class="bullet">•</span> User Experience</li>
+      <li><span class="bullet">•</span> Legal</li>
     </ul>
   </Card>
 
@@ -203,25 +203,25 @@
 
     <ul>
       <li>
-        - Ethical dependency management: how can we reduce the use of code and infrastructure
-        produced by big tech?
+        <span class="bullet">•</span> Ethical dependency management: how can we reduce the use of code
+        and infrastructure produced by big tech?
       </li>
-      <li>- Web application security</li>
-      <li>- Code review</li>
-      <li>- User privacy</li>
-      <li>- Performance</li>
+      <li><span class="bullet">•</span> Web application security</li>
+      <li><span class="bullet">•</span> Code review</li>
+      <li><span class="bullet">•</span> User privacy</li>
+      <li><span class="bullet">•</span> Performance</li>
     </ul>
 
     <h4>Technology Stack</h4>
     <ul>
-      <li>- Frontend framework: SvelteKit (isomorphic)</li>
-      <li>- Networking: GraphQL (with simple <code>fetch</code>)</li>
-      <li>- Backend: Node.js, Prisma, <code>type-graphql</code></li>
-      <li>- Database: PostgreSQL</li>
-      <li>- Testing: <code>uvu</code>, Cypress</li>
-      <li>- Infrastructure: render.com</li>
-      <li>- DNS: Namecheap</li>
-      <li>- Languages: TypeScript, GraphQL, CSS</li>
+      <li><span class="bullet">•</span> Frontend framework: SvelteKit (isomorphic)</li>
+      <li><span class="bullet">•</span> Networking: GraphQL (with simple <code>fetch</code>)</li>
+      <li><span class="bullet">•</span> Backend: Node.js, Prisma, <code>type-graphql</code></li>
+      <li><span class="bullet">•</span> Database: PostgreSQL</li>
+      <li><span class="bullet">•</span> Testing: <code>uvu</code>, Cypress</li>
+      <li><span class="bullet">•</span> Infrastructure: render.com</li>
+      <li><span class="bullet">•</span> DNS: Namecheap</li>
+      <li><span class="bullet">•</span> Languages: TypeScript, GraphQL, CSS</li>
     </ul>
   </Card>
 
@@ -264,7 +264,7 @@
 
   main {
     width: 100%;
-    padding: 72px 48px 16px;
+    padding: 72px 48px;
     margin: 0 auto;
     max-width: 750px;
   }
@@ -284,6 +284,15 @@
 
   h4 {
     margin-top: 24px;
+  }
+
+  p,
+  li {
+    color: var(--text-color-subdued);
+  }
+
+  .bullet {
+    color: var(--interactive-color);
   }
 
   .quick-links {
