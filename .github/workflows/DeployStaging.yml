@@ -145,7 +145,7 @@ jobs:
             cd /var/www/staging-late-stage
             git checkout staging
             git stash
-            git pull origin staging
+            git reset origin/staging --hard
             pnpm install
             pnpm add -DW turbo
             pnpm migrate:deploy
