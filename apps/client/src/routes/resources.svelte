@@ -7,6 +7,9 @@
   import LinktreeIcon from '../components/iconography/Linktree.svelte'
   import RedditIcon from '../components/iconography/Reddit.svelte'
   import IdeaIcon from '../components/iconography/Idea.svelte'
+  import EnlightenedSolutionsResourceArticle from '../components/EnlightedSolutionsResourceArticle.svelte'
+  import BankGreenResourceArticle from '../components/Bank.GreenResourceArticle.svelte'
+  import BankGreenLogo from '../components/iconography/Bank.Green.svelte'
   import BankOnOurFutureLogo from '../components/iconography/BankOnOurFuture.svelte'
   import BOOFResourceArticle from '../components/BankOnOurFutureResourceArticle.svelte'
 </script>
@@ -16,7 +19,7 @@
   <h1>Resources</h1>
   <p>
     We've compiled a list of resources to learn more about reducing your participation in extractive
-    capitalism.
+    capitalism, insititutional racism, wealth inequality, and human rights violations.
   </p>
 
   <Card>
@@ -47,6 +50,52 @@
   </Card>
 
   <Card>
+    <h2>Individual Advocacy and Organizational Change</h2>
+
+    <ul>
+      <li>
+        <EnlightenedSolutionsResourceArticle>
+          <div slot="logo">
+            <img
+              class="enlightened-solutions-logo"
+              src="./images/EnlightenedSolutions.webp"
+              alt="Enlightened Solutions Logo"
+            />
+          </div>
+        </EnlightenedSolutionsResourceArticle>
+      </li>
+    </ul>
+  </Card>
+
+  <Card>
+    <h2>Finding A Better Bank</h2>
+    <h4>Environmental Impact</h4>
+    <p>Learn more about how banks fund climate change, and which banks to avoid.</p>
+
+    <ul>
+      <li>
+        <BankGreenResourceArticle>
+          <div slot="logo">
+            <BankGreenLogo />
+          </div>
+        </BankGreenResourceArticle>
+      </li>
+      <li>
+        <BOOFResourceArticle>
+          <div slot="logo">
+            <BankOnOurFutureLogo />
+          </div>
+        </BOOFResourceArticle>
+      </li>
+      <li>
+        <a target="_blank}" rel="noopener noreferrer" href="https://www.carbonbubble.net/">
+          Report: The Global Emissions of the US Financial Sector</a
+        >
+      </li>
+    </ul>
+  </Card>
+
+  <Card>
     <h2>The Great Resignation</h2>
     <p>
       Find solidarity and comaraderie in navigating the late-stage workplace with the following
@@ -61,27 +110,6 @@
       <li>
         <a target="_blank" rel="noopener noreferrer" href="https://www.reddit.com/r/recruitinghell/"
           ><RedditIcon /> r/recruitinghell</a
-        >
-      </li>
-    </ul>
-  </Card>
-
-  <Card>
-    <h2>Finding A Better Bank</h2>
-    <h4>Environmental Impact</h4>
-    <p>Learn more about how banks fund climate change, and which banks to avoid.</p>
-
-    <ul>
-      <li>
-        <BOOFResourceArticle>
-          <div slot="logo">
-            <BankOnOurFutureLogo />
-          </div>
-        </BOOFResourceArticle>
-      </li>
-      <li>
-        <a target="_blank}" rel="noopener noreferrer" href="https://www.carbonbubble.net/">
-          Report: The Global Emissions of the US Financial Sector</a
         >
       </li>
     </ul>
@@ -170,7 +198,12 @@
   }
 
   li:not(:last-of-type) {
-    margin-bottom: 8px;
+    margin-bottom: 16px;
+  }
+
+  .enlightened-solutions-logo {
+    width: 100%;
+    height: auto;
   }
 
   @media screen and (max-width: 600px) {
