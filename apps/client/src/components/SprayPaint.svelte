@@ -44,6 +44,12 @@
     transition: filter 0.2s;
   }
 
+  @media screen and (min-width: 1400px) {
+    .spraypaint {
+      font-size: 20rem;
+    }
+  }
+
   @media screen and (max-width: 600px) {
     section {
       margin: 0 auto 0 -24px;
