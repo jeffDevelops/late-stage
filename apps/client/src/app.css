@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Spray Paint';
-  src: url('/fonts/amsterdam.woff') format('woff'), url('/fonts/amsterdam.ttf') format('truetype');
+  src: url('./fonts/amsterdam.woff') format('woff'), url('./fonts/amsterdam.ttf') format('truetype');
 }
 
 :root {
