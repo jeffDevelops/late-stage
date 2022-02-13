@@ -75,7 +75,7 @@
 
 <div class="background-color" />
 
-<div class="background">
+<div class="background" style="position: {$page.url.pathname === '/' ? 'absolute' : 'fixed'};">
   <Background />
 </div>
 
@@ -101,7 +101,6 @@
   .background {
     height: auto;
     width: 100%;
-    position: fixed;
     z-index: 0;
     background-color: transparent;
   }
@@ -134,6 +133,7 @@
   main {
     position: relative;
     padding: 0 48px 64px;
+    overflow-x: hidden;
   }
 
   @media screen and (max-width: 600px) {

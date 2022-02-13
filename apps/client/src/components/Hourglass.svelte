@@ -79,7 +79,6 @@
     border-bottom-right-radius: 50% 70%;
     background-color: transparent;
     box-shadow: 0 10px 0 var(--sandColor);
-    animation: kfSandTop 2000ms ease-in-out infinite;
   }
 
   .sand {
@@ -103,7 +102,6 @@
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     transition-timing-function: ease-in;
-    animation: kfSandBottom 3000ms ease infinite;
   }
 
   .glass.bottom:before {
@@ -145,45 +143,6 @@
     50% {
       border-top-left-radius: 50% 40%;
       border-top-right-radius: 50% 40%;
-    }
-  }
-
-  @keyframes kfSandTop {
-    0% {
-      border-bottom-left-radius: 50% 50%;
-      border-bottom-right-radius: 50% 50%;
-    }
-    50% {
-      border-bottom-left-radius: 50% 80%;
-      border-bottom-right-radius: 50% 80%;
-    }
-    100% {
-      border-bottom-left-radius: 50% 50%;
-      border-bottom-right-radius: 50% 50%;
-    }
-  }
-
-  @keyframes kfSandBottom {
-    0% {
-      border-top-left-radius: 50% 100%;
-      border-top-right-radius: 50% 100%;
-    }
-    50% {
-      border-top-left-radius: 100% 150%;
-      border-top-right-radius: 100% 150%;
-    }
-    100% {
-      border-top-left-radius: 50% 100%;
-      border-top-right-radius: 50% 100%;
-    }
-  }
-
-  @keyframes kfFlip {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(180deg);
     }
   }
 </style>
