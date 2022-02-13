@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Spray Paint';
+  src: url('amsterdam.woff') format('woff'), url('amsterdam.ttf') format('truetype');
+}
+
 :root {
   /** Semantic Colors */
   --error-color: #ff5964;
@@ -40,8 +45,7 @@
   --text-color: #fffafcee;
   --text-color-subdued: #fffafcaa;
 }
-
-html {
+\ html {
   font-size: 98%;
   height: 100%;
   min-height: 100%;

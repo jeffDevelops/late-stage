@@ -2,7 +2,7 @@
   import BackgroundSvg from './BackgroundSvg.svelte'
   import { page, url } from '$app/stores'
 
-  const accentuatedBackgroundRoutes = ['/log-in', '/register']
+  const accentuatedBackgroundRoutes = ['/', '/log-in', '/register']
 </script>
 
 <div class="background">

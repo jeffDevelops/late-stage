@@ -105,40 +105,42 @@
 </script>
 
 <section class="all-time">
-  <div class="flex">
-    <h2>
-      <HistoryIcon />
-      All Time
-      <span class="info" on:click={() => (allTimeInfoDisplayed = !allTimeInfoDisplayed)}
-        ><InfoIcon /></span
-      >
-    </h2>
-  </div>
-
-  {#if allTimeInfoDisplayed}
-    <Card>
-      <div in:fade out:fade>
-        <button class="close-button" on:click={() => (allTimeInfoDisplayed = false)}
-          ><CloseIcon /></button
+  <Card>
+    <div class="flex">
+      <h2>
+        <HistoryIcon />
+        All Time
+        <span class="info" on:click={() => (allTimeInfoDisplayed = !allTimeInfoDisplayed)}
+          ><InfoIcon /></span
         >
-        <p>
-          Campaigns exist to focus community attention on time-sensitive actions, but they remain
-          open after their deadline expires. For example, you can still tally your removal of
-          personal funds from for-profit banks.
-        </p>
+      </h2>
+    </div>
 
-        <p>
-          Participate anonymously or log in to participate as part of your Late-Stage Checklist.
-        </p>
-      </div>
-    </Card>
-  {/if}
+    {#if allTimeInfoDisplayed}
+      <Card>
+        <div in:fade out:fade>
+          <button class="close-button" on:click={() => (allTimeInfoDisplayed = false)}
+            ><CloseIcon /></button
+          >
+          <p>
+            Campaigns exist to focus community attention on time-sensitive actions, but they remain
+            open after their deadline expires. For example, you can still tally your removal of
+            personal funds from for-profit banks.
+          </p>
 
-  <div class="grid">
-    <PreviousCampaignCard campaign={exampleBankCampaign} />
-    <PreviousCampaignCard campaign={usersCampaign} />
-    <!-- <PreviousCampaignCard campaign={subscriptionsCampaign} /> -->
-  </div>
+          <p>
+            Participate anonymously or log in to participate as part of your Late-Stage Checklist.
+          </p>
+        </div>
+      </Card>
+    {/if}
+
+    <div class="grid">
+      <PreviousCampaignCard campaign={exampleBankCampaign} />
+      <PreviousCampaignCard campaign={usersCampaign} />
+      <!-- <PreviousCampaignCard campaign={subscriptionsCampaign} /> -->
+    </div>
+  </Card>
 </section>
 
 <style>
@@ -154,6 +156,14 @@
     letter-spacing: 0.01em;
     font-weight: 300;
     font-size: 0.8rem;
+  }
+
+  :global(.all-time > .card) {
+    margin-top: 32px;
+  }
+
+  :global(.all-time > .card > .flex:first-child) {
+    margin-top: 0;
   }
 
   :global(.all-time .info-icon) {
