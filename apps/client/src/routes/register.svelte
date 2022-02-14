@@ -324,7 +324,7 @@
   section {
     width: 100%;
     max-width: 550px;
-    padding: 50px 48px 0;
+    padding: 50px 48px 72px;
     margin: 0 auto;
   }
 
@@ -414,7 +414,6 @@
   }
 
   button.text {
-    dislay: inline;
     padding: 0;
   }
 
@@ -452,34 +451,34 @@
     }
   }
 
-  @media screen and (min-width: 700px) and (min-height: 800px) {
-    section {
-      height: auto;
-      position: absolute;
-      bottom: 5vh;
-      right: 16vw;
-    }
-  }
-
   @media screen and (min-width: 800px) and (min-height: 800px) {
     section {
       height: auto;
       position: absolute;
-      bottom: 5vh;
+      bottom: -5vh;
       right: 15vw;
+    }
+  }
+
+  @media screen and (min-width: 700px) and (max-width: 799px) and (min-height: 800px) {
+    section {
+      height: auto;
+      position: absolute;
+      bottom: 2vh;
+      right: 5vw;
     }
   }
 
   @media screen and (max-width: 700px) {
     section {
-      padding: 160px 0px 0;
+      padding: 160px 0 0;
     }
   }
 
   @media screen and (max-width: 600px) {
     section {
       max-width: 400px;
-      padding: 140px 0px 0;
+      padding: 140px 0px 72px;
     }
 
     .actions {
