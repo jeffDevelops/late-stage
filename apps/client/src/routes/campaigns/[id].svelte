@@ -138,8 +138,8 @@
 <style>
   main {
     margin: 0 auto 0 auto;
-    padding: 32px 0 24px 0;
-    width: 100%;
+    padding: 72px 0;
+    width: calc(100% - 160px);
     max-width: 1250px;
   }
 
@@ -182,6 +182,11 @@
   }
 
   @media screen and (max-width: 900px) {
+    main {
+      padding-top: 72px;
+      width: 100%;
+    }
+
     .grid {
       grid-template-columns: 1fr;
       grid-template-rows: auto auto auto;
