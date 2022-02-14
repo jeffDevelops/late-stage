@@ -4,7 +4,7 @@
 </script>
 
 {#if $shouldDisplayControls}
-  <header>
+  <header id="logo-header">
     <a sveltekit:prefetch href="/">
       <Logo />
     </a>

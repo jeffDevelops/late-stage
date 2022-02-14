@@ -56,6 +56,18 @@
    * REACTIVE
    */
 
+  const toggleControls = (on: boolean) => {
+    if (!browser) return
+
+    if (on) {
+      document.getElementById('logo-header').style.display = 'block'
+      document.getElementById('controls').style.display = 'block'
+    } else {
+      document.getElementById('logo-header').style.display = 'none'
+      document.getElementById('controls').style.display = 'none'
+    }
+  }
+
   const rectifyBrokenPositioning = () => {
     if (typeof window === 'undefined' || !modalContainer) return
 
@@ -132,10 +144,12 @@
   $: if (isDisplayed && browser) {
     if (modalContainer) modalContainer.focus()
 
+    toggleControls(false)
     setTimeout(() => computeHeight(), 400)
     enableScrollLock()
     rectifyBrokenPositioning()
   } else if (!isDisplayed && browser) {
+    toggleControls(true)
     disableScrollLock()
     setTimeout(() => restoreDOM(), 400) // wait until the modal has been removed from view
   }
