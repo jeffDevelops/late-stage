@@ -10,6 +10,7 @@
   export let shouldDisplayCloseButton: boolean = true
   export let isDisplayed: boolean = false
   export let maxWidth: number = 560
+  export let maxHeight: number = 600
   export let isBlurDismissable: boolean = false
   export let isAnimated = true
   export let zIndex = 99
@@ -28,7 +29,17 @@
   }[] = []
 
   onMount(() => {
-    contentHeight = window.innerHeight - 80
+    const handleResize = () => {
+      contentHeight = window.innerHeight - 80
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
   })
 
   onDestroy(() => {
@@ -163,7 +174,12 @@
           <button on:click={dismissModal} class="close-button" in:fade out:fade>×</button>
         {/if}
 
-        <div style="height: {contentHeight}px;" class="content">
+        <div
+          style="height: {browser && window.innerWidth < 560
+            ? 'calc(100vh - 80px)'
+            : `${contentHeight}px`}; max-height: {maxHeight}px;"
+          class="content"
+        >
           <slot name="content" />
         </div>
 
