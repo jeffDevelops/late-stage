@@ -176,7 +176,7 @@
 
         <div
           style="height: {browser && window.innerWidth < 560
-            ? 'calc(100vh - 80px)'
+            ? `calc(${window.innerHeight} - 80px)`
             : `${contentHeight}px`}; max-height: {maxHeight}px;"
           class="content"
         >
