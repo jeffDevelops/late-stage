@@ -28,22 +28,20 @@
       <h4>You'll want to use a throwaway email address</h4>
 
       <p>
-        Late-Stage doesn’t incite illegal activity, but we're realistic in recognizing that we're
-        likely to make some enemies.
+        Late-Stage is realistic in recognizing that we're likely to make some enemies, which could
+        make us a target for hackers or even government agencies in near-future administrations.
+      </p>
+      <p>
+        If it is ever compromised,
+        <strong
+          >protect yourself from being singled out by using an email and/or username that is not
+          linked to any other personally identifying accounts.</strong
+        >
       </p>
 
       <p>
         We follow industry-standard security practices around encryption and authentication, but
         <strong>much of web security in general falls upon you to protect yourself.</strong>
-      </p>
-
-      <p>
-        We could be a target for identifying collusion in activities that could prove illegal in
-        near-future administrations. If it is ever compromised,
-        <strong
-          >protect yourself from being singled out by using an email and/or username that is not
-          linked to any other personally identifying accounts.</strong
-        >
       </p>
 
       <h4>Privacy Policy</h4>
@@ -117,14 +115,8 @@
     :global(.throwaway-email-messaging .content) {
       padding-top: 40px;
       overflow: auto;
-      height: calc(100vh - 73px);
+      height: calc(100vh - 80px);
       padding: 24px 16px 40px !important;
-    }
-
-    :global(.throwaway-email-messaging .actions) {
-      position: fixed;
-      width: 100%;
-      bottom: 0px !important;
     }
   }
 
@@ -140,14 +132,8 @@
     :global(.throwaway-email-messaging .content) {
       padding-top: 40px;
       overflow: auto;
-      height: calc(100vh - 73px);
+      height: calc(100vh - 80px);
       padding: 24px 16px 40px !important;
-    }
-
-    :global(.throwaway-email-messaging .actions) {
-      position: fixed;
-      width: 100%;
-      bottom: 0px !important;
     }
   }
 </style>

@@ -145,7 +145,7 @@
 <style>
   main {
     margin: 0 auto 0 auto;
-    padding: 0 0 24px 0;
+    padding: 72px 0 24px 0;
     width: 100%;
     max-width: 800px;
   }

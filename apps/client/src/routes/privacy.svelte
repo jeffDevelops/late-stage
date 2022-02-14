@@ -12,27 +12,29 @@
 
 <Controls />
 <main class="personal-security">
-  <h2><Shield /> Security, Privacy, and Anonymity</h2>
+  <h2><Shield /> Privacy & Anonymity</h2>
 
   <section class="grid">
     <div style="grid-area: left-row-1;">
       <Card>
         <h4><Crosshairs /> Late-Stage is a honeypot</h4>
         <p>
-          Late-Stage doesn’t incite illegal activity, but we are realistic in recognizing that we're
-          likely to make some enemies.
+          Late-Stage is realistic in recognizing that we're likely to make some enemies, which could
+          make us a target for hackers or even government agencies in near-future administrations.
         </p>
-
         <p>
-          In the event that it is compromised, protect yourself from being singled out by using an
-          email and/or username that is not linked to any other personally identifying accounts.
+          If it is ever compromised,
+          <strong
+            >protect yourself from being singled out by using an email and/or username that is not
+            linked to any other personally identifying accounts.</strong
+          >
         </p>
       </Card>
     </div>
 
     <div class="my-security-status" style="grid-area: right-column;">
       <Card>
-        <h2><ChecklistIcon /> My Security Status</h2>
+        <h2><ChecklistIcon /> My Privacy Status</h2>
 
         <EmailAddressStatus />
         <VPNStatus />
@@ -89,8 +91,8 @@
 
 <style>
   main {
-    max-width: 1150px;
-    width: calc(100% - 24px);
+    max-width: 1000px;
+    width: calc(100% - 48px);
     margin: auto;
     padding: 72px 0;
   }
@@ -109,6 +111,10 @@
   h4,
   h2 {
     line-height: 1.8em;
+  }
+
+  p {
+    color: var(--text-color-subdued);
   }
 
   :global(.my-security-status > .card) {
@@ -154,8 +160,8 @@
 
   :global(.personal-security h2 svg) {
     fill: var(--interactive-color);
-    height: 32px;
-    width: 32px;
+    height: 28px;
+    width: 28px;
     margin-right: 8px;
     margin-bottom: -4px;
   }
@@ -177,11 +183,12 @@
   }
 
   :global(.personal-security .card h2) {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
   }
 
   :global(.personal-security .card h2 svg) {
-    font-size: 1.25rem;
+    height: 24px;
+    width: 24px;
     margin-bottom: -7px;
   }
 
@@ -206,6 +213,9 @@
   }
 
   @media screen and (max-width: 800px) {
+    h2 {
+      font-size: 1.4rem !important;
+    }
     main {
       width: 100%;
     }
@@ -218,6 +228,12 @@
         'left-row-1'
         'left-row-2'
         'left-row-3';
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    h2 {
+      font-size: 1.1rem !important;
     }
   }
 </style>
