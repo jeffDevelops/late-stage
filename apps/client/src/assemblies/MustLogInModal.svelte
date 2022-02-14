@@ -25,7 +25,7 @@
 </script>
 
 <Modal
-  maxHeight={240}
+  maxHeight={360}
   on:dismiss={() => dispatch('dismiss')}
   isBlurDismissable={true}
   {isDisplayed}
