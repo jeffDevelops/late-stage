@@ -44,8 +44,13 @@
 </Modal>
 
 <style>
-  :global(.must-log-in-actions .actions) {
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
+  .must-log-in-actions a {
+    display: inline-block;
+    width: calc(50% - 8px) !important;
+  }
+
+  .must-log-in-actions a button {
+    width: 100% !important;
+    min-width: 0;
   }
 </style>
