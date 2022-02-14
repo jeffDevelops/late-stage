@@ -275,7 +275,7 @@
   section {
     width: 100%;
     max-width: 550px;
-    padding: 40px 48px 0;
+    padding: 40px 48px 72px;
     margin: 0 auto;
   }
 
@@ -390,12 +390,17 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 14vh;
+      bottom: 10vh;
       right: 16vw;
     }
   }
 
   @media screen and (max-width: 700px) {
+    section {
+      max-width: 400px;
+      padding: 160px 0px 72px;
+    }
+
     .actions {
       flex-direction: column-reverse;
     }
@@ -413,9 +418,5 @@
   }
 
   @media screen and (max-width: 600px) {
-    section {
-      max-width: 400px;
-      padding: 160px 0px 0;
-    }
   }
 </style>

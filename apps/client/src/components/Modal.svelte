@@ -19,8 +19,9 @@
    * LIFECYCLE
    */
 
-  let modalContainer: HTMLElement
-  let contentHeight: number = 0
+  let modalContainer: HTMLElement // The entire modal, including the backdrop
+  let dialogContainer: HTMLElement // The dialog itself
+  let contentHeight: string = 'auto'
 
   const domCorrections: {
     node: HTMLElement
@@ -28,17 +29,21 @@
     originalValue: string
   }[] = []
 
-  onMount(() => {
-    const handleResize = () => {
-      contentHeight = window.innerHeight - 80
+  const computeHeight = () => {
+    if (!dialogContainer) return
+    if (window.innerHeight <= dialogContainer.getBoundingClientRect().height) {
+      return (contentHeight = `${window.innerHeight - 80}px`)
     }
+    contentHeight = window.innerWidth < 560 ? `${window.innerHeight - 80}px` : 'auto'
+  }
 
-    handleResize()
+  onMount(() => {
+    computeHeight()
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', computeHeight)
 
     return () => {
-      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('resize', computeHeight)
     }
   })
 
@@ -127,6 +132,7 @@
   $: if (isDisplayed && browser) {
     if (modalContainer) modalContainer.focus()
 
+    setTimeout(() => computeHeight(), 400)
     enableScrollLock()
     rectifyBrokenPositioning()
   } else if (!isDisplayed && browser) {
@@ -161,6 +167,7 @@
       style="z-index: {zIndex};"
     >
       <div
+        bind:this={dialogContainer}
         class="modal"
         in:fadeEffect
         out:fadeEffect
@@ -179,7 +186,7 @@
           class="content"
           style="
             min-height: 100px;
-            height: {browser && window.innerWidth < 560 ? `${contentHeight}px` : 'auto'};
+            height: {contentHeight};
           "
         >
           <slot name="content" />
