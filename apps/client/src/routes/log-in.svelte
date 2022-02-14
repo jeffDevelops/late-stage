@@ -368,11 +368,11 @@
     width: 100%;
   }
 
-  @media screen and (min-width: 1500px) {
+  @media screen and (min-width: 1500px) and (min-height: 700px) {
     section {
       height: auto;
       position: absolute;
-      bottom: 14vh;
+      bottom: 5vh;
       right: 16vw;
     }
   }
