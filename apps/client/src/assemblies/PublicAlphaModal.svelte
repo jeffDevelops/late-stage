@@ -44,9 +44,11 @@
     on:dismiss={dismissModal}
     {isDisplayed}
     shouldDisplayCloseButton={false}
+    shouldHideControls={false}
     isAnimated={false}
     isBlurDismissable={false}
     maxWidth={750}
+    maxHeight={900}
     zIndex={6}
   >
     <div class="content-container" slot="content">

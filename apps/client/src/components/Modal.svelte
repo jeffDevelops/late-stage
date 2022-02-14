@@ -8,6 +8,7 @@
    */
 
   export let shouldDisplayCloseButton: boolean = true
+  export let shouldHideControls: boolean = true
   export let isDisplayed: boolean = false
   export let maxWidth: number = 560
   export let maxHeight: number = 800
@@ -60,6 +61,7 @@
 
   const toggleControls = (on: boolean) => {
     if (!browser) return
+    if (!shouldHideControls) return
 
     if (on) {
       document.getElementById('logo-header').style.display = 'block'
@@ -146,7 +148,6 @@
   $: if (isDisplayed && browser) {
     if (modalContainer) modalContainer.focus()
 
-    console.log('calling')
     toggleControls(false)
     setTimeout(computeHeight, 400)
     enableScrollLock()
