@@ -19,7 +19,7 @@
    */
 
   let modalContainer: HTMLElement
-  let actionsContainer: HTMLElement
+  let contentHeight: number = 0
 
   const domCorrections: {
     node: HTMLElement
@@ -27,24 +27,8 @@
     originalValue: string
   }[] = []
 
-  const fixHeightOnChromeiOS = () => {
-    if (!browser || !actionsContainer) return
-
-    if (navigator.userAgent.match('CriOS')) {
-      actionsContainer.style.bottom = '124px' // height of the actions container
-    }
-  }
-
   onMount(() => {
-    fixHeightOnChromeiOS()
-
-    window.addEventListener('resize', fixHeightOnChromeiOS)
-    window.addEventListener('orientationchange', fixHeightOnChromeiOS)
-
-    return () => {
-      window.removeEventListener('resize', fixHeightOnChromeiOS)
-      window.removeEventListener('orientationchange', fixHeightOnChromeiOS)
-    }
+    contentHeight = window.innerHeight - 80
   })
 
   onDestroy(() => {
@@ -132,7 +116,6 @@
   $: if (isDisplayed && browser) {
     if (modalContainer) modalContainer.focus()
 
-    fixHeightOnChromeiOS()
     enableScrollLock()
     rectifyBrokenPositioning()
   } else if (!isDisplayed && browser) {
@@ -180,11 +163,11 @@
           <button on:click={dismissModal} class="close-button" in:fade out:fade>×</button>
         {/if}
 
-        <div class="content">
+        <div style="height: {contentHeight}px;" class="content">
           <slot name="content" />
         </div>
 
-        <div bind:this={actionsContainer} class="actions" style="z-index: {zIndex + 2};">
+        <div class="actions" style="z-index: {zIndex + 2};">
           <slot name="actions" />
         </div>
       </div>
@@ -245,6 +228,7 @@
   .content {
     min-height: 40px;
     padding: 16px 40px;
+    overflow: auto;
   }
 
   .actions {
