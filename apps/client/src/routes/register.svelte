@@ -442,7 +442,7 @@
     padding: 3px 0 0 0;
   }
 
-  @media screen and (min-width: 1500px) {
+  @media screen and (min-width: 1500px) and (min-height: 700px) {
     section {
       height: auto;
       position: absolute;

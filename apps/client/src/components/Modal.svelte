@@ -32,11 +32,7 @@
   const computeHeight = () => {
     if (!dialogContainer) return
 
-    console.log(window.innerHeight, dialogContainer.getBoundingClientRect().height)
-
-    console.log('resizing')
     if (window.innerHeight <= dialogContainer.getBoundingClientRect().height) {
-      console.log('larger than window height')
       return (contentHeight = `${window.innerHeight - 80}px`)
     }
 
