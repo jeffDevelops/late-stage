@@ -168,6 +168,7 @@
           --modal-max-width: {maxWidth}px;
           
           z-index: {zIndex + 1};
+          max-height: {maxHeight}px;
         "
       >
         {#if shouldDisplayCloseButton}
@@ -175,10 +176,11 @@
         {/if}
 
         <div
-          style="height: {browser && window.innerWidth < 560
-            ? `calc(${window.innerHeight} - 80px)`
-            : `${contentHeight}px`}; max-height: {maxHeight}px;"
           class="content"
+          style="
+            min-height: 100px;
+            height: {browser && window.innerWidth < 560 ? `${contentHeight}px` : 'auto'};
+          "
         >
           <slot name="content" />
         </div>
