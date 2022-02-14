@@ -31,15 +31,21 @@
 
   const computeHeight = () => {
     if (!dialogContainer) return
+
+    console.log(window.innerHeight, dialogContainer.getBoundingClientRect().height)
+
+    console.log('resizing')
     if (window.innerHeight <= dialogContainer.getBoundingClientRect().height) {
+      console.log('larger than window height')
       return (contentHeight = `${window.innerHeight - 80}px`)
     }
-    contentHeight = window.innerWidth < 560 ? `${window.innerHeight - 80}px` : 'auto'
+
+    if (window.innerWidth < 560) {
+      return (contentHeight = `${window.innerHeight - 80}px`)
+    }
   }
 
   onMount(() => {
-    computeHeight()
-
     window.addEventListener('resize', computeHeight)
 
     return () => {
@@ -144,8 +150,9 @@
   $: if (isDisplayed && browser) {
     if (modalContainer) modalContainer.focus()
 
+    console.log('calling')
     toggleControls(false)
-    setTimeout(() => computeHeight(), 400)
+    setTimeout(computeHeight, 400)
     enableScrollLock()
     rectifyBrokenPositioning()
   } else if (!isDisplayed && browser) {
