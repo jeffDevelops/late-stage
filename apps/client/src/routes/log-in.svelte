@@ -373,7 +373,7 @@
       height: auto;
       position: absolute;
       bottom: 14vh;
-      right: 15vw;
+      right: 16vw;
     }
   }
 
@@ -390,8 +390,8 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 16vh;
-      right: 13vw;
+      bottom: 18vh;
+      right: 17vw;
     }
   }
 
@@ -415,7 +415,7 @@
   @media screen and (max-width: 600px) {
     section {
       max-width: 400px;
-      padding: 60px 0px 0;
+      padding: 80px 0px 0;
     }
   }
 </style>

@@ -9,7 +9,7 @@
 
   export let shouldDisplayCloseButton: boolean = true
   export let isDisplayed: boolean = false
-  export let maxWidth: number = 500
+  export let maxWidth: number = 560
   export let isBlurDismissable: boolean = false
   export let isAnimated = true
   export let zIndex = 99
@@ -177,7 +177,7 @@
         "
       >
         {#if shouldDisplayCloseButton}
-          <button on:click={dismissModal} class="close-button" in:fade out:fade>╳</button>
+          <button on:click={dismissModal} class="close-button" in:fade out:fade>×</button>
         {/if}
 
         <div class="content">
@@ -227,7 +227,7 @@
 
   .close-button {
     font-family: var(--font-sans);
-    font-weight: 900;
+    font-size: 1.5rem;
     color: var(--error-color);
     background-color: transparent;
     border: 0;
@@ -260,27 +260,26 @@
     gap: 8px;
   }
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 560px) {
     .modal {
       min-height: 100vh;
       /* mobile viewport bug fix */
       min-height: -webkit-fill-available;
-      width: 100vw;
+      width: 100%;
       border-radius: 0;
       padding-top: 0;
+      margin: 0;
     }
 
     .content {
       padding-top: 40px;
       overflow: auto;
-      height: calc(100vh - 73px);
-      max-height: calc(100vh - 73px);
+      height: calc(100vh - 80px);
+      max-height: calc(100vh - 80px);
     }
 
     .actions {
-      position: fixed;
       width: 100%;
-      bottom: 0;
     }
   }
 </style>
