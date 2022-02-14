@@ -16,7 +16,7 @@
   <Modal
     {isDisplayed}
     maxWidth={900}
-    maxHeight={800}
+    maxHeight={1000}
     shouldDisplayCloseButton={true}
     isBlurDismissable={true}
     isAnimated={true}
