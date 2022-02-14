@@ -24,7 +24,12 @@
   export let isDisplayed
 </script>
 
-<Modal on:dismiss={() => dispatch('dismiss')} isBlurDismissable={true} {isDisplayed}>
+<Modal
+  maxHeight={240}
+  on:dismiss={() => dispatch('dismiss')}
+  isBlurDismissable={true}
+  {isDisplayed}
+>
   <div slot="content">
     <h2>You'll need to be logged in first</h2>
 

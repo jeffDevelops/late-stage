@@ -16,6 +16,7 @@
   <Modal
     {isDisplayed}
     maxWidth={900}
+    maxHeight={800}
     shouldDisplayCloseButton={true}
     isBlurDismissable={true}
     isAnimated={true}
@@ -105,9 +106,6 @@
 
   @media screen and (max-width: 1000px) {
     :global(.throwaway-email-messaging .modal) {
-      min-height: 100vh;
-      /* mobile viewport bug fix */
-      min-height: -webkit-fill-available;
       width: 100vw !important;
       border-radius: 0 !important;
     }
@@ -122,9 +120,6 @@
 
   @media screen and (max-height: 873px) {
     :global(.throwaway-email-messaging .modal) {
-      min-height: 100vh;
-      /* mobile viewport bug fix */
-      min-height: -webkit-fill-available;
       width: 100vw !important;
       border-radius: 0 !important;
     }
