@@ -318,6 +318,7 @@
   main {
     height: calc(100vh - 140px);
     width: 100%;
+    position: relative;
   }
 
   section {
@@ -451,21 +452,21 @@
     }
   }
 
-  @media screen and (min-width: 800px) and (min-height: 800px) {
-    section {
-      height: auto;
-      position: absolute;
-      bottom: 10vh;
-      right: 15vw;
-    }
-  }
-
   @media screen and (min-width: 700px) and (min-height: 800px) {
     section {
       height: auto;
       position: absolute;
-      bottom: 11vh;
+      bottom: 5vh;
       right: 16vw;
+    }
+  }
+
+  @media screen and (min-width: 800px) and (min-height: 800px) {
+    section {
+      height: auto;
+      position: absolute;
+      bottom: 5vh;
+      right: 15vw;
     }
   }
 
