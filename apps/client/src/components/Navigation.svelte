@@ -148,9 +148,9 @@
 <style>
   nav {
     position: fixed;
-    top: 16px;
+    top: 0;
     left: 0;
-    height: calc(100vh - 48px);
+    height: calc(100vh - 24px);
     width: calc(100% / 3);
     background-color: var(--card-background);
     box-shadow: var(--page-shadow);
