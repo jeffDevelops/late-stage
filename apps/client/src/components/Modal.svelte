@@ -10,7 +10,7 @@
   export let shouldDisplayCloseButton: boolean = true
   export let isDisplayed: boolean = false
   export let maxWidth: number = 560
-  export let maxHeight: number = 600
+  export let maxHeight: number = 800
   export let isBlurDismissable: boolean = false
   export let isAnimated = true
   export let zIndex = 99
@@ -225,12 +225,12 @@
     width: calc(100% - 32px);
     max-width: var(--modal-max-width);
     margin: 0 auto;
-    padding: 16px 0 0;
     border: 1px solid #55555555;
     border-radius: var(--border-radius);
     box-shadow: var(--page-shadow);
     position: relative;
     transform: perspective(1000px);
+    overflow: hidden;
   }
 
   .close-button {
@@ -252,7 +252,7 @@
 
   .content {
     min-height: 40px;
-    padding: 16px 40px;
+    padding: 32px 40px 8px;
     overflow: auto;
   }
 
