@@ -14,7 +14,8 @@
   <section>
     <h1><ChecklistIcon /> Checklist</h1>
     <p>
-      These are things you can do today to limit your participation in extractionist capitalism.
+      These are things you can do today to limit your participation in extractive capitalism, wealth
+      inequality, insititutional racism, and human rights violations:
     </p>
 
     <ChecklistItem

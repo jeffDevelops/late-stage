@@ -202,6 +202,11 @@
     main {
       padding-top: 72px;
     }
+
+    :global(.campaign-page .current-campaign .card:first-of-type) {
+      padding: 16px 16px;
+    }
+
     h1 {
       font-size: 1.6rem;
     }
