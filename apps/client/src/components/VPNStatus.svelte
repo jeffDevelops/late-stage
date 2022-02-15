@@ -41,7 +41,12 @@
     {/if} VPN Status
   </h4>
   {#if notBrowsingWithVPN === false}
-    <p class="info-text success-text">It looks like you're browsing privately. Good to go!</p>
+    <p class="info-text success-text">
+      Thanks for confirming that you're browsing privately. You're good to go!
+    </p>
+    <p class="info-text">
+      We'll keep looking for network changes, and notify you if anything changes.
+    </p>
   {:else if typeof $ip === 'object' && notBrowsingWithVPN === null}
     <p class="info-text">
       We detected that you are browsing from a new IP address. Here's where we think you are:
