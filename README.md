@@ -32,7 +32,7 @@ You'll need to install the `pnpm` binary (https://pnpm.io/installation) in order
 ## The Monorepo
 - The codebase is a JavaScript (TypeScript) monorepo facilitated by Turborepo, as opposed to `docker-compose`, `lerna`, or similar tools for orchestrating multiple services and managing dependencies. You're welcome to create
 a `docker-compose` config for local development, but it's not being used in production.
-- The web client is a server-rendered SvelteKit application. In production, it runs as a service with `@sveltejs/adapter-node`. SvelteKit endpoints are to be used exclusively as a proxy to the API; client side requests direct to the API will be (politely) rejected.
+- The web client is a server-rendered SvelteKit application. In production, it runs as a service with `@sveltejs/adapter-node`.
 - The API is a Fastify / Mercurius GraphQL API. Prisma manages database migrations and creates a strictly-typed database client. It's tightly integrated with `type-graphql` which manages the API layer. One thing to note is that this integration *can* allow you to surface network-layer CRUD operations against database models for free, if configured in the schema. So, if you don't need any business or authorization logic around CRUD for a certain table, `type-graphql` has likely codegen'd all the CRUD you need out of the box.
   
 ## Local HTTPS is required
