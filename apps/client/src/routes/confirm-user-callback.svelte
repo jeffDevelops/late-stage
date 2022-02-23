@@ -47,7 +47,8 @@
 
     if (!!session.user) {
       return {
-        status: 200,
+        status: 303,
+        redirect: '/',
       }
     }
 
@@ -59,7 +60,9 @@
 </script>
 
 <script lang="ts">
+  import { onMount } from 'svelte'
   import { session } from '$app/stores'
+  import { goto } from '$app/navigation'
   import { navigationStatePriorToLogin } from '../stores/NavigationPriorToLogin'
   import Card from '../components/Card.svelte'
   import DangerTriangle from '../components/iconography/DangerTriangle.svelte'
@@ -70,6 +73,14 @@
    */
 
   export let error: string
+
+  onMount(() => {
+    if (!!$session.user) {
+      setTimeout(() => {
+        goto($navigationStatePriorToLogin?.url ?? '/')
+      }, 5000)
+    }
+  })
 </script>
 
 {#if error}
@@ -86,14 +97,6 @@
       {/if}
     </Card>
   </main>
-{:else if $session.user && !!$navigationStatePriorToLogin}
-  <main class="confirm-user-callback">
-    <Card>
-      <h2><EmailIcon /> You're all set!</h2>
-
-      <p>Redirecting to where you left off...</p>
-    </Card>
-  </main>
 {/if}
 
 <style>
@@ -104,6 +107,7 @@
     width: calc(100% - 24px);
     max-width: 750px;
     margin: 0 auto;
+    height: 100vh;
   }
 
   :global(.confirm-user-callback h2 svg) {

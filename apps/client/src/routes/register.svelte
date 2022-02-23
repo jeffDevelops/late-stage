@@ -258,6 +258,7 @@
       <div class="zip-code">
         <label for="zip-code">Zip code</label>
         <input
+          tabindex="-1"
           class:disabled={loading}
           id="zip-code"
           autocomplete="off"
@@ -446,21 +447,30 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 14vh;
-      right: 15vw;
+      bottom: -10vh;
+      right: 13vw;
     }
   }
 
-  @media screen and (min-width: 800px) and (min-height: 800px) {
+  @media screen and (max-width: 1500px) and (min-width: 1200px) and (min-height: 800px) {
     section {
       height: auto;
       position: absolute;
-      bottom: -5vh;
-      right: 15vw;
+      bottom: -11vh;
+      right: 13vw;
     }
   }
 
-  @media screen and (min-width: 700px) and (max-width: 799px) and (min-height: 800px) {
+  @media screen and (max-width: 1199px) and (min-width: 900px) and (min-height: 800px) {
+    section {
+      height: auto;
+      position: absolute;
+      bottom: -7vh;
+      right: 8vw;
+    }
+  }
+
+  @media screen and (max-width: 899px) and (min-width: 700px) and (min-height: 800px) {
     section {
       height: auto;
       position: absolute;

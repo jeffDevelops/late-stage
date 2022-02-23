@@ -16,7 +16,6 @@
    * STATE
    */
 
-  let didUploadImage = false
   let fileInput: HTMLInputElement
   let imagePreviewSrc: string
   let error = ''
@@ -27,7 +26,7 @@
 
   // Clear the image preview when the image is cleared
   $: if (!image) {
-    imagePreviewSrc = ''
+    removeUpload()
   }
 
   // Image upload errors
@@ -67,8 +66,7 @@
    */
 
   const handleImageChange = () => {
-    didUploadImage = true
-
+    console.log('handleImageChange', fileInput.files)
     if (fileInput.files) {
       imagePreviewSrc = URL.createObjectURL(fileInput.files[0])
       image = fileInput.files[0]
@@ -78,7 +76,7 @@
   }
 
   const removeUpload = () => {
-    fileInput.value = ''
+    if (fileInput) fileInput.value = null
     imagePreviewSrc = ''
     image = undefined
   }

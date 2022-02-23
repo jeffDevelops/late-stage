@@ -16,9 +16,13 @@
             ${session.user ? `belongsToUser { username id }` : ''}
             wasApprovedByAdmin
             wasReviewedByAdmin
-            reviewedByUser {
+            ${
+              session.user?.isAdmin
+                ? `reviewedByUser {
               username
               id
+            }`
+                : ''
             }
             createdAt
             updatedAt
@@ -46,6 +50,25 @@
 
       const deserialized = await response.json()
 
+      if (deserialized.error) {
+        return {
+          redirect: '/__error',
+          status: 303,
+        }
+      }
+
+      /** If the completion doesn't belong to the user and the user is not an admin, don't show the completion */
+      if (
+        !session.user?.isAdmin &&
+        !deserialized.wasApprovedByAdmin &&
+        session.user?.id !== deserialized.belongsToUser?.id
+      ) {
+        return {
+          redirect: '/__error',
+          status: 303,
+        }
+      }
+
       return {
         props: {
           bankExodusCampaignCompletion: deserialized,
@@ -53,6 +76,7 @@
       }
     } catch (error) {
       console.error('error')
+      console.log({ error })
 
       return {
         status: 500,

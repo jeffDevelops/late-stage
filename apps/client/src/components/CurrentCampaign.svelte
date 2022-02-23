@@ -67,7 +67,14 @@
 
     <div class="goal-card">
       <Card>
-        <p class="goal-description">{campaign.title}</p>
+        <p
+          style={$page.url.pathname.startsWith('/campaigns')
+            ? ''
+            : 'color: var(--interactive-color); text-decoration: underline;'}
+          class="goal-description"
+        >
+          {campaign.title}
+        </p>
         <p class="goal">
           {campaign.goalUnit === 'dollars' ? '$' : ''}{campaign.goal
             .toString()

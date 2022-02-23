@@ -72,7 +72,7 @@
                 ? 'Reviewed by'
                 : 'Pending approval'}
             </Checkbox>
-          {:else}
+          {:else if $session.user && bankExodusCampaignCompletion.belongsToUser && $session.user?.id === bankExodusCampaignCompletion.belongsToUser?.id && !bankExodusCampaignCompletion.wasReviewedByAdmin}
             <p class="subdued">Pending Review</p>
           {/if}
         </section>
@@ -184,6 +184,8 @@
 
   .subdued {
     color: var(--text-color-subdued);
+    font-size: 0.8rem;
+    margin-top: 8px;
   }
 
   @media screen and (max-width: 1200px) {

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
+  import { page, session } from '$app/stores'
   import { fade } from 'svelte/transition'
   import { disableInteractablesWhile } from '../utility/disableInteractablesWhile'
   import { env } from '../networking/env'
@@ -12,11 +14,21 @@
    * STATE
    */
 
-  let email = ''
+  let email = $session.user?.email ?? ''
   let didRequestResend = false
 
   let emailError = ''
   let didAttemptSubmit = false
+  let isRedirect = false
+
+  /**
+   * LIFECYCYLE
+   */
+  onMount(() => {
+    if ($page.url.searchParams.get('redirect') === 'true') {
+      isRedirect = true
+    }
+  })
 
   /**
    * REACTIVE
@@ -65,20 +77,38 @@
 </script>
 
 <main class="verify-email">
-  <h1><EmailIcon /> Check Your Email</h1>
-
-  <Card>
-    <h4>Thank you for signing up!</h4>
+  {#if isRedirect}
+    <h1><EmailIcon /> Verify your email</h1>
 
     <p>
-      An email was sent to the email address you provided. You'll need to click the confirmation
-      link in that email to confirm your email address.
+      You'll need to click the confirmation link in the email that was sent to you when you
+      registered to finalize your registration.
     </p>
 
     <p>For your security, it expires in five minutes.</p>
 
+    <p>
+      If you didn't get an email when you registered, or the magic link has since expired, you can
+      send yourself a new one below.
+    </p>
+
     <p>You may now close this tab in your browser.</p>
-  </Card>
+  {:else}
+    <h1><EmailIcon /> Check Your Email</h1>
+
+    <Card>
+      <h4>Thank you for signing up!</h4>
+
+      <p>
+        An email was sent to the email address you provided. You'll need to click the confirmation
+        link in that email to confirm your email address.
+      </p>
+
+      <p>For your security, it expires in five minutes.</p>
+
+      <p>You may now close this tab in your browser.</p>
+    </Card>
+  {/if}
 
   {#if !didRequestResend}
     <div out:fade in:fade>

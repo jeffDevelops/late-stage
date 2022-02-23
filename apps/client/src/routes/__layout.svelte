@@ -1,8 +1,24 @@
 <script context="module">
   export const load = async ({ url, session }) => {
-    if (!session.apiHealthy && !healthcheckExemptRoutes.includes(url.pathname)) {
+    if (
+      !session.apiHealthy &&
+      !healthcheckExemptRoutes.includes(url.pathname) &&
+      url.pathname !== '/__error'
+    ) {
       return {
         redirect: '/__error',
+        status: 303,
+      }
+    }
+
+    if (
+      session.user &&
+      !session.user.emailIsVerified &&
+      url.pathname !== '/verify-email' &&
+      url.pathname !== '/confirm-user-callback'
+    ) {
+      return {
+        redirect: '/verify-email?redirect=true',
         status: 303,
       }
     }
@@ -51,8 +67,7 @@
   $: authRoutes = [
     '/log-in',
     '/register',
-    '/confirm-user-callback',
-    ...($session?.user?.emailIsVerified ? ['/verify-user'] : []), // make '/verify-user' inaccessible only when user has verified their email
+    ...($session?.user?.emailIsVerified ? ['/verify-email', '/confirm-user-callback'] : []), // make '/verify-email' inaccessible only when user has verified their email
   ]
 
   $: shouldNotBeAccessibleWhileLoggedIn = (pathname: string = $page.url.pathname) =>

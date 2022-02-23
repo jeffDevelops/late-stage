@@ -29,11 +29,13 @@ export abstract class VerifyEmailAddressResolver {
 
     @Ctx() { prisma, req }: Context,
   ): Promise<User> {
+    const decodedEmail = decodeURIComponent(email)
+
     /**
      * Format validation
      */
 
-    InputValidator.validateEmail(email, req)
+    InputValidator.validateEmail(decodedEmail, req)
     const tokenPayload = InputValidator.verifyJWT(token, req)
 
     const userToUpdate = await prisma.user.findUnique({
@@ -43,7 +45,7 @@ export abstract class VerifyEmailAddressResolver {
     })
 
     try {
-      this.validateInput(userToUpdate, token, email)
+      this.validateInput(userToUpdate, token, decodedEmail)
       const user = await this.updateUser(tokenPayload, prisma)
       await this.invalidateSingleUseToken(user, prisma)
       return user
@@ -73,6 +75,8 @@ export abstract class VerifyEmailAddressResolver {
     if (!userToUpdate.magicLinkToken) {
       throw new Error('Token in magic link was used already')
     }
+
+    console.log({ email, userToUpdate: userToUpdate.email })
 
     if (userToUpdate.email !== email) {
       throw new Error(

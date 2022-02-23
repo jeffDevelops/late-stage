@@ -60,7 +60,9 @@ export abstract class SendUserConfirmationEmailResolver {
         templateId: 'd-f3848f33344a403281483d08ad6c346f',
         dynamicTemplateData: {
           url: `${process.env
-            .CORS_ORIGIN!}/confirm-user-callback?token=${token}&email=${email}`,
+            .CORS_ORIGIN!}/confirm-user-callback?token=${token}&email=${encodeURIComponent(
+            email,
+          )}`,
         },
         hideWarnings: true,
       }

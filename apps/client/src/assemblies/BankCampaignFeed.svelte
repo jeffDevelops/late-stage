@@ -65,6 +65,30 @@
       gqlRequest({
         query: QUERY,
         variables: {
+          ...($session.user?.isAdmin
+            ? {}
+            : {
+                where: {
+                  OR: [
+                    // Non-admin users can only see their own completions or ones that have been approved by an admin.
+                    {
+                      wasApprovedByAdmin: {
+                        equals: true,
+                      },
+                    },
+                    ...($session.user?.id
+                      ? [
+                          {
+                            wasReviewedByAdmin: { equals: false },
+                            belongsToUser: {
+                              is: { id: { equals: $session.user?.id } },
+                            },
+                          },
+                        ]
+                      : []),
+                  ],
+                },
+              }),
           take: PAGE_SIZE,
           skip,
           orderBy: [
@@ -101,6 +125,12 @@
       }),
     ).then(async (response) => await response.json())
 
+    if (newCompletions.error) {
+      loadingMore = false
+      newBatch = []
+      return
+    }
+
     newBatch = newCompletions
     loadingMore = false
   }
@@ -119,9 +149,7 @@
         <CampaignFeedEmptyState />
       {:else}
         {#each data as bankExodusCampaignCompletion, index}
-          {#if $session.user?.isAdmin || bankExodusCampaignCompletion.wasApprovedByAdmin || bankExodusCampaignCompletion.belongsToUser?.id === $session.user?.id}
-            <BankCampaignFeedRepeatingElement index={index / skip} {bankExodusCampaignCompletion} />
-          {/if}
+          <BankCampaignFeedRepeatingElement index={index / skip} {bankExodusCampaignCompletion} />
         {/each}
 
         {#if loadingMore}

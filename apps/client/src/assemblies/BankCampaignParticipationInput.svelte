@@ -37,7 +37,7 @@
    */
 
   // Form state
-  let image: File
+  let image: File | undefined
   let didUploadImage = false
   let isAnonymous = true
   let withdrawalAmount: string = ''
@@ -434,11 +434,12 @@
     />
 
     <p class="checkbox-instructions">
-      Do you want the app to show your username with your proof of participation, or do you want
-      your withdrawal to be anonymous?
+      Do you want the app to show your username along with your proof of participation to other
+      members of the platform, or do you want your withdrawal to be anonymous? We will never show
+      personal data to unregistered users.
     </p>
     <Checkbox on:change={() => (isAnonymous = !isAnonymous)} checked={isAnonymous}
-      >Don't display my username</Checkbox
+      >Keep my withdrawal receipt anonymous, even to other users</Checkbox
     >
 
     <h4>Step 4: Tell us about your switch</h4>

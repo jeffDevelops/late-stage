@@ -1,6 +1,5 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import { goto } from '$app/navigation'
   import { session } from '$app/stores'
 
   import VisibilityOnIcon from '../components/iconography/VisibilityOn.svelte'
@@ -386,8 +385,8 @@
     section {
       height: auto;
       position: absolute;
-      bottom: 10vh;
-      right: 16vw;
+      bottom: 6vh;
+      right: 13vw;
     }
   }
 
