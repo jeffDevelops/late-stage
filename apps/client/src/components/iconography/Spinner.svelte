@@ -23,6 +23,9 @@
   }
 
   svg {
+    height: 32px;
     animation: spin 2s linear infinite;
+    fill: var(--text-color);
+    stroke: var(--text-color);
   }
 </style>

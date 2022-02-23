@@ -1,9 +1,20 @@
 <script lang="ts">
+  import Controls from '../components/Controls.svelte'
   import DangerTriangle from '../components/iconography/DangerTriangle.svelte'
   import Card from '../components/Card.svelte'
+  import { page } from '$app/stores'
+
+  console.log($page.error)
 </script>
 
+<Controls />
 <main class="error-page">
+  <!-- {#if $page.status === 404}
+    <Card>
+      <h2><DangerTriangle /> 404</h2>
+      <p>{$page.error.message}</p>
+    </Card>
+  {:else} -->
   <Card>
     <h2><DangerTriangle /> Something went wrong</h2>
 
@@ -13,7 +24,8 @@
     </p>
 
     <p>
-      The roadmap is governed by the <a href="https://www.reddit.com/r/latestage/">r/latestage</a> subreddit.
+      The roadmap is governed by the <a href="https://www.reddit.com/r/latestage/">r/latestage</a>
+      subreddit.
     </p>
 
     <p>
@@ -22,6 +34,7 @@
       it.
     </p>
   </Card>
+  <!-- {/if} -->
 </main>
 
 <style>

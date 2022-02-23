@@ -1,7 +1,7 @@
 export { handle } from './handle'
 export { getSession } from './getSession'
 
-import type { User } from 'src/types/User'
+import type { User } from '../types/User'
 
 export type SessionImpl = {
   user: User

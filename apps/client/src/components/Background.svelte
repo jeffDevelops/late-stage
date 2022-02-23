@@ -1,6 +1,6 @@
 <script lang="ts">
   import BackgroundSvg from './BackgroundSvg.svelte'
-  import { page, url } from '$app/stores'
+  import { page } from '$app/stores'
 
   const accentuatedBackgroundRoutes = ['/', '/log-in', '/register']
 </script>
@@ -25,8 +25,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
     z-index: 1;
     transition: backdrop-filter 0.5s ease-in-out, -webkit-backdrop-filter 0.5s ease-in-out;
   }

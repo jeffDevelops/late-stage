@@ -9,11 +9,11 @@
 
   let isDisplayed = (() => {
     if (typeof window !== 'undefined') {
-      const hasAcknowledgedAlphaSoftware = localStorage.getItem(
-        LocalStorageKeys.HasAcknowledgedAlphaSoftware,
+      const hasAcknowledgedBetaSoftware = localStorage.getItem(
+        LocalStorageKeys.HasAcknowledgedBetaSoftware,
       )
 
-      return hasAcknowledgedAlphaSoftware !== 'true' // localStorage "stringly-typed"
+      return hasAcknowledgedBetaSoftware !== 'true' // localStorage "stringly-typed"
     }
   })()
 
@@ -22,7 +22,7 @@
    */
 
   const dismissModal = async () => {
-    localStorage.setItem(LocalStorageKeys.HasAcknowledgedAlphaSoftware, 'true')
+    localStorage.setItem(LocalStorageKeys.HasAcknowledgedBetaSoftware, 'true')
 
     const modalNode = document.querySelector('.public-alpha-modal .modal')
     const scrimNode = document.querySelector('.public-alpha-modal .scrim')
@@ -52,45 +52,30 @@
     zIndex={6}
   >
     <div class="content-container" slot="content">
-      <h2>Late-Stage is in public alpha</h2>
+      <h2>Late-Stage is in public beta</h2>
 
-      <h5>Please note that the site is not operational yet!</h5>
+      <p>The site is fully operational, but it could have a few kinks here and there.</p>
 
       <p>
-        The content you see here is likely how it will <em>look</em> when we begin running campaigns,
-        but the community is still finalizing our first campaigns and checklist objectives.
-      </p>
-
-      <h5>Okay, so what <em>can</em> I do on the website?</h5>
-      <p>
-        For more information, see our <a
-          on:mousedown={dismissModal}
-          href="/about"
-          rel="noopener noreferrer"
-          target="_blank">about</a
-        > page.
+        Care to report a bug? Feel free to let the developer know through any of the following lines
+        of communication:
       </p>
       <p>
-        If you'd like to see where the project is headed, check out our <a
-          on:mousedown={dismissModal}
-          href="https://late-stage.notion.site/f8709ff5bbed4fcb9bda3d802fabdac0?v=86dd875520eb4384a8a01424da6ad666"
-          rel="noopener noreferrer"
-          target="_blank">roadmap</a
-        >.
-      </p>
-      <p>
-        If you'd like a say in how the project is going, join our Reddit community at <a
+        <a
           on:mousedown={dismissModal}
           href="https://www.reddit.com/r/latestage/"
           rel="noopener noreferrer"
-          target="_blank">r/latestage</a
-        >, or our
+          target="_blank">r/latestage Subreddit</a
+        >
+      </p>
+
+      <p>
         <a
           on:mousedown={dismissModal}
           href="https://discord.gg/DAa7mCae"
           rel="noopener noreferrer"
           target="_blank">Discord server</a
-        >.
+        >
       </p>
     </div>
 
@@ -101,7 +86,7 @@
 </div>
 
 <div class="alpha-info-fab">
-  <FloatingActionButton on:click={() => (isDisplayed = true)}>⍺</FloatingActionButton>
+  <FloatingActionButton on:click={() => (isDisplayed = true)}>β</FloatingActionButton>
 </div>
 
 <style>
@@ -155,10 +140,6 @@
 
   .content-container {
     overflow: auto;
-  }
-
-  h5 {
-    margin-top: 40px;
   }
 
   .alpha-info-fab {

@@ -15,7 +15,7 @@
   }
 
   .tenet:last-of-type {
-    margin-bottom: 32px !important;
+    margin-bottom: 32px;
   }
 
   .tenet::before {
@@ -28,5 +28,9 @@
     width: 4px;
     z-index: 2;
     background-color: var(--interactive-color);
+  }
+
+  p {
+    color: var(--text-color-subdued);
   }
 </style>

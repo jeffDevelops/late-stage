@@ -1,10 +1,13 @@
 <script lang="ts">
-  import { prefetch, goto } from '$app/navigation'
   import { fade } from 'svelte/transition'
+  import { prefetch, goto } from '$app/navigation'
+  import { page } from '$app/stores'
   import dayjs from 'dayjs'
 
   import Card from './Card.svelte'
   import Hourglass from './Hourglass.svelte'
+  import CampaignTags from './CampaignTags.svelte'
+
   import type { Campaign } from '../types/Campaign'
 
   /**
@@ -23,82 +26,106 @@
    * REACTIVE
    */
 
-  $: realizedValuePercentage = (campaign.realizedValue / campaign.goal) * 100
+  $: realizedValuePercentage = campaign.stats
+    ? (campaign.stats._sum.withdrawalAmount / campaign.goal) * 100
+    : 0
 
   /**
    * METHODS
    */
 
   const handleCampaignHover = async () => {
+    if ($page.url.pathname.startsWith('/campaigns')) return
     await prefetch(`/campaigns/${campaign.id}`)
     shouldDisplayHoverEffect = true
   }
 
   const handleCampaignClick = async () => {
+    if ($page.url.pathname.startsWith('/campaigns')) return
     await goto(`/campaigns/${campaign.id}`)
   }
 </script>
 
-<div on:mouseenter={handleCampaignHover} class="current-campaign grid">
-  {#if shouldDisplayHoverEffect}
-    <button
-      in:fade={{ duration: 100 }}
-      out:fade={{ duration: 100 }}
-      class="hover-effect"
-      on:click={handleCampaignClick}
-      on:mouseleave={() => (shouldDisplayHoverEffect = false)}
-    >
-      <h1>Participate</h1>
-    </button>
-  {/if}
+<a
+  style="cursor: {$page.url.pathname.startsWith('/campaigns') ? 'default' : 'pointer'};"
+  href={`/campaigns/${campaign.id}`}
+  on:mouseenter={handleCampaignHover}
+  on:mouseleave={() => (shouldDisplayHoverEffect = false)}
+  class="current-campaign"
+>
+  <div class="grid">
+    {#if shouldDisplayHoverEffect}
+      <button
+        in:fade={{ duration: 50 }}
+        out:fade={{ duration: 50 }}
+        class="hover-effect"
+        on:click={handleCampaignClick}
+      >
+        <h1>Participate</h1>
+      </button>
+    {/if}
 
-  <div class="goal-card">
-    <Card>
-      <p class="goal-description">{campaign.description}</p>
-      <p class="goal">
-        {campaign.goalUnit === 'dollars' ? '$' : ''}{campaign.goal
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-        {campaign.goalUnit === 'dollars' ? '' : campaign.goalUnit}
-        {campaign.goalVerb} by {dayjs(campaign.goalDeadline).format('MMM D, YYYY')}
-      </p>
+    <div class="goal-card">
+      <Card>
+        <p class="goal-description">{campaign.title}</p>
+        <p class="goal">
+          {campaign.goalUnit === 'dollars' ? '$' : ''}{campaign.goal
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          {campaign.goalUnit === 'dollars' ? '' : campaign.goalUnit}
+          {campaign.goalVerb} by {dayjs(campaign.goalDeadline).format('MMM D, YYYY')}
+        </p>
 
-      <div class="goal-visualization">
-        <div style="width: {realizedValuePercentage}%;" class="realized-value" />
-      </div>
-
-      <p class="goal-visualization-description">
-        {campaign.goalUnit === 'dollars' ? '$' : ''}{campaign.realizedValue
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} / {campaign.goalUnit === 'dollars'
-          ? '$'
-          : ''}{campaign.goal
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{campaign.goalUnit === 'dollars'
-          ? ''
-          : campaign.goalUnit} goal
-      </p>
-    </Card>
-  </div>
-
-  <div class="deadline-card">
-    <Card>
-      <div class="time-container">
-        <Hourglass startDate={campaign.goalStartDate} endDate={campaign.goalDeadline} />
-        <div class="deadline">
-          <h4>Deadline</h4>
-          <p>{dayjs(campaign.goalDeadline).format('MMM D, YYYY')}</p>
+        <div class="goal-visualization">
+          <div style="width: {realizedValuePercentage}%;" class="realized-value" />
         </div>
 
-        <p class="days-remaining">
-          {dayjs(campaign.goalDeadline).diff(dayjs(), 'day')} days remaining
+        <p class="goal-visualization-description">
+          {campaign.goalUnit === 'dollars' ? '$' : ''}{(campaign.stats?._sum.withdrawalAmount ?? 0)
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} / {campaign.goalUnit === 'dollars'
+            ? '$'
+            : ''}{campaign.goal
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{campaign.goalUnit === 'dollars'
+            ? ''
+            : campaign.goalUnit} goal
         </p>
-      </div></Card
-    >
+
+        <p class="participants">
+          Unique participants: <span class="data"
+            >{campaign._count.usersThatDidCompleteCampaign}</span
+          >
+        </p>
+      </Card>
+    </div>
+
+    <div class="deadline-card">
+      <Card>
+        <div class="time-container">
+          <Hourglass startDate={campaign.goalStartDate} endDate={campaign.goalDeadline} />
+          <div class="deadline">
+            <h4>Deadline</h4>
+            <p>{dayjs(campaign.goalDeadline).format('MMM D, YYYY')}</p>
+          </div>
+
+          <p class="days-remaining">
+            {dayjs(campaign.goalDeadline).diff(dayjs(), 'day')} days remaining
+          </p>
+        </div></Card
+      >
+    </div>
   </div>
-</div>
+</a>
+
+<CampaignTags wrap={false} tags={campaign.tags} />
 
 <style>
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
   .grid {
     position: relative;
     display: grid;
@@ -110,11 +137,16 @@
     z-index: -1;
   }
 
+  .grid:last-child {
+    margin: 16px 0 0;
+  }
+
   .goal-description {
     font-size: 1.1rem;
     font-weight: 400;
     letter-spacing: 0.01em;
   }
+
   .goal {
     font-weight: 500;
     letter-spacing: 0.01em;
@@ -133,6 +165,7 @@
     background-color: var(--visualization-color);
     position: relative;
     width: 100%;
+    overflow: hidden;
   }
 
   .realized-value {
@@ -170,6 +203,7 @@
 
   .deadline * {
     text-align: center;
+    text-shadow: 1px 1px 1px var(--card-background);
   }
 
   .deadline-card {
@@ -177,13 +211,18 @@
   }
 
   :global(.deadline-card .card, .goal-card .card) {
-    padding: 12px;
+    padding: 12px 12px 8px 12px;
+    height: 100%;
+  }
+
+  :global(.goal-card .card) {
+    padding: 12px 12px 0px 12px;
     height: 100%;
   }
 
   .days-remaining {
     justify-self: flex-end;
-    margin-top: 8px;
+    margin-top: 4px;
     margin-bottom: 0;
     text-align: center;
   }
@@ -208,11 +247,22 @@
     color: var(--button-text-color);
   }
 
+  .participants {
+    font-size: 0.8em;
+    color: var(--text-color-subdued);
+    margin-top: 16px;
+  }
+
+  .participants .data {
+    font-weight: 400;
+    color: var(--interactive-color);
+  }
+
   @media screen and (max-width: 600px) {
     .grid {
       grid-template-columns: 3fr 1fr;
       grid-template-rows: minmax(180px, auto);
-      margin: 16px 0 0;
+      margin: 16px 0 4px;
       width: 100%;
     }
 

@@ -28,7 +28,7 @@ export const get = async (): Promise<EndpointOutput> => {
       }
     }
 
-    console.log(error)
+    console.error(error)
 
     return {
       status: 500,

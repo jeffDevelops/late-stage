@@ -9,6 +9,7 @@
     padding: 24px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--visualization-color);
   }
 
   @media screen and (max-width: 600px) {

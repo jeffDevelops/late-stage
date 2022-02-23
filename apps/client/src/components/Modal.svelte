@@ -63,12 +63,15 @@
     if (!browser) return
     if (!shouldHideControls) return
 
+    const logoHeader = document.getElementById('logo-header')
+    const controls = document.getElementById('controls')
+
     if (on) {
-      document.getElementById('logo-header').style.display = 'block'
-      document.getElementById('controls').style.display = 'block'
+      if (logoHeader) logoHeader.style.display = 'block'
+      if (controls) controls.style.display = 'block'
     } else {
-      document.getElementById('logo-header').style.display = 'none'
-      document.getElementById('controls').style.display = 'none'
+      if (logoHeader) logoHeader.style.display = 'none'
+      if (controls) controls.style.display = 'none'
     }
   }
 
@@ -270,7 +273,7 @@
 
   .content {
     min-height: 40px;
-    padding: 32px 40px 8px;
+    padding: 32px 40px 24px;
     overflow: auto;
   }
 

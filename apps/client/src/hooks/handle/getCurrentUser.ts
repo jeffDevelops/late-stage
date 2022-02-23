@@ -27,12 +27,12 @@ export const getCurrentUser: Handle<LocalsImpl> = async ({
   })
 
   if (!originalDeserialized.errors) {
-    event.locals.user = originalDeserialized.user
+    event.locals.user = originalDeserialized.data.currentUser
     return await resolve(event)
   }
 
-  const unauthorized = originalDeserialized.errors.some(({ message }) =>
-    message.startsWith('Unauthorized'),
+  const unauthorized = originalDeserialized.errors.some(
+    ({ message }) => message === 'Unauthorized - no __Host-a cookie',
   )
 
   /**
@@ -148,10 +148,9 @@ function mergeCookies(refreshResponse: Response, endpointRequest: Request) {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function success(
   { event, resolve }: HandleInput<LocalsImpl>,
-  user: User | null,
+  user: User,
   headers: Partial<ResponseHeaders> = undefined,
 ): Promise<Response> {
   // Populate the session

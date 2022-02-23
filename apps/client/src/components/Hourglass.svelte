@@ -5,6 +5,8 @@
   export let startDate: string
   export let endDate: string
 
+  let container: HTMLElement
+
   onMount(() => {
     const setSandFullness = (percent: number) => {
       if (typeof document === 'undefined') return
@@ -12,13 +14,17 @@
       ;(document.querySelector('.sand.bottom') as HTMLElement).style.height = `${100 - percent}%`
     }
 
-    setSandFullness(
-      (dayjs(endDate).diff(dayjs(), 'day') / dayjs(endDate).diff(dayjs(startDate), 'day')) * 100,
-    )
+    setTimeout(() => {
+      container.classList.add('ready')
+
+      setSandFullness(
+        (dayjs(endDate).diff(dayjs(), 'day') / dayjs(endDate).diff(dayjs(startDate), 'day')) * 100,
+      )
+    }, 2000)
   })
 </script>
 
-<div id="hourglass" class="ready">
+<div id="hourglass" bind:this={container} class="ready">
   <div class="glass">
     <div class="sand top" />
   </div>

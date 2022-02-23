@@ -1,52 +1,122 @@
-import { buildSchema } from 'type-graphql'
-import { isAuthorized } from '../middleware/isAuthorized'
+import { buildSchema, Authorized, UseMiddleware } from 'type-graphql'
+import { isAuthorized, CurrentUser } from '../middleware'
+import {
+  ModelsEnhanceMap,
+  applyModelsEnhanceMap,
+  ModelConfig,
+  ResolversEnhanceMap,
+  applyResolversEnhanceMap,
+} from '@generated/type-graphql'
 
 /** Resolvers (Generated) */
 import {
+  CreateCampaignResolver,
+  CreateTagResolver,
   FindUniqueUserResolver,
   FindManyUserResolver,
+  FindManyBankExodusCompletionResolver,
+  AggregateBankExodusCompletionResolver,
+  FindUniqueBankExodusCompletionResolver,
+  FindManyCampaignResolver,
+  FindUniqueCampaignResolver,
+  FindManyTagResolver,
 } from '@generated/type-graphql'
 
-/** Resolvers (Custom) */
+/** Mutations (Custom) */
 import {
-  RegisterUserResolver,
+  ApproveBankExodusCompletionResolver,
   AuthenticateUserResolver,
-  SendUserConfirmationEmailResolver,
-  VerifyEmailAddressResolver,
-  RefreshAccessTokenResolver,
+  BanUserResolver,
   LogOutResolver,
-  // SendPasswordResetEmailResolver, // DISABLED
-  // UpdatePasswordResolver, // DISABLED
-  ExampleResolver,
+  MarkBankExodusCompletionReviewedResolver,
+  RecordBankExodusCompletionResolver,
+  RefreshAccessTokenResolver,
+  RegisterUserResolver,
+  SendUserConfirmationEmailResolver,
+  UnapproveBankExodusCompletionResolver,
+  UnmarkBankExodusCompletionReviewedResolver,
   UpdateEmailAddressResolver,
   UpdateUsernameResolver,
+  VerifyEmailAddressResolver,
 } from '../resolvers/mutation'
 
-import { CurrentUserResolver } from '../resolvers/query'
+/** Queries (Custom) */
+import {
+  CurrentUserResolver,
+  ImageKitAuthenticationParamsResolver,
+  RecaptchaVerificationResolver,
+} from '../resolvers/query'
 
-export const schema = async () =>
-  await buildSchema({
+/** Field Resolvers (Custom) */
+import {
+  BankExodusCompletionFieldResolvers,
+  CampaignFieldResolvers,
+} from '../resolvers/fieldResolvers'
+
+export const schema = async () => {
+  /** Field-based permissions */
+  const bankExodusCompletionModelConfig: ModelConfig<'BankExodusCompletion'> = {
+    // Prevent basic user info from leaking to users that are not logged in
+    fields: {
+      userId: [Authorized()],
+      belongsToUser: [Authorized()],
+    },
+  }
+
+  const modelsEnhanceMap: ModelsEnhanceMap = {
+    BankExodusCompletion: bankExodusCompletionModelConfig,
+  }
+
+  const resolversEnhanceMap: ResolversEnhanceMap = {
+    Campaign: {
+      createCampaign: [Authorized('ADMIN'), UseMiddleware(CurrentUser)],
+    },
+    Tag: {
+      createTag: [Authorized('ADMIN'), UseMiddleware(CurrentUser)],
+    },
+  }
+
+  applyModelsEnhanceMap(modelsEnhanceMap)
+  applyResolversEnhanceMap(resolversEnhanceMap)
+
+  const schema = await buildSchema({
     resolvers: [
       // Custom resolvers go here...
-      RegisterUserResolver,
+      ApproveBankExodusCompletionResolver,
       AuthenticateUserResolver,
-      SendUserConfirmationEmailResolver,
-      VerifyEmailAddressResolver,
-      RefreshAccessTokenResolver,
-      LogOutResolver,
+      BankExodusCompletionFieldResolvers,
+      CampaignFieldResolvers,
+      BanUserResolver,
       CurrentUserResolver,
-      // SendPasswordResetEmailResolver, // DISABLED
-      // UpdatePasswordResolver, // DISABLED
+      ImageKitAuthenticationParamsResolver,
+      LogOutResolver,
+      MarkBankExodusCompletionReviewedResolver,
+      RecaptchaVerificationResolver,
+      RecordBankExodusCompletionResolver,
+      RegisterUserResolver,
+      RefreshAccessTokenResolver,
+      SendUserConfirmationEmailResolver,
+      UnapproveBankExodusCompletionResolver,
+      UnmarkBankExodusCompletionReviewedResolver,
       UpdateEmailAddressResolver,
       UpdateUsernameResolver,
-
-      // TODO: remove
-      ExampleResolver,
+      VerifyEmailAddressResolver,
 
       // Resolvers from '@generated/type-graphql are selectively included below...
+      CreateCampaignResolver,
+      CreateTagResolver,
+      AggregateBankExodusCompletionResolver,
+      FindManyCampaignResolver,
+      FindUniqueBankExodusCompletionResolver,
+      FindUniqueCampaignResolver,
       FindUniqueUserResolver,
       FindManyUserResolver,
+      FindManyBankExodusCompletionResolver,
+      FindManyTagResolver,
     ],
     authChecker: isAuthorized,
     validate: false,
   })
+
+  return schema
+}

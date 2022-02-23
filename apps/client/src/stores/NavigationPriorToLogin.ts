@@ -36,8 +36,15 @@ loadLocalStorageValue()
  */
 export const navigationStatePriorToLogin = {
   subscribe,
-  set: (newValue: NavigationStatePriorToLogin | null): void => {
-    localStorage.setItem(LocalStorageKeys.NavigationStatePriorToLogin, JSON.stringify(newValue))
-    set(newValue)
+  write: (newValue: NavigationStatePriorToLogin | null): void => {
+    if (newValue) {
+      localStorage.setItem(LocalStorageKeys.NavigationStatePriorToLogin, JSON.stringify(newValue))
+      set(newValue)
+
+      return
+    }
+
+    localStorage.removeItem(LocalStorageKeys.NavigationStatePriorToLogin)
+    set(null)
   },
 }
