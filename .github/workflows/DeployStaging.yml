@@ -74,6 +74,9 @@ jobs:
           echo COOKIE_SECRET=${{ secrets.COOKIE_SECRET }} >> .env
           echo NODE_ENV=test >> .env
           echo SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} >> .env
+          echo IMAGEKIT_PUBLIC_KEY='${{ secrets.IMAGEKIT_PUBLIC_KEY }}' >> .env
+          echo IMAGEKIT_PRIVATE_KEY='${{ secrets.IMAGEKIT_PRIVATE_KEY }}' >> .env
+          echo RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }} >> .env
           echo PORT=3001 >> .env
           cat .env
           cd ../../
@@ -85,6 +88,8 @@ jobs:
           touch .env
           echo VITE_SVELTEKIT_HOST=${{ secrets.VITE_SVELTEKIT_HOST }} >> .env
           echo VITE_HOST_ADDRESS=${{ secrets.VITE_HOST_ADDRESS }} >> .env
+          echo VITE_IMAGEKIT_PUBLIC_KEY=${{ secrets.VITE_IMAGEKIT_PUBLIC_KEY }} >> .env
+          echo VITE_RECAPTCHA_SITE_KEY=${{ secrets.VITE_RECAPTCHA_SITE_KEY }} >> .env
           echo API_KEY=${{ secrets.API_KEY }} >> .env
           echo API_HOST=${{ secrets.API_HOST }} >> .env
           echo API_PATH=${{ secrets.API_PATH }} >> .env
