@@ -51,7 +51,8 @@
   --card-background-opaque: #1c1c1c;
   --interactive-card-color-opaque: #2c1e20;
 }
-\ html {
+
+html {
   font-size: 98%;
   height: 100%;
   min-height: 100%;
