@@ -43,7 +43,6 @@
     "set-cookie-parser": "^2.4.8",
     "simplemde": "^1.11.2",
     "svelte-select": "^4.4.7",
-    "uuid": "^8.3.2",
     "validator": "^13.7.0"
   },
   "engines": {
