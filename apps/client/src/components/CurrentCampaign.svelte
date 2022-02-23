@@ -42,10 +42,10 @@
     shouldDisplayHoverEffect = true
   }
 
-  const handleCampaignClick = async () => {
-    if ($page.url.pathname.startsWith('/campaigns')) return
-    await goto(`/campaigns/${campaign.id}`)
-  }
+  // const handleCampaignClick = async () => {
+  //   if ($page.url.pathname.startsWith('/campaigns')) return
+  //   await goto(`/campaigns/${campaign.id}`)
+  // }
 </script>
 
 <!-- href={`${env.viteSveltekitHost}/campaigns/${campaign.id}`} -->
@@ -58,7 +58,7 @@
   class="current-campaign"
 >
   <div class="grid">
-    {#if shouldDisplayHoverEffect}
+    <!-- {#if shouldDisplayHoverEffect}
       <button
         in:fade={{ duration: 50 }}
         out:fade={{ duration: 50 }}
@@ -67,7 +67,7 @@
       >
         <h1>Participate</h1>
       </button>
-    {/if}
+    {/if} -->
 
     <div class="goal-card">
       <Card>

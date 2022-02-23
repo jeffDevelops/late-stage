@@ -34,18 +34,23 @@
                     equals: CampaignStatuses.Open,
                   },
                 },
-                {
-                  status: {
-                    equals: CampaignStatuses.Closed,
-                  },
-                  usersThatDidCompleteCampaign: {
-                    some: {
-                      id: {
-                        equals: session.user.id,
+                // If the user is logged in, also grab the ones they completed, even if they're closed
+                ...(session?.user
+                  ? [
+                      {
+                        status: {
+                          equals: CampaignStatuses.Closed,
+                        },
+                        usersThatDidCompleteCampaign: {
+                          some: {
+                            id: {
+                              equals: session?.user?.id,
+                            },
+                          },
+                        },
                       },
-                    },
-                  },
-                },
+                    ]
+                  : []),
               ],
             },
           },
