@@ -7,7 +7,7 @@ import { gqlRequest } from '../../proxy/gqlRequest'
 import type { ErrorHandler } from '../../proxy/buildPostEndpoint'
 
 const handleGraphQLErrors: ErrorHandler = (errors) => {
-  console.log({ errors })
+  console.error({ errors })
 
   if (errors.some(({ message }) => message === 'Unable to find user with provided credentials.')) {
     return {

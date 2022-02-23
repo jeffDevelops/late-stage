@@ -1,11 +1,105 @@
+<script lang="ts" context="module">
+  import { aggregateBankExodusCompletion } from '../networking/graphql/query/AggregateBankExodusCompletion'
+  import { findManyCampaigns } from '../networking/graphql/query/FindManyCampaigns'
+  import { gqlRequest } from '../networking/gqlRequest'
+  import { env } from '../networking/env'
+  import { CampaignStatuses } from '../types/CampaignStatuses'
+
+  export const load = async ({ session, fetch }) => {
+    const [campaigns, bankExodusCampaignCompletions] = await Promise.all([
+      fetch(
+        `${env.viteSveltekitHost}/proxy/campaigns`,
+        gqlRequest({
+          query: findManyCampaigns(
+            `
+              id
+              checklistTitle
+              tags {
+                id
+                name
+              }
+            `,
+          ),
+          variables: {
+            where: {
+              OR: [
+                // Only display campaigns that are active, or that have been completed by the user
+                {
+                  status: {
+                    equals: CampaignStatuses.Active,
+                  },
+                },
+                {
+                  status: {
+                    equals: CampaignStatuses.Open,
+                  },
+                },
+                {
+                  status: {
+                    equals: CampaignStatuses.Closed,
+                  },
+                  usersThatDidCompleteCampaign: {
+                    some: {
+                      id: {
+                        equals: session.user.id,
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        }),
+      ).then(async (response) => await response.json()),
+
+      ...(session.user
+        ? [
+            fetch(
+              `${env.viteSveltekitHost}/proxy/aggregate-bank-exodus-completion`,
+              gqlRequest({
+                variables: {
+                  where: {
+                    userId: session.user.id,
+                  },
+                },
+                query: aggregateBankExodusCompletion(
+                  `
+            _count {
+              _all
+            }
+            `,
+                ),
+              }),
+            ).then(async (response) => await response.json()),
+          ]
+        : []),
+    ])
+
+    return {
+      props: {
+        campaigns,
+        bankExodusCampaignChecked: bankExodusCampaignCompletions
+          ? bankExodusCampaignCompletions._count._all > 0
+          : false,
+      },
+    }
+  }
+</script>
+
 <script lang="ts">
-  import { LocalStorageKeys } from '../types/LocalStorageKeys'
   import ChecklistItem from '../components/ChecklistItem.svelte'
   import ChecklistIcon from '../components/iconography/Checklist.svelte'
   import Controls from '../components/Controls.svelte'
   import Card from '../components/Card.svelte'
   import IdeaIcon from '../components/iconography/Idea.svelte'
   import InfoIcon from '../components/iconography/Info.svelte'
+  import type { Campaign } from '../types/Campaign'
+
+  /**
+   * PROPS
+   */
+  export let campaigns: Campaign[]
+  export let bankExodusCampaignChecked: boolean
 </script>
 
 <Controls />
@@ -18,11 +112,16 @@
       inequality, insititutional racism, and human rights violations:
     </p>
 
-    <ChecklistItem
-      participationLink={`/campaigns/1`}
-      checked={typeof window !== 'undefined' &&
-        localStorage.getItem(LocalStorageKeys.HasCompletedBankChecklistItem) === 'true'}
-    />
+    <section class="checklist-section">
+      {#each campaigns as campaign}
+        <ChecklistItem
+          text={campaign.checklistTitle}
+          tags={campaign.tags}
+          participationLink={`/campaigns/${campaign.id}`}
+          checked={bankExodusCampaignChecked}
+        />
+      {/each}
+    </section>
   </section>
 
   <div class="disclosure">
@@ -63,6 +162,10 @@
     margin-right: 8px;
     height: 32px;
     width: 32px;
+  }
+
+  .checklist-section {
+    margin: 64px 0;
   }
 
   .disclosure {

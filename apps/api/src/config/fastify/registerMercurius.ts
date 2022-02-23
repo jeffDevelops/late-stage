@@ -3,6 +3,7 @@ import mercurius from 'mercurius'
 import { NoSchemaIntrospectionCustomRule } from 'graphql'
 
 import { prisma } from '../../../prisma/prisma.config'
+import { imageKit } from '../../config/imageKit/initImageKit'
 import { clientHasBearerToken } from '../../middleware/fastify/index'
 import { schema as codegen } from '../../graphql/schema'
 
@@ -19,6 +20,7 @@ export const registerMercurius = async (app: FastifyInstance) => {
 
       return {
         prisma,
+        imageKit,
 
         req,
         res,

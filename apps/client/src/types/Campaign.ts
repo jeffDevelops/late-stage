@@ -1,8 +1,11 @@
 import type { BaseEntity } from './BaseEntity'
+import type { CampaignStatuses } from './CampaignStatuses'
 
 type Scalars = {
   title: string
+  checklistTitle: string
   description: string
+  status: CampaignStatuses
 
   what: string[] // array of paragraphs
   why: string[] // array of paragraphs
@@ -16,13 +19,24 @@ type Scalars = {
   goalStartDate: string
   goalDeadline: string
 
-  realizedValue: number
+  stats: {
+    _sum: {
+      withdrawalAmount: number
+    }
+  }
 
   // Admin / DX fields
   shortName: string // i.e., 'banks'
 }
 
 type Associations = {
+  tags: {
+    id: string
+    name: string
+  }[]
+  _count: {
+    usersThatDidCompleteCampaign: number
+  }
   // ...
 }
 

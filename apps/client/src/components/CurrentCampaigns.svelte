@@ -5,25 +5,26 @@
 
   import type { Campaign } from '../types/Campaign'
 
-  export let campaign: Campaign
+  export let campaigns: Campaign[]
 </script>
 
 <section class="current-campaigns">
   <Card>
-    <div class="flex">
-      <CampaignIcon />
-      <h2>Current Campaigns</h2>
-    </div>
+    <h2><CampaignIcon /> Current Campaigns</h2>
 
-    <CurrentCampaign {campaign} />
+    {#each campaigns as campaign}
+      <CurrentCampaign {campaign} />
+    {/each}
   </Card>
 </section>
 
 <style>
-  :global(.current-campaigns svg) {
+  :global(.current-campaigns h2 svg) {
     fill: var(--interactive-color);
     width: 40px;
     height: 40px;
+    margin-bottom: -8px;
+    margin-right: 8px;
   }
 
   .current-campaigns:first-child {
@@ -31,16 +32,5 @@
     border-radius: var(--border-radius);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-  }
-
-  .flex {
-    display: flex;
-    gap: 16px;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  .flex h2 {
-    margin: 6px 0 0 0;
   }
 </style>

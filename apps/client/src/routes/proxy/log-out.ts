@@ -4,10 +4,10 @@ import { gqlRequest } from '../../proxy/gqlRequest'
 
 import type { ErrorHandler } from '../../proxy/buildPostEndpoint'
 import type { RequestHandler, EndpointOutput } from '@sveltejs/kit/types'
-import type { GraphQLError } from 'src/types/GraphQLError'
+import type { GraphQLError } from '../../types/GraphQLError'
 
 const handleGraphQLErrors: ErrorHandler = (errors: GraphQLError[]): void | EndpointOutput => {
-  console.log({ errors })
+  console.error({ errors })
 }
 
 export const post: RequestHandler = async ({ request }): Promise<EndpointOutput> => {

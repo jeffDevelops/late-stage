@@ -34,8 +34,8 @@ export const prisma = new PrismaClient({
 /* c8 ignore start */
 if (process.env.NODE_ENV === 'development') {
   prisma.$on('query', (e: QueryEvent) => {
-    console.log('Query: ' + e.query)
-    console.log('Duration: ' + e.duration + 'ms')
+    // console.log('Query: ' + e.query)
+    // console.log('Duration: ' + e.duration + 'ms')
   })
 }
 /* c8 ignore stop */

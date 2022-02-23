@@ -1,7 +1,8 @@
 export enum LocalStorageKeys {
   CurrentUser = 'currentUser',
   HasAcknowledgedAlphaSoftware = 'hasAcknowledgedAlphaSoftware',
-  HasCompletedBankChecklistItem = 'hasCompletedBankChecklistItem',
+  HasAcknowledgedBetaSoftware = 'hasAcknowledgedBetaSoftware',
   IP = 'IP',
   NavigationStatePriorToLogin = 'navigationStatePriorToLogin',
+  BankCampaignSubmissionsCount = 'bankCampaignSubmissionsCount',
 }

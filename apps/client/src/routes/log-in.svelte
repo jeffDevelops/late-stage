@@ -160,7 +160,7 @@
          * (like this one!).
          */
       } catch (error) {
-        console.log({ error })
+        console.error({ error })
         if (error === 'Unable to find user with provided credentials.') {
           errors.form = `${error} Please check your email and password, and try again.`
         }
@@ -168,10 +168,6 @@
         return false
       }
     })
-
-    if (success) {
-      await goto($navigationStatePriorToLogin?.url ?? '/')
-    }
   }
 </script>
 

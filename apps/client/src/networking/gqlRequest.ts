@@ -1,4 +1,7 @@
-export const gqlRequest = <T>(data?: T, headers: Record<string, unknown> = {}): RequestInit => {
+export const gqlRequest = <T>(
+  data?: { query: string; variables?: T },
+  headers: Record<string, unknown> = {},
+): RequestInit => {
   return {
     mode: 'cors' as RequestMode,
     credentials: 'include' as RequestCredentials,

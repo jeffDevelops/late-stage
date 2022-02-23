@@ -1,31 +1,157 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
-  import Select from 'svelte-select'
   import { session } from '$app/stores'
-  import { env } from '../networking/env'
-  import { UploadOptions } from '../types/UploadOptions'
-  import UploadIcon from '../components/iconography/Upload.svelte'
-  import InfoIcon from '../components/iconography/Info.svelte'
+
+  import Select from '../components/Select.svelte'
+  import ImageUpload from '../components/ImageUpload.svelte'
+  import Checkbox from '../components/Checkbox.svelte'
+  import Spinner from '../components/iconography/Spinner.svelte'
   import BankCampaignSuccessModal from './BankCampaignSuccessModal.svelte'
-  import { LocalStorageKeys } from '../types/LocalStorageKeys'
+  import MustLogInModal from './MustLogInModal.svelte'
+  import BankCampaignStep1 from './BankCampaignStep1.svelte'
+  import BankCampaignStep2 from './BankCampaignStep2.svelte'
+  import BankCampaignStep3Instructions from './BankCampaignStep3Instructions.svelte'
+  import BankCampaignStep5 from './BankCampaignStep5.svelte'
+
+  import { env } from '../networking/env'
+  import { gqlRequest } from '../networking/gqlRequest'
+  import { imageKitAuthParams } from '../networking/graphql/query/ImageKitAuthParams'
+  import { recordBankExodusCompletion } from '../networking/graphql/mutation/RecordBankExodusCompletion'
+  import { recaptchaVerification } from '../networking/graphql/query/RecaptchaVerification'
   import { shouldDisplayControls } from '../stores/Controls'
-  import MustLogInModal from '../assemblies/MustLogInModal.svelte'
+  import { disableInteractablesWhile } from '../utility/disableInteractablesWhile'
+
+  import { LocalStorageKeys } from '../types/LocalStorageKeys'
+  import type { RecordBankExodusCampaignInput } from '../types/RecordBankExodusCampaignInput'
+  import type { Campaign } from '../types/Campaign'
+
+  /**
+   * PROPS
+   */
+
+  export let campaign: Campaign
 
   /**
    * STATE
    */
+
+  // Form state
+  let image: File
+  let didUploadImage = false
+  let isAnonymous = true
   let withdrawalAmount: string = ''
   let institutionSelection: { index: number; value: string; label: string } | undefined = undefined
-  let institutionName: string = ''
-  let fileInput: HTMLInputElement
-  let imagePreviewSrc: string
-  let uploading = false
+  let originInstitutionName: string = ''
+  let destinationInstitutionName: string = ''
+  let otherInfo = ''
 
+  // Reasons for switching checkboxes
+  let dontInvestInFossilFuels: boolean = false
+  let dontInvestInSLABS: boolean = false
+  let dontChargeAccountFees: boolean = false
+  let offerFairRatesToAccountHolders: boolean = false
+  let conscientiousAboutHumanRights: boolean = false
+  let other: boolean = false
+
+  // Modals
   let isShowingMustLogInModal = false
-  let isShowingShopForBetterFinancialInstitutionHelpText = false
-  let isShowingWithdrawHelpText = false
-  let isShowingReceiptImageHelpText = false
   let isShowingSuccessModal = false
+
+  let errors = {
+    image: 'Please select an image',
+    withdrawalAmount: 'Withdrawal amount is required',
+    institutionSelection: 'Please select an institution',
+    originInstitutionName: 'Financial institution name is required',
+    destinationInstitutionName: 'Financial institution name is required',
+    form: '',
+  }
+  let loading = false
+  let didAttemptSubmit = false
+  let honeypot = ''
+
+  /**
+   * ImageKit Auth Params (set by onMount call)
+   */
+  let expire: number
+  let signature: string
+  let token: string
+
+  /**
+   * LIFECYCLE
+   */
+
+  const getImageKitAuthParams = async () => {
+    if (!$session.user) return
+
+    try {
+      /**
+       * Make the ImageKit auth call
+       */
+      const response = await fetch(
+        `${env.viteSveltekitHost}/proxy/imagekit-auth-params`,
+        gqlRequest({
+          query: imageKitAuthParams,
+        }),
+      )
+
+      const deserialized = await response.json()
+
+      token = deserialized.token
+      expire = deserialized.expire
+      signature = deserialized.signature
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  let container: HTMLElement
+  let containerWidth: number = 0
+
+  onMount(async () => {
+    // IMAGEKIT
+    await getImageKitAuthParams()
+
+    // RECAPTCHA
+    ;(window as any).onloadCallback = () => {
+      ;(window as any).grecaptcha.render('g-recaptcha', {
+        sitekey: '6LcTU5YeAAAAAEtSIlYHfMtHID8YBGv6rThyV9xC',
+        theme: document.documentElement.classList.contains('dark-theme') ? 'dark' : 'light',
+      })
+    }
+
+    document.head.appendChild(
+      Object.assign(document.createElement('script'), {
+        src: 'https://www.google.com/recaptcha/api.js?onload=onloadCallback&&render=explicit',
+        async: true,
+        defer: true,
+      }),
+    )
+
+    /**
+     * Resize
+     */
+
+    const handleResize = () => {
+      containerWidth = container?.getBoundingClientRect().width
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      ;(window as any).onloadCallback = null
+      ;(window as any).responseCallback = null
+      window.removeEventListener('resize', handleResize)
+
+      document.head.removeChild(
+        document.head.querySelector(
+          'script[src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"]',
+        ),
+      )
+    }
+  })
 
   /**
    * REACTIVE
@@ -33,65 +159,246 @@
 
   $: $shouldDisplayControls = !isShowingSuccessModal
 
+  // Withdrawal Amount errors
+  $: errors = (() => {
+    if (withdrawalAmount === '') {
+      errors.withdrawalAmount = 'Please enter an amount'
+      return errors
+    }
+
+    if (parseFloat(withdrawalAmount) === 0) {
+      errors.withdrawalAmount = 'Please enter a non-zero amount'
+      return errors
+    }
+
+    errors.withdrawalAmount = ''
+    return errors
+  })()
+
+  // Institution Selection errors
+  $: errors = (() => {
+    if (!institutionSelection) {
+      errors.institutionSelection = 'Please select an institution'
+      return errors
+    }
+
+    errors.institutionSelection = ''
+    return errors
+  })()
+
+  // Other Institution errors
+  $: errors = (() => {
+    if (institutionSelection?.value === 'Other' && !originInstitutionName) {
+      errors.originInstitutionName =
+        'Please enter the name of the institution you removed money from'
+      return errors
+    }
+
+    errors.originInstitutionName = ''
+    return errors
+  })()
+
+  // Destination Institution errors
+  $: errors = (() => {
+    if (!destinationInstitutionName) {
+      errors.destinationInstitutionName =
+        'Please enter the name of the institution you moved money to'
+      return errors
+    }
+
+    errors.destinationInstitutionName = ''
+    return errors
+  })()
+
+  $: if (!!image) didUploadImage = true
+
+  $: formContainsErrors = Object.keys(errors).some((key) => errors[key] !== '')
+
   /**
    * METHODS
    */
 
   const resetForm = () => {
     removeUpload()
+    isAnonymous = true
 
     withdrawalAmount = ''
     institutionSelection = undefined
-    institutionName = ''
-  }
+    originInstitutionName = ''
+    destinationInstitutionName = ''
 
-  const handleImageChange = (e) => {
-    const fileList = fileInput.files
-    if (fileList) imagePreviewSrc = URL.createObjectURL(fileList[0])
+    dontInvestInFossilFuels = false
+    dontInvestInSLABS = false
+    dontChargeAccountFees = false
+    offerFairRatesToAccountHolders = false
+    conscientiousAboutHumanRights = false
+    other = false
+    otherInfo = ''
+
+    didAttemptSubmit = false
+    didUploadImage = false
   }
 
   const removeUpload = () => {
-    fileInput.value = ''
-    imagePreviewSrc = ''
+    image = undefined
   }
 
   const handleFormClick = (e) => {
     if (!$session.user) {
-      isShowingMustLogInModal = true
       e.preventDefault()
+      isShowingMustLogInModal = true
       return
     }
   }
 
+  const handleWithdrawalAmountKeydown = (e: any) => {
+    if (e.key === 'e' || e.key === '-' || e.key === '+') e.preventDefault()
+    if (
+      // Prevent more than 2 decimal points
+      ((e.target.value.toString().includes('.') &&
+        e.target.value.toString().split('.')[1].length >= 2) ||
+        // Prevent amounts greater than 999 Million
+        e.target.value >= 999_999_999) &&
+      e.key !== 'Backspace' &&
+      e.key !== 'Delete' &&
+      e.key !== 'ArrowLeft' &&
+      e.key !== 'ArrowRight'
+    ) {
+      e.preventDefault()
+    }
+  }
+
   const handleSubmit = async () => {
-    if (fileInput.files.length !== 1) return
+    didAttemptSubmit = true
 
-    isShowingSuccessModal = true
+    if (formContainsErrors) return
 
-    localStorage.setItem(LocalStorageKeys.HasCompletedBankChecklistItem, 'true')
+    if (honeypot) {
+      loading = true
+      return await disableInteractablesWhile(async () => {
+        setTimeout(async () => {
+          loading = false
+        }, 2000)
+      })
+    }
 
-    // uploading = true
+    const storageSubmissionsCount = localStorage.getItem(
+      LocalStorageKeys.BankCampaignSubmissionsCount,
+    )
 
-    // const formData = new FormData()
-    // formData.append(
-    //   UploadOptions.BankCampaignWithdrawalReceipt,
-    //   fileInput.files[0],
-    //   fileInput.files[0].name,
-    // )
+    if (storageSubmissionsCount && parseInt(storageSubmissionsCount) >= 5) {
+      errors.form = 'You have reached the maximum number of submissions allowed for this campaign.'
+      return
+    }
 
-    // const uploadResponse = await fetch(
-    //   `${env.apiBaseUrl}/upload?uploadOption=${UploadOptions.BankCampaignWithdrawalReceipt}`,
-    //   {
-    //     method: 'POST',
-    //     body: formData,
-    //   },
-    // )
+    loading = true
 
-    // uploading = false
+    // Recaptcha verification
+    const recaptchaResultToken = (window as any).grecaptcha.getResponse()
 
-    // window.location.reload()
+    const recaptchaVerificationResponse = await fetch(
+      `${env.viteSveltekitHost}/proxy/recaptcha-verification`,
+      gqlRequest({
+        query: recaptchaVerification,
+        variables: {
+          recaptchaResultToken,
+        },
+      }),
+    )
+
+    if (!recaptchaVerificationResponse) {
+      errors.form = 'There was an error verifying your submission. Please try again.'
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('file', image)
+    formData.append('publicKey', env.viteImageKitPublicKey)
+    formData.append('folder', `/bank-exodus/${$session.user.id}`)
+    formData.append('fileName', 'withdrawal-receipt')
+    formData.append('useUniqueFileName', 'true')
+    formData.append('signature', signature)
+    formData.append('expire', expire.toString())
+    formData.append('token', token)
+
+    await disableInteractablesWhile(async () => {
+      try {
+        const imageUploadResponse = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
+          method: 'POST',
+          body: formData,
+        })
+
+        const imageUploadResponseDeserialized = await imageUploadResponse.json()
+
+        const response = await fetch(
+          `${env.viteSveltekitHost}/proxy/record-bank-exodus-completion`,
+          gqlRequest<RecordBankExodusCampaignInput>({
+            query: recordBankExodusCompletion,
+            variables: {
+              RecordBankExodusCompletionInput: {
+                campaignId: campaign.id,
+                withdrawalReceiptImageURL: imageUploadResponseDeserialized.url,
+                imageKitFileId: imageUploadResponseDeserialized.fileId,
+                withdrawalAmount: parseFloat(withdrawalAmount),
+                originInstitutionName:
+                  institutionSelection.value === 'Other'
+                    ? originInstitutionName
+                    : institutionSelection.value,
+                destinationInstitutionName,
+                isAnonymous,
+
+                // Reasons for moving to this destination bank
+                dontInvestInFossilFuels,
+                dontInvestInSLABS,
+                dontChargeAccountFees,
+                offerFairRatesToAccountHolders,
+                conscientiousAboutHumanRights,
+                other,
+                otherInfo,
+              },
+            },
+          }),
+        )
+
+        const responseDeserialized = await response.json()
+
+        if (responseDeserialized.error) {
+          errors.form = responseDeserialized.error.message
+          loading = false
+          return
+        }
+
+        loading = false
+        await getImageKitAuthParams()
+
+        /**
+         * Local storage measure for preventing spamming the server
+         */
+        const storageSubmissionsCountStr = localStorage.getItem(
+          LocalStorageKeys.BankCampaignSubmissionsCount,
+        )
+
+        if (storageSubmissionsCountStr) {
+          const storageSubmissionsCount = parseInt(storageSubmissionsCountStr)
+          localStorage.setItem(
+            LocalStorageKeys.BankCampaignSubmissionsCount,
+            (storageSubmissionsCount + 1).toString(),
+          )
+        } else {
+          localStorage.setItem(LocalStorageKeys.BankCampaignSubmissionsCount, '1')
+        }
+
+        isShowingSuccessModal = true
+      } catch (error) {
+        console.error(error)
+
+        errors.form = 'An unknown error occurred. Please check your input try again.'
+      }
+    })
   }
 </script>
+
+<svelte:head />
 
 <MustLogInModal
   on:dismiss={() => (isShowingMustLogInModal = false)}
@@ -99,6 +406,7 @@
 />
 
 <BankCampaignSuccessModal
+  {campaign}
   isDisplayed={isShowingSuccessModal}
   on:dismiss={() => {
     resetForm()
@@ -106,374 +414,239 @@
   }}
 />
 
-<section class="bank-campaign">
-  <h4>
-    Step 1: Shop for a better bank <button
-      class="info-button"
-      on:click={() =>
-        (isShowingShopForBetterFinancialInstitutionHelpText =
-          !isShowingShopForBetterFinancialInstitutionHelpText)}><InfoIcon /></button
-    >
-  </h4>
-
-  {#if isShowingShopForBetterFinancialInstitutionHelpText}
-    <div in:fade out:fade class="info">
-      <button
-        on:click={() => (isShowingShopForBetterFinancialInstitutionHelpText = false)}
-        class="close-button">×</button
-      >
-
-      <h4>Finding a new bank or credit union</h4>
-      <p>
-        If you're banking at one of the big four institutions, it's going to be ridiculously easy to
-        find a bank that'll give you a better rate.
-      </p>
-
-      <p>
-        Do some research into some of their policies, too. Do they have a minimum balance? Do they
-        actually have overdraft protection? Do they try to create all kinds of accounts you don't
-        want or need to try to collect fees they hope you won't notice?
-      </p>
-
-      <p>
-        Just because customers are part-owners at a credit union doesn't mean that it's not poorly
-        managed. Check the reviews before committing.
-      </p>
-    </div>
-  {/if}
-
-  <h4>
-    Step 2: Withdraw <button
-      class="info-button"
-      on:click={() => (isShowingWithdrawHelpText = !isShowingWithdrawHelpText)}><InfoIcon /></button
-    >
-  </h4>
-
-  {#if isShowingWithdrawHelpText}
-    <div in:fade out:fade class="info">
-      <button on:click={() => (isShowingWithdrawHelpText = false)} class="close-button">×</button>
-      <p>
-        Admittedly, the largest banks have the best infrastructure (branches, ATMs, direct-deposit,
-        etc.) to ensure the timely accessibility of your funds. Especially if you go the DeFi route,
-        you may want to keep your account minimum in your bank, so that you can quickly have funds
-        available for expenses without incurring fees.
-      </p>
-    </div>
-  {/if}
-
-  <p>
-    Withdraw as much money from your large, for-profit bank as you feel comfortable. Keep the
-    receipt for the next step!
-  </p>
-
-  <h4>
-    Step 3: Upload your withdrawal receipt <button
-      class="info-button"
-      on:click={() => (isShowingReceiptImageHelpText = !isShowingReceiptImageHelpText)}
-      ><InfoIcon /></button
-    >
-  </h4>
-
-  {#if isShowingReceiptImageHelpText}
-    <div in:fade out:fade class="info">
-      <button on:click={() => (isShowingReceiptImageHelpText = false)} class="close-button"
-        >×</button
-      >
-
-      <h4>Why are we asking for proof?</h4>
-      <p>
-        Late-Stage is different from any other petition in that it's used to prove to lawmakers and
-        those that maintain the status-quo that <strong>we are actively fighting</strong> against the
-        institutions they maintain.
-      </p>
-
-      <p>
-        We want them to feel the hurt of losing our funds, but we also want them to know it was us
-        that hurt them, and why.
-      </p>
-
-      <p>
-        We also want the people in our community to feel the tangible impact. Proof of participation
-        fuels the campaign's credibility, encourages the more hesitant to participate, and creates a
-        sense of solidarity and real accomplishment.
-      </p>
-
-      <p>
-        If we get enough withdrawal receipts, we're hoping to create <a
-          href="https://mosaically.com"
-          target="_blank"
-          rel="noopener noreferrer">a mosaic</a
-        > of all participants' withdrawals as a message of mass dissent.
-      </p>
-    </div>
-  {/if}
-
-  <p>
-    <strong>Redact any personal info</strong> from the receipt that you don't want on the Internet. The
-    image need only contain the amount withdrawn, and the institution from which the amount was removed.
-  </p>
+<section class="bank-campaign" bind:this={container}>
+  <BankCampaignStep1 />
+  <BankCampaignStep2 />
+  <BankCampaignStep3Instructions />
 
   <form
+    disabled={loading || !$session.user}
     on:click={handleFormClick}
     enctype="multipart/form-data"
     on:submit|preventDefault={handleSubmit}
   >
-    <div class="flex">
-      {#if imagePreviewSrc}
-        <div class="preview-container">
-          <button type="button" class="delete-upload-button" on:click={removeUpload}
-            ><div>×</div>
-          </button>
-          <img class="preview" src={imagePreviewSrc} alt="My withdrawal receipt" />
-        </div>
-      {/if}
+    <ImageUpload
+      on:change={(e) => (image = e.detail)}
+      on:error={(e) => (errors.image = e.detail)}
+      {image}
+      previewAltText="Withdrawal receipt preview"
+      shouldDisplayError={didAttemptSubmit || didUploadImage}
+    />
 
-      <label style="display: {imagePreviewSrc ? 'none' : 'flex'};" class="custom-file-upload">
-        <input
-          bind:this={fileInput}
-          on:change={handleImageChange}
-          type="file"
-          name="WithdrawalReceipt"
-        />
-        <UploadIcon /> Upload Image
-      </label>
-    </div>
+    <p class="checkbox-instructions">
+      Do you want the app to show your username with your proof of participation, or do you want
+      your withdrawal to be anonymous?
+    </p>
+    <Checkbox on:change={() => (isAnonymous = !isAnonymous)} checked={isAnonymous}
+      >Don't display my username</Checkbox
+    >
 
-    <label for="withdrawal-amount">Withdrawal Amount</label>
+    <h4>Step 4: Tell us about your switch</h4>
+
+    <label for="withdrawal-amount">Withdrawal Amount ($)</label>
     <input
-      on:keydown={(e) => {
-        if (e.key === 'e' || e.key === '-' || e.key === '+') e.preventDefault()
-        if (
-          withdrawalAmount?.toString().includes('.') &&
-          withdrawalAmount?.toString().split('.')[1].length >= 2 &&
-          e.key !== 'Backspace' &&
-          e.key !== 'Delete' &&
-          e.key !== 'ArrowLeft' &&
-          e.key !== 'ArrowRight'
-        ) {
-          e.preventDefault()
-        }
-      }}
+      on:keydown={handleWithdrawalAmountKeydown}
       bind:value={withdrawalAmount}
       id="withdrawal-amount"
       type="number"
+      novalidate
     />
+
+    <div class="form-control">
+      <label for="withdrawal-date">Withdrawal Date</label>
+      <input
+        id="withdrawal-date"
+        class:disabled={loading}
+        aria-label="If you are reading this, do not fill this out."
+        bind:value={honeypot}
+        autocomplete="off"
+        type="number"
+        novalidate
+      />
+    </div>
+
+    {#if errors.withdrawalAmount && didAttemptSubmit}
+      <p class="error-message">{errors.withdrawalAmount}</p>
+    {/if}
 
     <label for="institution">I removed money from:</label>
     <div class="themed-select">
       <Select
-        bind:value={institutionSelection}
-        showIndicator={true}
+        on:select={(e) => (institutionSelection = e.detail)}
+        value={institutionSelection}
         placeholder="Select an institution"
         items={['Chase Bank', 'Bank of America', 'Wells Fargo', 'Citi', 'Other']}
       />
     </div>
 
+    {#if errors.institutionSelection && didAttemptSubmit}
+      <p class="error-message">{errors.institutionSelection}</p>
+    {/if}
+
     {#if institutionSelection?.value === 'Other'}
       <div in:fade out:fade>
         <label for="institution-name">Institution Name</label>
-        <input bind:value={institutionName} type="text" id="institution-name" />
+        <input bind:value={originInstitutionName} type="text" id="institution-name" />
       </div>
+
+      {#if errors.originInstitutionName && didAttemptSubmit}
+        <p class="error-message">{errors.originInstitutionName}</p>
+      {/if}
     {/if}
 
-    <button type="submit" class="primary">Tally My Withdrawal</button>
+    <label for="institution">I moved money to:</label>
+    <div class="themed-select">
+      <input
+        bind:value={destinationInstitutionName}
+        type="text"
+        id="destination-institution-name"
+      />
+    </div>
+
+    {#if errors.destinationInstitutionName && didAttemptSubmit}
+      <p class="error-message">{errors.destinationInstitutionName}</p>
+    {/if}
+
+    <p class="checkbox-instructions">
+      Help make this process easier for others in the future by telling us why you decided to switch
+      to your new financial institution <strong>(check all that apply)</strong>:
+    </p>
+
+    <div class="flex-row" class:wrap={containerWidth <= 500}>
+      <Checkbox
+        on:change={() => (dontInvestInFossilFuels = !dontInvestInFossilFuels)}
+        checked={dontInvestInFossilFuels}>They don't invest in fossil-fuels</Checkbox
+      >
+      <Checkbox
+        on:change={() => (dontInvestInSLABS = !dontInvestInSLABS)}
+        checked={dontInvestInSLABS}
+        >They don't invest in student loan asset-backed securities (SLABS)</Checkbox
+      >
+    </div>
+    <div class="flex-row" class:wrap={containerWidth <= 500}>
+      <Checkbox
+        on:change={() => (conscientiousAboutHumanRights = !conscientiousAboutHumanRights)}
+        checked={conscientiousAboutHumanRights}>They're conscientious about human rights</Checkbox
+      >
+      <Checkbox
+        on:change={() => (dontChargeAccountFees = !dontChargeAccountFees)}
+        checked={dontChargeAccountFees}>They don't charge account fees</Checkbox
+      >
+    </div>
+    <div class="flex-row" class:wrap={containerWidth <= 500}>
+      <Checkbox
+        on:change={() => (offerFairRatesToAccountHolders = !offerFairRatesToAccountHolders)}
+        checked={offerFairRatesToAccountHolders}>They offered a fairer interest rate</Checkbox
+      >
+      <Checkbox on:change={() => (other = !other)} checked={other}>Other</Checkbox>
+    </div>
+
+    <p class="checkbox-instructions">
+      Feel free to share anything you think others should know about your new financial institution.
+      If you elected "Other," let us know why you made the switch:
+    </p>
+    <textarea bind:value={otherInfo} />
+
+    {#if errors.form}
+      <p class="error-message">{errors.form}</p>
+    {/if}
+
+    <div id="g-recaptcha" data-sitekey={env.viteRecaptchaSiteKey} />
+
+    <button
+      disabled={loading || (didAttemptSubmit && formContainsErrors)}
+      class:disabled={loading || (didAttemptSubmit && formContainsErrors)}
+      type="submit"
+      class="primary"
+    >
+      {#if loading}
+        <Spinner />
+      {:else}
+        Tally My Withdrawal
+      {/if}
+    </button>
+
+    {#if formContainsErrors && didAttemptSubmit}
+      <p class="error-message">The form above contains errors. Check your input and try again.</p>
+    {/if}
   </form>
 
-  <h4>Step 4: Spread the word!</h4>
-
-  <p>
-    Show friends and family how much more in APY you're making by switching banks. Let's normalize
-    lower profit margins for the financial institutions leveraging <em>your</em> money!
-  </p>
-
-  <p>
-    Spread the word about Late-Stage, so that we can reach more people and tackle more campaigns in
-    the future.
-  </p>
+  <BankCampaignStep5 />
 </section>
 
 <style>
-  h4:not(:first-of-type) {
-    margin-top: 32px;
-  }
-
-  input[type='file'] {
-    display: none;
-  }
-
-  .preview-container {
-    position: relative;
-    height: 100px;
-    width: 100px;
-    margin: 24px 0;
-  }
-
-  .preview {
-    height: 100px;
-    width: 100px;
-    border-radius: 8px;
-  }
-
-  .preview-container:hover > .preview {
-    filter: brightness(0.25);
-    transition: filter 0.2s;
-  }
-
-  .delete-upload-button {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    background-color: transparent;
-    filter: brightness(1);
-    cursor: pointer;
-    width: 28px;
-    height: 28px;
-    max-width: 28px;
-    max-height: 28px;
-    padding: 0px;
-    margin: 0;
-    min-width: 20px;
-    cursor: pointer;
-    z-index: 3;
-    font-size: 22px;
-    vertical-align: super;
-    line-height: 0;
-    border: 1px solid var(--interactive-color);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .delete-upload-button div {
-    position: absolute;
-    color: var(--interactive-color);
-    text-align: center;
-    left: 7.5px;
-    top: 13.5px;
-  }
-
-  .custom-file-upload {
-    cursor: pointer;
-    border: 1px solid;
-    margin: 24px 0;
-    display: flex;
-    flex-direction: column;
-    height: 100px;
-    width: 100px;
-    border: 1px dashed var(--interactive-color);
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    line-height: 1.4em;
-  }
-
-  :global(.custom-file-upload svg) {
-    fill: var(--interactive-color);
-    height: 32px;
-    width: 32px;
-    margin-bottom: 4px !important;
-    margin-right: 0 !important;
-    display: block;
+  h4 {
+    margin-top: 40px;
   }
 
   :global(.bank-campaign .info-button svg) {
     width: 18px;
     height: 18px;
+    fill: var(--interactive-color);
   }
 
-  .info {
-    background-color: var(--input-background);
-    padding: 16px;
-    border-radius: var(--border-radius);
-    position: relative;
-    margin-bottom: 16px;
+  :global(.bank-campaign .info h4) {
+    margin-top: 0;
   }
 
-  .info p,
-  .info h4 {
-    color: var(--text-color-subdued);
-    font-weight: 400;
-    font-size: 0.8rem;
-  }
-
-  .info p:last-of-type {
-    margin-bottom: 0;
-  }
-
-  .flex {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
+  #withdrawal-amount::after {
+    position: absolute;
+    top: 0;
+    left: 8px;
+    content: ' ';
+    color: var(--text-color);
+    z-index: 10000;
   }
 
   input[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
 
-  .themed-select {
-    --background: var(--input-background);
-    --border: 1px solid transparent;
-    --borderRadius: var(--border-radius);
-    --borderFocusColor: var(--interactive-color);
-    --borderHoverColor: transparent;
-    --placeholderColor: var(--text-color-subdued);
-    --height: 40px;
-    --indicatorColor: var(--interactive-color);
-    --indicatorFill: var(--interactive-color);
-    --indicatorHeight: 18px;
-    --indicatorRight: 16px;
-    --indicatorStroke: var(--interactive-color);
-    --indicatorTop: 8px;
-    --indicatorWidth: 18px;
-    --inputColor: var(--text-color);
-    --itemIsActiveBG: var(--interactive-color);
-    --itemIsActiveColor: var(--text-color);
-    --itemHoverBG: var(--interactive-color);
-    --itemHoverColor: var(--text-color);
-    --itemColor: var(--text-color);
-    --clearSelectColor: var(--interactive-color);
-    --clearSelectFocusColor: var(--interactive-color);
-    --clearSelectHoverColor: var(--interactive-color);
-    --selectedItemColor: var(--text-color);
-    --listShadow: none;
+  .flex-row {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
   }
 
-  :global(.themed-select input) {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+  .flex-row.wrap {
+    flex-wrap: wrap;
+    gap: 0;
   }
 
-  :global(.dark-theme .themed-select) {
-    --listBackground: #2a2a2a;
+  :global(.flex-row > *) {
+    width: calc(50% - 8px);
   }
 
-  :global(.light-theme .themed-select) {
-    --listBackground: #fafafa;
-  }
-
-  :global(.listContainer) {
-    font-family: var(--font-sans);
-  }
-
-  :global(.listItem .item) {
-    cursor: pointer;
-  }
-
-  :global(.clearSelect) {
-    cursor: pointer;
-  }
-
-  :global(.selection) {
-    color: var(--text-color);
-    font-family: var(--font-sans);
+  :global(.flex-row.wrap > *) {
+    width: 100% !important;
   }
 
   button.primary {
     width: 100%;
     margin-top: 16px;
+  }
+
+  :global(button.primary > svg) {
+    fill: var(--button-text-color);
+  }
+
+  .checkbox-instructions {
+    margin-top: 16px;
+  }
+
+  textarea {
+    height: 80px;
+  }
+
+  .form-control {
+    position: absolute;
+    top: 0px;
+    opacity: 0;
+    width: calc(100% - 96px);
+  }
+
+  :global(.bank-campaign #g-recaptcha) {
+    margin-top: 16px;
+    margin-left: auto;
   }
 </style>

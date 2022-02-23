@@ -76,13 +76,6 @@
     <a
       on:mouseup={handleClickOutside}
       sveltekit:prefetch
-      href="/resources"
-      class:active={$page.url.pathname === '/resources'}>Resources</a
-    >
-
-    <a
-      on:mouseup={handleClickOutside}
-      sveltekit:prefetch
       href="/privacy"
       class:active={$page.url.pathname === '/privacy'}
       >Privacy & Anonymity {#if userHasCommonEmailAddress || (typeof $ip === 'object' && !$ip.didConfirmBrowsingWithVPN)}
@@ -106,6 +99,24 @@
         href="/register">Register / Log In</a
       >
     {/if}
+
+    <section class="secondary-navigation">
+      <h4>Resources</h4>
+
+      <a
+        on:mouseup={handleClickOutside}
+        sveltekit:prefetch
+        href="/resources/extractive-capitalism"
+        class:active={$page.url.pathname === '/extractive-capitalism'}>Extractive Capitalism</a
+      >
+
+      <a
+        on:mouseup={handleClickOutside}
+        sveltekit:prefetch
+        href="/resources/individual-advocacy"
+        class:active={$page.url.pathname === '/checklist-rfcs'}>Individual Advocacy</a
+      >
+    </section>
 
     <section class="secondary-navigation">
       <h4>Requests For Comment</h4>
@@ -134,13 +145,6 @@
       <a on:mouseup={handleClickOutside} href="https://discord.gg/DAa7mCae"
         >Discord <div><DiscordLogo /> <OpenInNew /></div></a
       >
-
-      <a on:mouseup={handleClickOutside} href="https://www.reddit.com/r/antiwork/"
-        >r/antiwork <div><RedditLogo /> <OpenInNew /></div></a
-      >
-      <a on:mouseup={handleClickOutside} href="https://www.reddit.com/r/lostgeneration/"
-        >r/lostgeneration <div><RedditLogo /> <OpenInNew /></div></a
-      >
     </section>
   </nav>
 {/if}
@@ -164,6 +168,16 @@
     overflow-y: auto;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    transition: background-color 0.2s, backdrop-filter 0.1s, -webkit-backdrop-filter 0.1s;
+    transition-delay: backdrop-filter 0s, -webkit-backdrop-filter 0s;
+  }
+
+  nav:hover {
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    background-color: var(--card-background-opaque);
+    transition: background-color 0.2s, backdrop-filter 0.2s, -webkit-backdrop-filter 0.2s;
+    transition-delay: backdrop-filter 0.2s, -webkit-backdrop-filter 0.2s;
   }
 
   header {
@@ -184,8 +198,11 @@
   }
 
   .secondary-navigation {
-    margin-top: 16px;
     padding: 16px 0px;
+  }
+
+  .secondary-navigation:first-of-type {
+    margin-top: 16px;
   }
 
   h4 {
