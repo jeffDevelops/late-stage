@@ -237,7 +237,14 @@
 
     <form on:submit|preventDefault={handleSubmit}>
       <label for="register-username">Username</label>
-      <input class:disabled={loading} id="register-username" bind:value={username} />
+      <input
+        class:disabled={loading}
+        id="register-username"
+        bind:value={username}
+        autocorrect="off"
+        autocapitalize="none"
+        autocomplete="off"
+      />
       {#if errors.username && (didAttemptSubmit || usernameTaken)}
         <p in:fade out:fade class="error-message">{errors.username}</p>
       {/if}
@@ -250,7 +257,14 @@
           ><InfoIcon /></span
         ></label
       >
-      <input class:disabled={loading} id="register-email" bind:value={email} />
+      <input
+        class:disabled={loading}
+        id="register-email"
+        bind:value={email}
+        autocorrect="off"
+        autocapitalize="none"
+        autocomplete="off"
+      />
       {#if errors.email && didAttemptSubmit}
         <p in:fade out:fade class="error-message">{errors.email}</p>
       {/if}

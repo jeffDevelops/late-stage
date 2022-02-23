@@ -181,7 +181,14 @@
         <div class="column">
           <label for="log-in-email">Email Address</label>
           <div class="flex">
-            <input type="text" id="log-in-email" bind:value={email} />
+            <input
+              type="text"
+              id="log-in-email"
+              bind:value={email}
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="none"
+            />
             <button
               class:disabled={loading}
               type="button"
@@ -196,7 +203,13 @@
         <div class="column">
           <label for="log-in-password">Username</label>
           <div class="flex">
-            <input type="text" id="log-in-username" bind:value={username} />
+            <input
+              type="text"
+              id="log-in-username"
+              bind:value={username}
+              autocorrect="off"
+              autocapitalize="none"
+            />
             <button
               class:disabled={loading}
               type="button"

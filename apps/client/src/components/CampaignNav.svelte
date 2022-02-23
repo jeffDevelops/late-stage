@@ -63,6 +63,7 @@
     border-radius: var(--border-radius);
     overflow: hidden;
     border: 1px solid var(--visualization-color);
+    position: relative;
   }
 
   ul {

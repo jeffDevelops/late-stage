@@ -27,6 +27,7 @@
     transition: transform 0.25s, outline 0.25s;
     transform: perspective(1000px) translateZ(0px);
     outline: 1px solid transparent;
+    padding: 0;
   }
 
   button:hover {
