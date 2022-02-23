@@ -76,8 +76,6 @@ export abstract class VerifyEmailAddressResolver {
       throw new Error('Token in magic link was used already')
     }
 
-    console.log({ email, userToUpdate: userToUpdate.email })
-
     if (userToUpdate.email !== email) {
       throw new Error(
         'User from the provided token and email address do not match.',

@@ -49,6 +49,7 @@
 <a
   style="cursor: {$page.url.pathname.startsWith('/campaigns') ? 'default' : 'pointer'};"
   href={`/campaigns/${campaign.id}`}
+  sveltekit:prefetch
   on:mouseenter={handleCampaignHover}
   on:mouseleave={() => (shouldDisplayHoverEffect = false)}
   class="current-campaign"
