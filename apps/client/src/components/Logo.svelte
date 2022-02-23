@@ -1,7 +1,7 @@
-<h1>Late-Stage</h1>
+<h1 class="logo">Late-Stage</h1>
 
 <style>
-  h1 {
+  .logo {
     text-transform: uppercase;
     letter-spacing: 0.25em;
     text-align: center;

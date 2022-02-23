@@ -59,7 +59,12 @@
     $session.user && authRoutes.some((route) => pathname === route)
 
   $: if (browser && $session.user && shouldNotBeAccessibleWhileLoggedIn()) {
-    goto($navigationStatePriorToLogin ? $navigationStatePriorToLogin.url : '/')
+    const navState = $navigationStatePriorToLogin ? { ...$navigationStatePriorToLogin } : null
+    navigationStatePriorToLogin.write(null) // Clean up the nav state
+
+    goto(navState ? navState.url : '/', {
+      noscroll: false,
+    })
   }
 
   $: if (browser && !$session.apiHealthy && !healthcheckExemptRoutes.includes($page.url.pathname)) {

@@ -4,6 +4,7 @@ import * as assert from 'uvu/assert'
 import { test } from 'uvu'
 import dotenv from 'dotenv'
 import sinon from 'sinon'
+import { verifyEnv } from '../../src/utility/verifyEnv'
 
 const EXPECTED_KEYS = [
   'PORT',
@@ -12,9 +13,13 @@ const EXPECTED_KEYS = [
   'API_KEY',
   'TOKEN_SECRET',
   'COOKIE_SECRET',
-]
 
-import { verifyEnv } from '../../src/utility/verifyEnv'
+  // Third-party
+  'SENDGRID_API_KEY',
+  // 'IMAGEKIT_PUBLIC_KEY',
+  // 'IMAGEKIT_PRIVATE_KEY',
+  'RECAPTCHA_SECRET_KEY',
+]
 
 // Save the contents of the .env in memory to be replaced at the end of the test suite
 const env = readFileSync(join(__dirname, '../../.env'), { encoding: 'utf8' })

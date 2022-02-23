@@ -30,22 +30,29 @@
   --app-background: #ffffff;
   --app-background-dark: #ffffff;
   --card-background: #e4e6ea55;
-  --input-background: #d4d6da99;
+  --card-background-opaque: #e4e6ea;
+  --input-background: #e4e6eaaa;
   --visualization-color: #dee0e288;
-  --text-color: #33221dee;
-  --text-color-subdued: #33221daa;
+  --text-color: #23120dee;
+  --text-color-subdued: #23120dbb;
+  --card-background-opaque: #f5f5f6;
+  --interactive-card-color-opaque: #fff2f3;
 }
 
 :root.dark-theme {
   --app-background: #1d1d1d;
   --app-background-dark: #121212;
   --card-background: #2a2a2a55;
+  --card-background-opaque: #2a2a2a;
   --input-background: #3a3a3a88;
   --visualization-color: #3a3a3a;
   --text-color: #fffafcee;
   --text-color-subdued: #fffafcaa;
+  --card-background-opaque: #1c1c1c;
+  --interactive-card-color-opaque: #2c1e20;
 }
-\ html {
+
+html {
   font-size: 98%;
   height: 100%;
   min-height: 100%;
@@ -154,6 +161,26 @@ p {
   margin-bottom: 16px;
 }
 
+.overline {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.4em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.username {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.4em;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  color: var(--interactive-color);
+}
+
 a {
   font-family: var(--font-sans);
   color: var(--interactive-color);
@@ -172,8 +199,8 @@ a:focus-visible {
   height: auto;
   background-color: transparent;
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 3px;
+  right: 3px;
   font-weight: 700;
   display: flex;
   justify-content: center;
@@ -233,6 +260,7 @@ label {
 input,
 textarea {
   font-weight: 400;
+  font-family: var(--font-sans);
   letter-spacing: 0.01em;
   height: 40px;
   border: none;
@@ -265,7 +293,7 @@ input:active,
 textarea:active,
 input:focus,
 textarea:focus {
-  border: 1px solid var(--interactive-color);
+  border: 2px solid var(--interactive-color);
   transition: border 0.2s;
 }
 

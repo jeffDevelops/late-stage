@@ -9,7 +9,12 @@
   export let checked: boolean = false
 </script>
 
-<label class:checked>
+<label
+  class:checked
+  style="transition: color .2s; color: {checked
+    ? 'var(--text-color)'
+    : 'var(--text-color-subdued)'} !important;"
+>
   <input on:change type="checkbox" />
   <div class="custom-checkbox">
     {#if checked}

@@ -15,7 +15,7 @@
     max-width: 40px;
     border-radius: 20px;
     background-color: var(--card-background);
-    border: 1px solid #ff5964;
+    border: 2px solid #ff5964;
     cursor: pointer;
     margin-bottom: 8px;
     backdrop-filter: blur(10px);

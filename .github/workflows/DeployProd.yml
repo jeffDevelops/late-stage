@@ -76,7 +76,6 @@ jobs:
           echo IMAGEKIT_PUBLIC_KEY='${{ secrets.IMAGEKIT_PUBLIC_KEY }}' >> .env
           echo IMAGEKIT_PRIVATE_KEY='${{ secrets.IMAGEKIT_PRIVATE_KEY }}' >> .env
           echo RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }} >> .env
-
           echo PORT=3001 >> .env
           cat .env
           cd ../../

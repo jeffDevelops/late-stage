@@ -150,7 +150,7 @@ export const setup = async (
   assertIsTestUser(await queryTestUser(), fixture)
 }
 
-export const refreshAccessToken = async () => {
+export const refreshAccessToken = async (): Promise<string> => {
   const authResponse = await authenticateUser(undefined, false)
   const refreshCookie = authResponse.headers.get('set-cookie')
 

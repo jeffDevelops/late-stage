@@ -1,10 +1,9 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
   import { prefetch, goto } from '$app/navigation'
-  import { session } from '$app/stores'
   import Card from '../components/Card.svelte'
   import Checkbox from '../components/Checkbox.svelte'
-  import MustLogInModal from '../assemblies/MustLogInModal.svelte'
+  import CampaignTags from '../components/CampaignTags.svelte'
 
   /**
    * PROPS
@@ -12,6 +11,8 @@
 
   export let checked = true
   export let participationLink: string
+  export let text: string
+  export let tags: { name: string }[]
 
   /**
    * STATE
@@ -37,17 +38,21 @@
   <Card>
     {#if shouldDisplayHoverEffect}
       <button
-        in:fade={{ duration: 100 }}
-        out:fade={{ duration: 100 }}
+        in:fade={{ duration: 50 }}
+        out:fade={{ duration: 50 }}
         class="hover-effect"
         on:click={handleClick}
         on:mouseleave={() => (shouldDisplayHoverEffect = false)}
       >
-        <h1>Participate</h1>
+        <h1>
+          {#if checked}Participate Again{:else}Participate{/if}
+        </h1>
       </button>
     {/if}
 
-    <Checkbox {checked}>Remove your personal funds from the large, for-profit banks</Checkbox>
+    <Checkbox {checked}>{text}</Checkbox>
+
+    <CampaignTags wrap={true} {tags} />
   </Card>
 </div>
 
@@ -75,7 +80,7 @@
 
   .hover-effect h1 {
     margin-bottom: 0;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     color: var(--button-text-color);
   }
 
@@ -87,7 +92,7 @@
   }
 
   :global(.checklist-item .card) {
-    border: 1px solid var(--interactive-color);
+    /* border: 1px solid var(--interactive-color); */
     position: relative;
   }
 

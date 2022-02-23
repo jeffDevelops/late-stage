@@ -3,7 +3,7 @@ import { buildPostEndpoint } from '../../proxy/buildPostEndpoint'
 import type { GraphQLError } from '../../types/GraphQLError'
 
 const handleGraphQLErrors = (errors: GraphQLError[]): EndpointOutput | void => {
-  console.log(errors)
+  console.error(errors)
 
   if (
     errors.some(

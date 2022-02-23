@@ -1,9 +1,11 @@
+import ImageKit from 'imagekit'
 import type { PrismaClient } from '@prisma/client'
-import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import type { User } from '@generated/type-graphql/models/User'
 
 export type Context = {
   prisma: PrismaClient
+  imageKit: ImageKit
 
   req: FastifyRequest
   res: FastifyReply

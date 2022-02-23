@@ -62,7 +62,6 @@ const getIP = async (): Promise<void> => {
         }),
       )
     } else {
-      console.log({ deserializedGeoResponse })
       set('ERROR')
     }
   } catch (error) {

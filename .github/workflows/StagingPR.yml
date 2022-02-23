@@ -15,7 +15,7 @@ jobs:
       matrix:
         node-version: [16.x] # 16.13.2
     environment: staging
-    
+
     container: node:latest
     services:
       postgres:
@@ -46,7 +46,7 @@ jobs:
         run: |
           apt-get update
           apt-get install --yes --no-install-recommends postgresql-client
-    
+
       - uses: actions/checkout@v2
       - name: Cache pnpm modules
         uses: actions/cache@v2
@@ -78,10 +78,13 @@ jobs:
           echo COOKIE_SECRET=${{ secrets.COOKIE_SECRET }} >> .env
           echo NODE_ENV=test >> .env
           echo SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} >> .env
+          echo IMAGEKIT_PUBLIC_KEY=${{ secrets.IMAGEKIT_PUBLIC_KEY }} >> .env
+          echo IMAGEKIT_PRIVATE_KEY=${{ secrets.IMAGEKIT_PRIVATE_KEY }} >> .env
+          echo RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }} >> .env
           echo PORT=3001 >> .env
           cat .env
           cd ../../
-          
+
       - name: Create client .env file
         run: |
           ls -la
@@ -98,7 +101,7 @@ jobs:
           echo PORT=3000 >> .env
           cat .env
           cd ../../
-          
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
