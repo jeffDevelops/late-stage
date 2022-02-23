@@ -140,7 +140,7 @@
 
   .container {
     z-index: 1;
-    position: relative;
+    position: absolute;
   }
 
   @media screen and (max-width: 1100px) {

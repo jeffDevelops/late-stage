@@ -48,10 +48,10 @@
   }
 </script>
 
-<!-- href={`/campaigns/${campaign.id}`} -->
-<!-- sveltekit:prefetch -->
+<!-- href={`${env.viteSveltekitHost}/campaigns/${campaign.id}`} -->
 <a
-  href={`${env.viteSveltekitHost}/campaigns/${campaign.id}`}
+  sveltekit:prefetch
+  href={`/campaigns/${campaign.id}`}
   style="cursor: {$page.url.pathname.startsWith('/campaigns') ? 'default' : 'pointer'};"
   on:mouseenter={handleCampaignHover}
   on:mouseleave={() => (shouldDisplayHoverEffect = false)}
