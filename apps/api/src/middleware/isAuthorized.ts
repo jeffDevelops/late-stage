@@ -35,7 +35,7 @@ const checkAuthorization = async (
 }
 
 export const isAuthorized: AuthChecker<Context> = async (
-  { context }: ResolverData<Context>,
+  { context, info, args, root }: ResolverData<Context>,
   roles: string[], // The roles passed into the @Authorized() decorator
 ): Promise<boolean> => {
   const { req, prisma } = context

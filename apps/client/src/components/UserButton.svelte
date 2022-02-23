@@ -6,7 +6,6 @@
   import FloatingActionButton from './FloatingActionButton.svelte'
   import UserNavigation from './UserNavigation.svelte'
   import AccountIcon from './iconography/Account.svelte'
-  import { filter } from 'lodash'
 
   /**
    * STATE
@@ -15,16 +14,17 @@
 
   const toggleUserNav = () => (shouldShowUserNavigation = !shouldShowUserNavigation)
 
-  $: [firstInitial, lastInitial] = $session?.user?.username
-    .split(/([\-|_|.])/)
-    .filter((char) => !char.match(/([\-|_|.])/))
-    .reduce((acc, word) => acc + word[0].toUpperCase(), '') ?? [null, null]
+  $: initials = $session.user?.username
+    .split(/([\-|_|.])/) // Split on separators
+    .filter((char) => !char.match(/([\-|_|.])/)) // Remove separators
+    .reduce((acc, word) => acc + word[0].toUpperCase(), '') // Concatenate
+    .substring(0, 2) // Limit to 2 characters
 </script>
 
 <div in:fade={{ delay: 400 }} out:fade={{ delay: 400 }}>
   <FloatingActionButton on:click={toggleUserNav}>
     {#if !!$session.user}
-      {firstInitial}{lastInitial}
+      {initials}
     {:else}
       <AccountIcon />
     {/if}

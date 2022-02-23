@@ -6,7 +6,7 @@ import type { EndpointOutput, RequestHandler } from '@sveltejs/kit'
 import type { GraphQLError } from '../../types/GraphQLError'
 
 const handleGraphQLErrors = (errors: GraphQLError[]): void | EndpointOutput => {
-  console.log({ errors })
+  console.error({ errors })
 
   if (
     errors.some(

@@ -65,8 +65,7 @@ export const buildPostEndpoint: PostEndpointBuilder = (
   ): Promise<EndpointOutput> {
     const { request: endpointRequest } = requestEvent
 
-    const bodyString = await endpointRequest.text()
-    const body: Body = JSON.parse(bodyString)
+    const body = await endpointRequest.json()
 
     /**
      * Try to make the original request

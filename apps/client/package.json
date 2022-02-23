@@ -37,11 +37,13 @@
     "dayjs": "^1.10.7",
     "dotenv": "^14.2.0",
     "dotenv-cli": "^4.1.1",
+    "imagekit": "^3.2.4",
     "isomorphic-fetch": "^3.0.0",
     "lodash": "^4.17.21",
     "set-cookie-parser": "^2.4.8",
     "simplemde": "^1.11.2",
     "svelte-select": "^4.4.7",
+    "uuid": "^8.3.2",
     "validator": "^13.7.0"
   },
   "engines": {

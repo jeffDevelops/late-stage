@@ -63,7 +63,7 @@
           <h4>UX Designer, Developer</h4>
         </div>
 
-        <img src="Jeff.jpeg" alt="Portrait of Jeff Reynolds" />
+        <img src="images/Jeff.jpeg" alt="Portrait of Jeff Reynolds" />
       </article>
 
       <p>

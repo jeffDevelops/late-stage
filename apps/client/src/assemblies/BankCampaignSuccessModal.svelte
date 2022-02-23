@@ -6,6 +6,7 @@
   import CheckmarkIcon from '../components/iconography/Checkmark.svelte'
   import Card from '../components/Card.svelte'
   import Checkbox from '../components/Checkbox.svelte'
+  import type { Campaign } from '../types/Campaign'
 
   const dispatch = createEventDispatcher()
 
@@ -19,6 +20,7 @@
    * PROPS
    */
 
+  export let campaign: Campaign
   export let isDisplayed = false
 
   /**
@@ -50,9 +52,10 @@
       again.
     </p>
 
+    <p>We've updated your checklist to reflect your participation.</p>
+
     <p>
-      We've updated your checklist to reflect your participation. Unless you create an account, this
-      is only saved on-device in this browser.
+      Please note that your submission won't be reflected in the system until it has been reviewed.
     </p>
 
     <div class="hover-effect-container" on:mouseenter={handleChecklistItemHover}>
@@ -69,9 +72,7 @@
           </button>
         {/if}
 
-        <Checkbox checked={true}
-          >Remove your personal funds from the large, for-profit banks</Checkbox
-        >
+        <Checkbox checked={true}>{campaign.checklistTitle}</Checkbox>
       </Card>
     </div>
   </div>
@@ -116,10 +117,10 @@
     width: 80px;
     height: 80px;
     margin: 0 auto 24px;
+    fill: var(--interactive-color);
   }
 
   :global(.campaign-page .bank-campaign-success-modal .custom-checkbox svg) {
-    margin-right: 0;
     margin-bottom: -4px;
     margin-top: 0;
   }

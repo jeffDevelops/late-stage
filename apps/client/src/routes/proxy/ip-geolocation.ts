@@ -12,12 +12,11 @@ export const get = async (requestEvent: RequestEvent): Promise<EndpointOutput> =
     const response = await fetch(`http://www.geoplugin.net/json.gp?ip=${ip}`)
     const deserializedResponse = await response.json()
 
-    console.log({ response, deserializedResponse })
     return {
       status: response.status,
       body: deserializedResponse,
     }
   } catch (error) {
-    console.log({ error })
+    console.error({ error })
   }
 }
