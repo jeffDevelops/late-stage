@@ -8,7 +8,6 @@ import {
 import { Campaign, Tag } from '@generated/type-graphql/models'
 import { AggregateBankExodusCompletion } from '@generated/type-graphql/resolvers/outputs'
 import type { Context } from '../../types/Context'
-import { ErrorWithProps } from '../../utility/ErrorWithProps'
 
 const CampaignAggregateUnion = createUnionType({
   name: 'CampaignAggregateUnion',

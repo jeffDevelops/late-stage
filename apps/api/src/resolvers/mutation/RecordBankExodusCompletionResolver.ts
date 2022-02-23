@@ -97,6 +97,16 @@ export abstract class RecordBankExodusCompletionResolver {
       )
     }
 
+    const campaign = await prisma.campaign.findUnique({
+      where: {
+        id: input.campaignId,
+      },
+    })
+
+    if (!campaign) {
+      throw new Error('Campaign not found')
+    }
+
     const [createBankExodusCompletion, _markCampaignCompletedByUser] =
       await prisma.$transaction([
         prisma.bankExodusCompletion.create({
@@ -115,7 +125,9 @@ export abstract class RecordBankExodusCompletionResolver {
             id: user.id,
           },
           data: {
-            cred: 100, // Reward the user 100 cred
+            cred: {
+              increment: campaign.credRewarded,
+            },
             completedCampaigns: {
               connect: {
                 id: input.campaignId,
