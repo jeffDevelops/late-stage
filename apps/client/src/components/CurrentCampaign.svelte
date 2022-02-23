@@ -8,6 +8,8 @@
   import Hourglass from './Hourglass.svelte'
   import CampaignTags from './CampaignTags.svelte'
 
+  import { env } from '../networking/env'
+
   import type { Campaign } from '../types/Campaign'
 
   /**
@@ -46,10 +48,11 @@
   }
 </script>
 
+<!-- href={`/campaigns/${campaign.id}`} -->
+<!-- sveltekit:prefetch -->
 <a
+  href={`${env.viteSveltekitHost}/campaigns/${campaign.id}`}
   style="cursor: {$page.url.pathname.startsWith('/campaigns') ? 'default' : 'pointer'};"
-  href={`/campaigns/${campaign.id}`}
-  sveltekit:prefetch
   on:mouseenter={handleCampaignHover}
   on:mouseleave={() => (shouldDisplayHoverEffect = false)}
   class="current-campaign"
