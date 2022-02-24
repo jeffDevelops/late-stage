@@ -16,9 +16,18 @@
 <Controls />
 <main id="resources">
   <h2><InfoIcon /> Limiting Your Participation In Extractive Capitalism</h2>
+
   <p>
-    We've compiled a list of resources to learn more about reducing your participation in extractive
-    capitalism.
+    Extractive capitalism refers to the harvesting of natural resources for sale or trade. Striving
+    for exponential growth from a business model that depends on finite resources is unsustainable
+    and detrimental to everyone living on the planet.
+  </p>
+
+  <p>
+    Late-Stage seeks to identify and eliminate ingrained, underlying causes of extractive capitalism
+    and provide bite-sized ways for users to move their fiscal and ideological support elsewhere.
+    We've compiled additional resources on the institutions at play, and how you can show your
+    dissent:
   </p>
 
   <Card>
