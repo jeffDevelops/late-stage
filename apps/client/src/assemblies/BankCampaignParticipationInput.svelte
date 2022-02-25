@@ -420,6 +420,7 @@
   <BankCampaignStep3Instructions />
 
   <form
+    novalidate
     disabled={loading || !$session.user}
     on:click={handleFormClick}
     enctype="multipart/form-data"
