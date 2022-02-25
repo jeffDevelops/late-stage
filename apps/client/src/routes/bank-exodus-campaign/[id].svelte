@@ -108,6 +108,10 @@
 
   export let bankExodusCampaignCompletion: BankExodusCampaignCompletion
 
+  $: withdrawalAmount = bankExodusCampaignCompletion.withdrawalAmount.toFixed(2).endsWith('.00')
+    ? bankExodusCampaignCompletion.withdrawalAmount
+    : bankExodusCampaignCompletion.withdrawalAmount.toFixed(2)
+
   /**
    * LIFECYCLE
    */
@@ -169,7 +173,7 @@
           {/if}
         </header>
 
-        <h1>${bankExodusCampaignCompletion.withdrawalAmount}</h1>
+        <h1>${withdrawalAmount}</h1>
 
         <h4>Removed From</h4>
         <p class="data">{bankExodusCampaignCompletion.originInstitutionName}</p>
