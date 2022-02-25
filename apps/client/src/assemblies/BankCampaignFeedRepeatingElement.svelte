@@ -17,6 +17,10 @@
 
   export let bankExodusCampaignCompletion: BankExodusCampaignCompletion
   export let index: number
+
+  $: withdrawalAmount = bankExodusCampaignCompletion.withdrawalAmount.toFixed(2).endsWith('.00')
+    ? bankExodusCampaignCompletion.withdrawalAmount
+    : bankExodusCampaignCompletion.withdrawalAmount.toFixed(2)
 </script>
 
 <a href={`/bank-exodus-campaign/${bankExodusCampaignCompletion.id}`}>
@@ -33,7 +37,7 @@
           </p>
 
           <h2>
-            ${bankExodusCampaignCompletion.withdrawalAmount} Removed
+            ${withdrawalAmount} Removed
           </h2>
 
           <h4>From {bankExodusCampaignCompletion.originInstitutionName}</h4>
