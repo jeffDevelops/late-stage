@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch'
 import type { EndpointOutput } from '@sveltejs/kit/types/endpoint'
 import type { RequestEvent } from '@sveltejs/kit/types/hooks'
+import { env } from '../../networking/env'
 
 export const get = async (requestEvent: RequestEvent): Promise<EndpointOutput> => {
   const { request: endpointRequest } = requestEvent
@@ -15,6 +16,9 @@ export const get = async (requestEvent: RequestEvent): Promise<EndpointOutput> =
     return {
       status: response.status,
       body: deserializedResponse,
+      headers: {
+        'Access-Control-Allow-Origin': env.viteSveltekitHost,
+      },
     }
   } catch (error) {
     console.error({ error })
