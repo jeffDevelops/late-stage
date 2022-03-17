@@ -332,7 +332,7 @@
       width: 100%;
     }
 
-    .pledge h1 {
+    .pledge h2 {
       margin: 24px 0 16px;
     }
 
