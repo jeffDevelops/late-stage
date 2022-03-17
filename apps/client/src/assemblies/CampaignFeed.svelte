@@ -1,5 +1,6 @@
 <script lang="ts">
-  import BankCampaignFeed from './BankCampaignFeed.svelte'
+  import AmazonPrimeCampaignFeed from './AmazonPrimeCampaign/Feed.svelte'
+  import BankCampaignFeed from './BankCampaign/BankCampaignFeed.svelte'
 
   import type { SvelteComponent } from 'svelte'
   import type { Campaign } from '../types/Campaign'
@@ -13,6 +14,7 @@
   /** Determine which repeating element to display based on the campaign shortname */
   const components: { [key: string]: typeof SvelteComponent } = {
     banks: BankCampaignFeed,
+    'amazon-prime': AmazonPrimeCampaignFeed,
   }
 </script>
 

@@ -2,11 +2,11 @@
   import { createEventDispatcher } from 'svelte'
   import { fade } from 'svelte/transition'
   import { goto, prefetch } from '$app/navigation'
-  import Modal from '../components/Modal.svelte'
-  import CheckmarkIcon from '../components/iconography/Checkmark.svelte'
-  import Card from '../components/Card.svelte'
-  import Checkbox from '../components/Checkbox.svelte'
-  import type { Campaign } from '../types/Campaign'
+  import Modal from '../../components/Modal.svelte'
+  import CheckmarkIcon from '../../components/iconography/Checkmark.svelte'
+  import Card from '../../components/Card.svelte'
+  import Checkbox from '../../components/Checkbox.svelte'
+  import type { Campaign } from '../../types/Campaign'
 
   const dispatch = createEventDispatcher()
 
@@ -27,8 +27,8 @@
    * METHODS
    */
 
-  const handlePetitionHover = async () => await prefetch('/')
-  const goToPetition = async () => await goto('/')
+  const handleHomepageHover = async () => await prefetch('/')
+  const goToHomepage = async () => await goto('/')
 
   const handleChecklistItemHover = async () => {
     await prefetch('/checklist')
@@ -79,8 +79,8 @@
 
   <div class="bank-campaign-success-modal" slot="actions">
     <button on:click={() => dispatch('dismiss')} class="secondary">Repeat with new bank</button>
-    <button on:mouseenter={handlePetitionHover} on:click={goToPetition} class="primary"
-      >Go to Petition</button
+    <button on:mouseenter={handleHomepageHover} on:click={goToHomepage} class="primary"
+      >Go to Homepage</button
     >
   </div>
 </Modal>

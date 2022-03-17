@@ -47,6 +47,12 @@
                   withdrawalAmount
                 }
               }
+
+              ... on AggregateAmazonPrimeCompletion {
+                _sum {
+                  cancellationAmount
+                }
+              }
             }
           `,
         ),
@@ -66,7 +72,6 @@
 
 <script lang="ts">
   import CurrentCampaigns from '../components/CurrentCampaigns.svelte'
-  import AllTime from '../components/AllTime.svelte'
   import Controls from '../components/Controls.svelte'
   import SprayPaint from '../components/SprayPaint.svelte'
   import LessUpdooting from '../components/LessUpdooting.svelte'
@@ -90,9 +95,8 @@
 
 <main class="homepage">
   <section>
-    <Logo />
+    <h1 class="logo">Late-Stage</h1>
     <CurrentCampaigns {campaigns} />
-    <!-- <AllTime /> -->
   </section>
 </main>
 
@@ -103,15 +107,15 @@
 
 <style>
   main {
-    margin: 0 auto 0 auto;
+    margin: 32px auto 0 auto;
     padding: 24px 0;
-    width: 100%;
-    max-width: 750px;
+    width: calc(100% - 48px);
+    max-width: 1250px;
     overflow-x: hidden;
   }
 
   section {
-    margin: 160px 0;
+    margin: 72px 0 160px;
   }
 
   :global(.homepage .logo) {
@@ -140,7 +144,7 @@
     }
 
     section {
-      margin: 0 0 64px;
+      margin: 24px 0 64px;
     }
   }
 </style>

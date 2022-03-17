@@ -3,28 +3,29 @@
   import { fade } from 'svelte/transition'
   import { session } from '$app/stores'
 
-  import Select from '../components/Select.svelte'
-  import ImageUpload from '../components/ImageUpload.svelte'
-  import Checkbox from '../components/Checkbox.svelte'
-  import Spinner from '../components/iconography/Spinner.svelte'
+  import Select from '../../components/Select.svelte'
+  import ImageUpload from '../../components/ImageUpload.svelte'
+  import Checkbox from '../../components/Checkbox.svelte'
+  import ProtestIcon from '../../components/iconography/Protest.svelte'
+  import Spinner from '../../components/iconography/Spinner.svelte'
   import BankCampaignSuccessModal from './BankCampaignSuccessModal.svelte'
-  import MustLogInModal from './MustLogInModal.svelte'
+  import MustLogInModal from '../MustLogInModal.svelte'
   import BankCampaignStep1 from './BankCampaignStep1.svelte'
   import BankCampaignStep2 from './BankCampaignStep2.svelte'
   import BankCampaignStep3Instructions from './BankCampaignStep3Instructions.svelte'
   import BankCampaignStep5 from './BankCampaignStep5.svelte'
 
-  import { env } from '../networking/env'
-  import { gqlRequest } from '../networking/gqlRequest'
-  import { imageKitAuthParams } from '../networking/graphql/query/ImageKitAuthParams'
-  import { recordBankExodusCompletion } from '../networking/graphql/mutation/RecordBankExodusCompletion'
-  import { recaptchaVerification } from '../networking/graphql/query/RecaptchaVerification'
-  import { shouldDisplayControls } from '../stores/Controls'
-  import { disableInteractablesWhile } from '../utility/disableInteractablesWhile'
+  import { env } from '../../networking/env'
+  import { gqlRequest } from '../../networking/gqlRequest'
+  import { imageKitAuthParams } from '../../networking/graphql/query/ImageKitAuthParams'
+  import { recordBankExodusCompletion } from '../../networking/graphql/mutation/RecordBankExodusCompletion'
+  import { recaptchaVerification } from '../../networking/graphql/query/RecaptchaVerification'
+  import { shouldDisplayControls } from '../../stores/Controls'
+  import { disableInteractablesWhile } from '../../utility/disableInteractablesWhile'
 
-  import { LocalStorageKeys } from '../types/LocalStorageKeys'
-  import type { RecordBankExodusCampaignInput } from '../types/RecordBankExodusCampaignInput'
-  import type { Campaign } from '../types/Campaign'
+  import { LocalStorageKeys } from '../../types/LocalStorageKeys'
+  import type { RecordBankExodusCampaignCompletionInput } from '../../types/BankCampaign/RecordBankExodusCampaignCompletionInput'
+  import type { Campaign } from '../../types/Campaign'
 
   /**
    * PROPS
@@ -122,7 +123,7 @@
 
     document.head.appendChild(
       Object.assign(document.createElement('script'), {
-        src: 'https://www.google.com/recaptcha/api.js?onload=onloadCallback&&render=explicit',
+        src: 'https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit',
         async: true,
         defer: true,
       }),
@@ -332,7 +333,7 @@
 
         const response = await fetch(
           `${env.viteSveltekitHost}/proxy/record-bank-exodus-completion`,
-          gqlRequest<RecordBankExodusCampaignInput>({
+          gqlRequest<RecordBankExodusCampaignCompletionInput>({
             query: recordBankExodusCompletion,
             variables: {
               RecordBankExodusCompletionInput: {
@@ -415,6 +416,8 @@
 />
 
 <section class="bank-campaign" bind:this={container}>
+  <h2><ProtestIcon /> How?</h2>
+
   <BankCampaignStep1 />
   <BankCampaignStep2 />
   <BankCampaignStep3Instructions />
@@ -615,11 +618,11 @@
     gap: 0;
   }
 
-  :global(.flex-row > *) {
+  :global(.bank-campaign .flex-row > *) {
     width: calc(50% - 8px);
   }
 
-  :global(.flex-row.wrap > *) {
+  :global(.bank-campaign .flex-row.wrap > *) {
     width: 100% !important;
   }
 

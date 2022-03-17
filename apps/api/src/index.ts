@@ -11,7 +11,9 @@ import { registerMercurius } from './config/fastify/registerMercurius'
 import { initFastify } from './config/fastify/initFastify'
 import { healthcheck, upload, uploads } from './routes/index'
 import { verifyEnv } from './utility/verifyEnv'
+import { registerCleanUpExpiredRefreshTokensCronJob } from './config/cron'
 import { startTestServer } from '../test-utils/startTestServer'
+import { prisma } from '../prisma/prisma.config'
 
 verifyEnv()
 ;(async () => {
@@ -26,6 +28,7 @@ verifyEnv()
 
   /** Custom route controllers */
   app.register(healthcheck)
+  await registerCleanUpExpiredRefreshTokensCronJob(prisma)
   app.register(upload)
   app.register(uploads)
 

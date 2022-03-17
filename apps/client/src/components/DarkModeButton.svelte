@@ -30,15 +30,15 @@
   }
 
   :global(.dark-mode-button svg) {
-    stroke: var(--interactive-color);
-    fill: var(--interactive-color);
+    stroke: var(--text-color-subdued);
+    fill: var(--text-color-subdued);
     width: 22px;
     height: 22px;
   }
 
   :global(.dark-mode-button .moon-icon) {
-    stroke: var(--interactive-color);
-    fill: var(--interactive-color);
+    stroke: var(--text-color-subdued);
+    fill: var(--text-color-subdued);
     width: 18px;
     height: 18px;
   }
