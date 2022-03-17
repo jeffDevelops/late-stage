@@ -1,5 +1,10 @@
 import type { BaseEntity } from './BaseEntity'
 import type { CampaignStatuses } from './CampaignStatuses'
+import type { WorksCited } from './WorksCited'
+
+type Sum = {
+  [key: string]: number
+}
 
 type Scalars = {
   title: string
@@ -20,9 +25,7 @@ type Scalars = {
   goalDeadline: string
 
   stats: {
-    _sum: {
-      withdrawalAmount: number
-    }
+    _sum: Sum
   }
 
   // Admin / DX fields
@@ -37,6 +40,7 @@ type Associations = {
   _count: {
     usersThatDidCompleteCampaign: number
   }
+  worksCited: WorksCited
   // ...
 }
 

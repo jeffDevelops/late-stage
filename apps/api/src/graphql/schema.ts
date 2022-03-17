@@ -16,6 +16,9 @@ import {
   FindManyUserResolver,
   FindManyBankExodusCompletionResolver,
   AggregateBankExodusCompletionResolver,
+  FindManyAmazonPrimeCompletionResolver,
+  AggregateAmazonPrimeCompletionResolver,
+  FindUniqueAmazonPrimeCompletionResolver,
   FindUniqueBankExodusCompletionResolver,
   FindManyCampaignResolver,
   FindUniqueCampaignResolver,
@@ -24,16 +27,21 @@ import {
 
 /** Mutations (Custom) */
 import {
+  ApproveAmazonPrimeCompletionResolver,
   ApproveBankExodusCompletionResolver,
   AuthenticateUserResolver,
   BanUserResolver,
   LogOutResolver,
+  MarkAmazonPrimeCompletionReviewedResolver,
   MarkBankExodusCompletionReviewedResolver,
+  RecordAmazonPrimeCompletionResolver,
   RecordBankExodusCompletionResolver,
   RefreshAccessTokenResolver,
   RegisterUserResolver,
   SendUserConfirmationEmailResolver,
+  UnapproveAmazonPrimeCompletionResolver,
   UnapproveBankExodusCompletionResolver,
+  UnmarkAmazonPrimeCompletionReviewedResolver,
   UnmarkBankExodusCompletionReviewedResolver,
   UpdateEmailAddressResolver,
   UpdateUsernameResolver,
@@ -49,8 +57,10 @@ import {
 
 /** Field Resolvers (Custom) */
 import {
+  AmazonPrimeCompletionFieldResolvers,
   BankExodusCompletionFieldResolvers,
   CampaignFieldResolvers,
+  UserFieldResolvers,
 } from '../resolvers/fieldResolvers'
 
 export const schema = async () => {
@@ -63,7 +73,16 @@ export const schema = async () => {
     },
   }
 
+  const amazonPrimeCompletionsModelConfig: ModelConfig<'AmazonPrimeCompletion'> =
+    {
+      fields: {
+        userId: [Authorized()],
+        belongsToUser: [Authorized()],
+      },
+    }
+
   const modelsEnhanceMap: ModelsEnhanceMap = {
+    AmazonPrimeCompletion: amazonPrimeCompletionsModelConfig,
     BankExodusCompletion: bankExodusCompletionModelConfig,
   }
 
@@ -82,6 +101,8 @@ export const schema = async () => {
   const schema = await buildSchema({
     resolvers: [
       // Custom resolvers go here...
+      AmazonPrimeCompletionFieldResolvers,
+      ApproveAmazonPrimeCompletionResolver,
       ApproveBankExodusCompletionResolver,
       AuthenticateUserResolver,
       BankExodusCompletionFieldResolvers,
@@ -90,29 +111,37 @@ export const schema = async () => {
       CurrentUserResolver,
       ImageKitAuthenticationParamsResolver,
       LogOutResolver,
+      MarkAmazonPrimeCompletionReviewedResolver,
       MarkBankExodusCompletionReviewedResolver,
       RecaptchaVerificationResolver,
+      RecordAmazonPrimeCompletionResolver,
       RecordBankExodusCompletionResolver,
       RegisterUserResolver,
       RefreshAccessTokenResolver,
       SendUserConfirmationEmailResolver,
+      UnapproveAmazonPrimeCompletionResolver,
       UnapproveBankExodusCompletionResolver,
+      UnmarkAmazonPrimeCompletionReviewedResolver,
       UnmarkBankExodusCompletionReviewedResolver,
       UpdateEmailAddressResolver,
       UpdateUsernameResolver,
+      UserFieldResolvers,
       VerifyEmailAddressResolver,
 
       // Resolvers from '@generated/type-graphql are selectively included below...
       CreateCampaignResolver,
       CreateTagResolver,
+      AggregateAmazonPrimeCompletionResolver,
       AggregateBankExodusCompletionResolver,
+      FindManyAmazonPrimeCompletionResolver,
+      FindManyBankExodusCompletionResolver,
       FindManyCampaignResolver,
+      FindManyUserResolver,
+      FindManyTagResolver,
+      FindUniqueAmazonPrimeCompletionResolver,
       FindUniqueBankExodusCompletionResolver,
       FindUniqueCampaignResolver,
       FindUniqueUserResolver,
-      FindManyUserResolver,
-      FindManyBankExodusCompletionResolver,
-      FindManyTagResolver,
     ],
     authChecker: isAuthorized,
     validate: false,

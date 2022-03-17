@@ -39,7 +39,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 8px;
+    gap: 6px;
     overflow-x: auto;
     padding-bottom: 0;
     margin-top: 8px;
@@ -57,6 +57,7 @@
     padding: 4px 16px;
     margin-bottom: 0;
     cursor: default;
+    border: 1px solid var(--app-background);
   }
 
   .tags-container::-webkit-scrollbar {

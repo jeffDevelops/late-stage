@@ -3,8 +3,6 @@
   import DangerTriangle from '../components/iconography/DangerTriangle.svelte'
   import Card from '../components/Card.svelte'
   import { page } from '$app/stores'
-
-  console.log($page.error)
 </script>
 
 <Controls />

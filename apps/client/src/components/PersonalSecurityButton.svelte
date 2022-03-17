@@ -26,7 +26,7 @@
 <style>
   .personal-security-button {
     position: fixed;
-    bottom: 48px;
+    bottom: -2px;
     right: 4px;
   }
 

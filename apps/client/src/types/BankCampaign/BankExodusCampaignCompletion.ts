@@ -1,21 +1,19 @@
-import type { BaseEntity } from './BaseEntity'
-import type { User } from './User'
+import type { BaseEntity } from '../BaseEntity'
+import type { CampaignCompletionScalars } from '../CampaignCompletionScalars'
+import type { User } from '../User'
 
-export type Scalars = {
+export type Scalars = CampaignCompletionScalars & {
   conscientiousAboutHumanRights: boolean
   destinationInstitutionName: string
   dontChargeAccountFees: boolean
   dontInvestInFossilFuels: boolean
   dontInvestInSLABS: boolean
-  isAnonymous: boolean
   offerFairRatesToAccountHolders: boolean
   originInstitutionName: string
   other: boolean
   otherInfo: string
   withdrawalAmount: number
   withdrawalReceiptImageURL: string
-  wasApprovedByAdmin: boolean
-  wasReviewedByAdmin: boolean
 }
 
 export type Associations = {

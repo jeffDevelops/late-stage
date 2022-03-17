@@ -28,7 +28,6 @@
   }
 
   .current-campaigns:first-child {
-    border: 1px solid var(--interactive-color);
     border-radius: var(--border-radius);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);

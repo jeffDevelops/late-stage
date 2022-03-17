@@ -3,7 +3,7 @@
   import { uniqueBankExodusCompletion } from '../../networking/graphql/query/UniqueBankExodusCompletion'
   import { env } from '../../networking/env'
 
-  export const load = async ({ params, session }) => {
+  export const load = async ({ params, session, fetch }) => {
     const { id } = params
 
     try {
@@ -90,7 +90,7 @@
   import dayjs from 'dayjs'
   import { session } from '$app/stores'
 
-  import BankCampaignCompletionModeration from '../../assemblies/BankCampaignCompletionModeration.svelte'
+  import BankCampaignCompletionModeration from '../../assemblies/BankCampaign/BankCampaignCompletionModeration.svelte'
   import Controls from '../../components/Controls.svelte'
   import Card from '../../components/Card.svelte'
   import Tenet from '../../components/Tenet.svelte'
@@ -100,7 +100,7 @@
   import Idea from '../../components/iconography/Idea.svelte'
   import InfoIcon from '../../components/iconography/Info.svelte'
 
-  import type { BankExodusCampaignCompletion } from '../../types/BankExodusCampaignCompletion'
+  import type { BankExodusCampaignCompletion } from '../../types/BankCampaign/BankExodusCampaignCompletion'
 
   /**
    * PROPS
@@ -282,6 +282,7 @@
     height: auto;
     width: calc(50% - 16px);
     border-radius: var(--border-radius);
+    border: 1px solid var(--visualization-color);
     display: block;
   }
 

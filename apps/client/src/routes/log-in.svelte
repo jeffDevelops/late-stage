@@ -376,16 +376,16 @@
     width: 100%;
   }
 
-  @media screen and (min-width: 1500px) and (min-height: 700px) {
+  @media screen and (min-width: 1500px) and (min-height: 1064px) {
     section {
       height: auto;
       position: absolute;
-      bottom: 5vh;
-      right: 16vw;
+      bottom: 3vh;
+      right: 19vw;
     }
   }
 
-  @media screen and (min-width: 800px) and (min-height: 800px) {
+  @media screen and (min-width: 800px) and (max-width: 1499px) and (min-height: 1064px) {
     section {
       height: auto;
       position: absolute;
@@ -394,7 +394,7 @@
     }
   }
 
-  @media screen and (min-width: 700px) and (min-height: 800px) {
+  @media screen and (min-width: 700px) and (max-width: 799px) and (min-height: 1064px) {
     section {
       height: auto;
       position: absolute;
@@ -403,7 +403,7 @@
     }
   }
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-height: 1099px) {
     section {
       max-width: 400px;
       padding: 160px 0px 72px;
