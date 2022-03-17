@@ -1,4 +1,5 @@
 <script lang="ts" context="module">
+  import { aggregateAmazonPrimeCompletion } from '../networking/graphql/query/AggregateAmazonPrimeCompletion'
   import { aggregateBankExodusCompletion } from '../networking/graphql/query/AggregateBankExodusCompletion'
   import { findManyCampaigns } from '../networking/graphql/query/FindManyCampaigns'
   import { gqlRequest } from '../networking/gqlRequest'
@@ -6,83 +7,110 @@
   import { CampaignStatuses } from '../types/CampaignStatuses'
 
   export const load = async ({ session, fetch }) => {
-    const [campaigns, bankExodusCampaignCompletions] = await Promise.all([
-      fetch(
-        `${env.viteSveltekitHost}/proxy/campaigns`,
-        gqlRequest({
-          query: findManyCampaigns(
-            `
+    const [campaigns, amazonPrimeCampaignCompletions, bankExodusCampaignCompletions] =
+      await Promise.all([
+        fetch(
+          `${env.viteSveltekitHost}/proxy/campaigns`,
+          gqlRequest({
+            query: findManyCampaigns(
+              `
               id
               checklistTitle
+              shortName
               tags {
                 id
                 name
               }
             `,
-          ),
-          variables: {
-            where: {
-              OR: [
-                // Only display campaigns that are active, or that have been completed by the user
-                {
-                  status: {
-                    equals: CampaignStatuses.Active,
+            ),
+            variables: {
+              where: {
+                OR: [
+                  // Only display campaigns that are active, or that have been completed by the user
+                  {
+                    status: {
+                      equals: CampaignStatuses.Active,
+                    },
                   },
-                },
-                {
-                  status: {
-                    equals: CampaignStatuses.Open,
+                  {
+                    status: {
+                      equals: CampaignStatuses.Open,
+                    },
                   },
-                },
-                // If the user is logged in, also grab the ones they completed, even if they're closed
-                ...(session?.user
-                  ? [
-                      {
-                        status: {
-                          equals: CampaignStatuses.Closed,
-                        },
-                        usersThatDidCompleteCampaign: {
-                          some: {
-                            id: {
-                              equals: session?.user?.id,
+                  // If the user is logged in, also grab the ones they completed, even if they're closed
+                  ...(session?.user
+                    ? [
+                        {
+                          status: {
+                            equals: CampaignStatuses.Closed,
+                          },
+                          usersThatDidCompleteCampaign: {
+                            some: {
+                              id: {
+                                equals: session?.user?.id,
+                              },
                             },
                           },
                         },
-                      },
-                    ]
-                  : []),
-              ],
+                      ]
+                    : []),
+                ],
+              },
             },
-          },
-        }),
-      ).then(async (response) => await response.json()),
+          }),
+        ).then(async (response) => await response.json()),
 
-      ...(session.user
-        ? [
-            fetch(
-              `${env.viteSveltekitHost}/proxy/aggregate-bank-exodus-completion`,
-              gqlRequest({
-                variables: {
-                  where: {
-                    userId: session.user.id,
+        ...(session.user
+          ? [
+              fetch(
+                `${env.viteSveltekitHost}/proxy/aggregate-amazon-prime-completion`,
+                gqlRequest({
+                  variables: {
+                    where: {
+                      userId: session.user.id,
+                    },
                   },
-                },
-                query: aggregateBankExodusCompletion(
-                  `
+                  query: aggregateAmazonPrimeCompletion(
+                    `
             _count {
               _all
             }
             `,
-                ),
-              }),
-            ).then(async (response) => await response.json()),
-          ]
-        : []),
-    ])
+                  ),
+                }),
+              ).then(async (response) => await response.json()),
+            ]
+          : []),
+
+        ...(session.user
+          ? [
+              fetch(
+                `${env.viteSveltekitHost}/proxy/aggregate-bank-exodus-completion`,
+                gqlRequest({
+                  variables: {
+                    where: {
+                      userId: session.user.id,
+                    },
+                  },
+                  query: aggregateBankExodusCompletion(
+                    `
+            _count {
+              _all
+            }
+            `,
+                  ),
+                }),
+              ).then(async (response) => await response.json()),
+            ]
+          : []),
+      ])
 
     return {
       props: {
         campaigns,
+        amazonPrimeCampaignChecked: amazonPrimeCampaignCompletions
+          ? amazonPrimeCampaignCompletions._count._all > 0
+          : false,
         bankExodusCampaignChecked: bankExodusCampaignCompletions
           ? bankExodusCampaignCompletions._count._all > 0
           : false,
@@ -98,6 +126,7 @@
   import Card from '../components/Card.svelte'
   import IdeaIcon from '../components/iconography/Idea.svelte'
   import InfoIcon from '../components/iconography/Info.svelte'
+
   import type { Campaign } from '../types/Campaign'
 
   /**
@@ -105,6 +134,22 @@
    */
   export let campaigns: Campaign[]
   export let bankExodusCampaignChecked: boolean
+  export let amazonPrimeCampaignChecked: boolean
+
+  /**
+   * METHODS
+   */
+
+  const isChecked = (campaign: Campaign) => {
+    switch (campaign.shortName) {
+      case 'banks':
+        return bankExodusCampaignChecked
+      case 'amazon-prime':
+        return amazonPrimeCampaignChecked
+      default:
+        throw new Error(`Unhandled campaign ${campaign.shortName}`)
+    }
+  }
 </script>
 
 <Controls />
@@ -123,7 +168,7 @@
           text={campaign.checklistTitle}
           tags={campaign.tags}
           participationLink={`/campaigns/${campaign.id}`}
-          checked={bankExodusCampaignChecked}
+          checked={isChecked(campaign)}
         />
       {/each}
     </section>
@@ -177,6 +222,10 @@
     margin-top: 16px;
   }
 
+  :global(.checklist .checklist-item .card) {
+    margin-bottom: 16px;
+  }
+
   :global(.checklist .checklist-item:last-of-type .card) {
     margin-bottom: 64px !important;
   }
@@ -192,6 +241,7 @@
 
   :global(.checklist .disclosure:last-of-type .card) {
     padding-bottom: 24px;
+    margin-bottom: 72px;
   }
 
   :global(.checklist .disclosure h4 svg) {

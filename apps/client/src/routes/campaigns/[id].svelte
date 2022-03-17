@@ -33,6 +33,21 @@
               id
               name
             }
+            worksCited {
+              id
+              title
+              authorFirstInitial
+              authorLastName
+              authorFirstInitial2
+              authorLastName2
+              authorFirstInitial3
+              authorLastName3
+              publicationDate
+              publicationMonth
+              publicationYear
+              publicationName
+              hyperlink
+            }
             _count {
               usersThatDidCompleteCampaign
             }
@@ -40,6 +55,11 @@
               ... on AggregateBankExodusCompletion {
                 _sum {
                   withdrawalAmount
+                }
+              }
+              ... on AggregateAmazonPrimeCompletion {
+                _sum {
+                  cancellationAmount
                 }
               }
             }
@@ -157,12 +177,7 @@
     main {
       padding-top: 72px;
       width: 100%;
-    }
-  }
-
-  @media screen and (max-width: 900px) {
-    main {
-      width: 100%;
+      max-width: 750px;
     }
   }
 

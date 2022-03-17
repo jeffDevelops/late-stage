@@ -43,7 +43,7 @@
   }
 
   :global(.fab) {
-    color: var(--interactive-color);
+    color: var(--text-color);
     font-size: 1rem;
   }
 </style>

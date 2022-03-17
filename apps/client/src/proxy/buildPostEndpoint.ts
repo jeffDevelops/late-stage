@@ -70,6 +70,8 @@ export const buildPostEndpoint: PostEndpointBuilder = (
     /**
      * Try to make the original request
      */
+    console.log(endpointRequest.url)
+    console.log(endpointRequest.headers.get('cookie'))
 
     const { deserialized: originalDeserialized } = await makeRequest(body, {
       cookie: endpointRequest.headers.get('cookie'),

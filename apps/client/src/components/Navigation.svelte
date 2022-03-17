@@ -91,7 +91,7 @@
         sveltekit:prefetch
         class:active={browser &&
           ($page.url.pathname === '/log-in' ||
-            $page.url.pathname === '/sign-up' ||
+            $page.url.pathname === '/register' ||
             $page.url.pathname === '/forgot-password' ||
             $page.url.pathname === '/reset-password' ||
             $page.url.pathname === '/confirm-email' ||

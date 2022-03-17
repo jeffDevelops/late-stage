@@ -1,4 +1,4 @@
-export type RecordBankExodusCampaignInput = {
+export type RecordBankExodusCampaignCompletionInput = {
   RecordBankExodusCompletionInput: {
     campaignId: string
     isAnonymous: boolean
