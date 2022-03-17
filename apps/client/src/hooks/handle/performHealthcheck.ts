@@ -8,8 +8,6 @@ export const performHealthcheck = async ({
   resolve,
   event,
 }: HandleInput<LocalsImpl>): Promise<Response> => {
-  event.locals.apiHealthy = true
-
   /** Don't run healthcheck on SvelteKit prerenders (builds fail without this line) */
   if (event.url.hostname === 'sveltekit-prerender') return await resolve(event)
   if (!isPageRequest(event)) return await resolve(event)
@@ -25,5 +23,6 @@ export const performHealthcheck = async ({
     return await resolve(event)
   }
 
+  event.locals.apiHealthy = true
   return await resolve(event)
 }

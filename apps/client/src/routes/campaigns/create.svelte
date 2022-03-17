@@ -36,7 +36,7 @@
   import { createTag } from '../../networking/graphql/mutation/CreateTag'
   import { createCampaign } from '../../networking/graphql/mutation/CreateCampaign'
   import type { Tag } from '../../types/Tag'
-  import type { WorksCited } from 'src/types/WorksCited'
+  import type { WorksCited } from '../../types/WorksCited'
 
   const workCited = {
     authorFirstInitial: '',

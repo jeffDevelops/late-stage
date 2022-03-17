@@ -137,8 +137,7 @@
     width: 60%;
   }
 
-  h2,
-  h4 {
+  h2 {
     margin: 2px 0 4px;
   }
 
@@ -208,10 +207,6 @@
     h2 {
       font-size: 0.75rem;
       font-weight: 500;
-    }
-
-    h4 {
-      font-size: 0.6rem;
     }
 
     .bank-campaign-repeating-element :global(label) {

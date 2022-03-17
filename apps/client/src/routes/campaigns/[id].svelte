@@ -3,7 +3,7 @@
   import { gqlRequest } from '../../networking/gqlRequest'
   import { campaignWhereUniqueInput } from '../../networking/graphql/query/CampaignWhereUniqueInput'
 
-  export const load = async ({ fetch, params }) => {
+  export const load = async ({ params, fetch }) => {
     const response = await fetch(
       `${env.viteSveltekitHost}/proxy/unique-campaign`,
       gqlRequest({
