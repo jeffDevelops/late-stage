@@ -12,24 +12,15 @@ import {
 import sgMail from '@sendgrid/mail'
 
 import { CurrentUser } from '../../middleware/CurrentUser'
-import { User, BankExodusCompletion } from '@generated/type-graphql/models'
+import { BankExodusCompletion } from '@generated/type-graphql/models'
 import { ErrorWithProps } from '../../utility/ErrorWithProps'
 import type { Context } from '../../types/Context'
+import { CampaignScalars } from '../inputs/CampaignScalars'
 
 @InputType()
-abstract class RecordBankExodusCompletionInput {
-  @Field((_type) => String, { nullable: false })
-  campaignId: string
-
-  bankExodusCompletionId!: string
-  @Field((_type) => Boolean, { nullable: false })
-  isAnonymous: boolean
-
+abstract class RecordBankExodusCompletionInput extends CampaignScalars {
   @Field((_type) => String, { nullable: false })
   withdrawalReceiptImageURL: string
-
-  @Field((_type) => String, { nullable: false })
-  imageKitFileId: string
 
   @Field((_type) => Float, { nullable: false })
   withdrawalAmount: number
@@ -107,46 +98,42 @@ export abstract class RecordBankExodusCompletionResolver {
       throw new Error('Campaign not found')
     }
 
-    const [createBankExodusCompletion, _markCampaignCompletedByUser] =
-      await prisma.$transaction([
-        prisma.bankExodusCompletion.create({
-          data: {
-            ...input,
-            belongsToUser: {
-              connect: {
-                id: user.id,
-              },
+    const [createBankExodusCompletion] = await prisma.$transaction([
+      prisma.bankExodusCompletion.create({
+        data: {
+          ...input,
+          belongsToUser: {
+            connect: {
+              id: user.id,
             },
           },
-        }),
+        },
+      }),
 
-        prisma.user.update({
-          where: {
-            id: user.id,
+      // Mark campaign completed by user
+      prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          cred: {
+            increment: campaign.credRewarded,
           },
-          data: {
-            cred: {
-              increment: campaign.credRewarded,
-            },
-            completedCampaigns: {
-              connect: {
-                id: input.campaignId,
-              },
+          completedCampaigns: {
+            connect: {
+              id: input.campaignId,
             },
           },
-        }),
-      ])
+        },
+      }),
+    ])
 
-    await this.sendSubmissionNotificationEmail(
-      user,
-      createBankExodusCompletion.id,
-    )
+    await this.sendSubmissionNotificationEmail(createBankExodusCompletion.id)
 
     return createBankExodusCompletion
   }
 
   private async sendSubmissionNotificationEmail(
-    user: User,
     bankExodusCompletionId: string,
   ): Promise<void> | never {
     try {

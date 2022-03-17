@@ -3,7 +3,7 @@
   import { gqlRequest } from '../../networking/gqlRequest'
   import { tags as tagsQuery } from '../../networking/graphql/query/Tags'
 
-  export const load = async ({ session }) => {
+  export const load = async ({ session, fetch }) => {
     if (!session.user || !session.user.isAdmin) {
       return {
         status: 404,
@@ -36,6 +36,18 @@
   import { createTag } from '../../networking/graphql/mutation/CreateTag'
   import { createCampaign } from '../../networking/graphql/mutation/CreateCampaign'
   import type { Tag } from '../../types/Tag'
+  import type { WorksCited } from 'src/types/WorksCited'
+
+  const workCited = {
+    authorFirstInitial: '',
+    authorLastName: '',
+    publicationYear: '',
+    title: '',
+    hyperlink: '',
+    publicationMonth: '',
+    publicationDate: '',
+    publicationName: '',
+  }
 
   /**
    * PROPS
@@ -61,6 +73,8 @@
   let outcomesParagraphs: string[] = ['']
   let tagName: string = '' // value for a new tag name
   let selectedTags: Tag[] = []
+  let worksCited: WorksCited = [{ ...workCited }]
+  let mayBeCompletedMultipleTimes = false
 
   let didAttemptSubmit = false
 
@@ -120,7 +134,7 @@
     )
   }
 
-  const handleMultiParagraphChange = (e, i) => {
+  const handleMultiParagraphChange = (e, i: number) => {
     const { value, name } = e.target
 
     const updateParagraph = (paragraphs: string[], i: number) => {
@@ -137,6 +151,17 @@
         return (outcomesParagraphs = updateParagraph(outcomesParagraphs, i))
       default:
         throw new Error('Unhandled multi-paragraph change')
+    }
+  }
+
+  const handleWorksCitedChange = (e, i: number) => {
+    const { value, name } = e.target
+    worksCited[i][name] = value
+  }
+
+  const handleInitialKeydown = (e) => {
+    if (e.key !== 'Backspace' && e.target.value.length === 1) {
+      e.preventDefault()
     }
   }
 
@@ -430,6 +455,221 @@
         <button class="secondary" on:click={createNewTag} type="button">Create New Tag</button>
       </Card>
 
+      <h4>Works Cited</h4>
+
+      <div class="works-cited">
+        {#each worksCited as work, i}
+          <Card>
+            <div style="position: relative;">
+              {#if worksCited.length !== 1}
+                <button
+                  class="close-button"
+                  type="button"
+                  on:click={() =>
+                    (worksCited = worksCited.slice(0, i).concat(worksCited.slice(i + 1)))}
+                  style="position: absolute; top: -18px; right: -24px;"><CloseIcon /></button
+                >
+              {/if}
+
+              <div class="author-row">
+                <div>
+                  <label for={`create-campaign-works-cited-last-name-${i}`}
+                    >Author 1 Last Name</label
+                  >
+                  <input
+                    name="authorLastName"
+                    id={`create-campaign-works-cited-last-name-${i}`}
+                    on:change={(e) => handleWorksCitedChange(e, i)}
+                    type="text"
+                    bind:value={work.authorLastName}
+                    required
+                    placeholder="Reynolds"
+                  />
+                </div>
+
+                <div>
+                  <label for={`create-campaign-works-cited-first-initial-${i}`}
+                    >Author 1 First Initial</label
+                  >
+                  <input
+                    on:keydown={(e) => handleInitialKeydown(e)}
+                    name="authorFirstInitial"
+                    id={`create-campaign-works-cited-first-initial-${i}`}
+                    on:change={(e) => handleWorksCitedChange(e, i)}
+                    type="text"
+                    bind:value={work.authorFirstInitial}
+                    required
+                    placeholder="J"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="author-row">
+              <div>
+                <label for={`create-campaign-works-cited-last-name-2-${i}`}
+                  >Author 2 Last Name</label
+                >
+                <input
+                  name="authorLastName2"
+                  id={`create-campaign-works-cited-last-name-${i}`}
+                  on:change={(e) => handleWorksCitedChange(e, i)}
+                  type="text"
+                  bind:value={work.authorLastName2}
+                  required
+                  placeholder="Reynolds"
+                />
+              </div>
+
+              <div>
+                <label for={`create-campaign-works-cited-first-initial-2-${i}`}
+                  >Author 2 First Initial</label
+                >
+                <input
+                  on:keydown={(e) => handleInitialKeydown(e)}
+                  name="authorFirstInitial2"
+                  id={`create-campaign-works-cited-first-initial-${i}`}
+                  on:change={(e) => handleWorksCitedChange(e, i)}
+                  type="text"
+                  bind:value={work.authorFirstInitial2}
+                  required
+                  placeholder="J"
+                />
+              </div>
+            </div>
+
+            <div class="author-row">
+              <div>
+                <label for={`create-campaign-works-cited-last-name-3-${i}`}
+                  >Author 3 Last Name</label
+                >
+                <input
+                  name="authorLastName3"
+                  id={`create-campaign-works-cited-last-name-3-${i}`}
+                  on:change={(e) => handleWorksCitedChange(e, i)}
+                  type="text"
+                  bind:value={work.authorLastName3}
+                  required
+                  placeholder="Reynolds"
+                />
+              </div>
+
+              <div>
+                <label for={`create-campaign-works-cited-first-initial-3-${i}`}
+                  >Author 3 First Initial</label
+                >
+                <input
+                  on:keydown={(e) => handleInitialKeydown(e)}
+                  name="authorFirstInitial3"
+                  id={`create-campaign-works-cited-first-initial-3-${i}`}
+                  on:change={(e) => handleWorksCitedChange(e, i)}
+                  type="text"
+                  bind:value={work.authorFirstInitial3}
+                  required
+                  placeholder="J"
+                />
+              </div>
+            </div>
+
+            <div class="date-row">
+              <div>
+                <label for={`create-campaign-works-cited-publication-year-${i}`}
+                  >Publication Year</label
+                >
+                <input
+                  name="publicationYear"
+                  id={`create-campaign-works-cited-publication-year-${i}`}
+                  on:change={(e) => handleWorksCitedChange(e, i)}
+                  type="text"
+                  bind:value={work.publicationYear}
+                  required
+                  placeholder="2022"
+                />
+              </div>
+
+              <div>
+                <label for={`create-campaign-works-cited-publication-month-${i}`}
+                  >Publication Month</label
+                >
+                <input
+                  name="publicationMonth"
+                  id={`create-campaign-works-cited-publication-month-${i}`}
+                  on:change={(e) => handleWorksCitedChange(e, i)}
+                  type="text"
+                  bind:value={work.publicationMonth}
+                  required
+                  placeholder="September"
+                />
+              </div>
+
+              <div>
+                <label for={`create-campaign-works-cited-publication-date-${i}`}
+                  >Publication Date</label
+                >
+                <input
+                  name="publicationDate"
+                  id={`create-campaign-works-cited-publication-date-${i}`}
+                  on:change={(e) => handleWorksCitedChange(e, i)}
+                  type="text"
+                  bind:value={work.publicationDate}
+                  required
+                  placeholder="31"
+                />
+              </div>
+            </div>
+
+            <label for={`create-campaign-works-cited-title-${i}`}>Title</label>
+            <input
+              name="title"
+              id={`create-campaign-works-cited-title-${i}`}
+              on:change={(e) => handleWorksCitedChange(e, i)}
+              type="text"
+              bind:value={work.title}
+              required
+              placeholder="Title"
+            />
+
+            <label for={`create-campaign-works-cited-publication-name-${i}`}>Publication Name</label
+            >
+            <input
+              name="publicationName"
+              id={`create-campaign-works-cited-publication-name-${i}`}
+              on:change={(e) => handleWorksCitedChange(e, i)}
+              type="text"
+              bind:value={work.publicationName}
+              required
+              placeholder="The New York Times"
+            />
+
+            <label for={`create-campaign-works-cited-hyperlink-${i}`}>Hyperlink</label>
+            <input
+              name="hyperlink"
+              id={`create-campaign-works-cited-hyperlink-${i}`}
+              on:change={(e) => handleWorksCitedChange(e, i)}
+              type="text"
+              bind:value={work.hyperlink}
+              required
+              placeholder="https://wikipedia.com/late-capitalism"
+            />
+          </Card>
+          {#if i === worksCited.length - 1}
+            <button
+              type="button"
+              class="secondary"
+              on:click={() => (worksCited = [...worksCited, { ...workCited }])}
+            >
+              Add Another Source</button
+            >
+          {/if}
+        {/each}
+      </div>
+
+      <Checkbox
+        bind:checked={mayBeCompletedMultipleTimes}
+        on:change={() => (mayBeCompletedMultipleTimes = !mayBeCompletedMultipleTimes)}
+        >This campaign may be completed multiple times</Checkbox
+      >
+
       <button class="primary" type="submit">Create Campaign</button>
     </form>
   </Card>
@@ -474,6 +714,7 @@
     flex-wrap: wrap;
     gap: 4px;
     align-items: center;
+    margin-bottom: 16px;
   }
 
   .tag {
@@ -513,5 +754,48 @@
   .primary {
     width: 100%;
     max-width: none;
+  }
+
+  .works-cited label {
+    margin-top: 16px;
+  }
+
+  .works-cited :global(.card) {
+    padding-top: 8px;
+  }
+
+  .author-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .author-row div:first-child {
+    width: calc(100% - 160px - 8px);
+  }
+
+  .author-row div:nth-child(2) {
+    width: 160px;
+  }
+
+  .date-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .date-row div:first-child {
+    width: 132px;
+  }
+
+  .date-row div:nth-child(2) {
+    width: calc(100% - 160px - 132px - 8px);
+  }
+
+  .date-row div:last-child {
+    width: 160px;
   }
 </style>

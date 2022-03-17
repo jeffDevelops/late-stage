@@ -34,6 +34,9 @@ model User {
   // Campaign Data
   bankExodusCompletions         BankExodusCompletion[] @relation(name: "UserBankExodusCompletions")
   reviewedBankExodusCompletions BankExodusCompletion[] @relation("BankExodusCompletionReviewedByUser")
+
+  amazonPrimeCompletion          AmazonPrimeCompletion?  @relation(name: "UserAmazonPrimeCompletion")
+  reviewedAmazonPrimeCompletions AmazonPrimeCompletion[] @relation("AmazonPrimeCompletionReviewedByUser")
 }
 
 model ArtificiallyExpiredRefreshToken {
@@ -59,7 +62,8 @@ enum CampaignStatus {
 model Campaign {
   id String @id @default(cuid())
 
-  usersThatDidCompleteCampaign User[] @relation(name: "UserCompletedCampaigns", references: [id])
+  usersThatDidCompleteCampaign User[]      @relation(name: "UserCompletedCampaigns", references: [id])
+  workCited                    WorkCited[] @relation(name: "CampaignWorksCited")
 
   /// @TypeGraphQL.omit(input: ["create", "update"])
   createdAt DateTime @default(now())
@@ -94,6 +98,15 @@ model Campaign {
 
   // ------------------ Admin / DX fields ------------------------
   shortName String
+
+  mayBeCompletedMultipleTimes Boolean @default(false)
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String
+
+  campaigns Campaign[]
 }
 
 // ------------------------
@@ -134,9 +147,75 @@ model BankExodusCompletion {
   reviewedByUser     User?   @relation(name: "BankExodusCompletionReviewedByUser", fields: [reviewedByUserId], references: [id])
 }
 
-model Tag {
-  id   String @id @default(cuid())
-  name String
+model AmazonPrimeCompletion {
+  id String @id @default(cuid())
 
-  campaigns Campaign[]
+  belongsToUser User   @relation(name: "UserAmazonPrimeCompletion", fields: [userId], references: [id])
+  userId        String @unique
+
+  campaignId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  cancellationImageURL String
+  imageKitFileId       String
+
+  isAnonymous         Boolean
+  cancellationAmount  Float
+  membershipSelection String
+
+  // Reasons for cancelling the Prime membership
+  environmentalConcerns        Boolean
+  antiCompetitionConcerns      Boolean
+  workersRightsConcerns        Boolean
+  marketplaceAntitrustConcerns Boolean
+  otherInfo                    String
+
+  wasApprovedByAdmin Boolean @default(false)
+  wasReviewedByAdmin Boolean @default(false)
+  reviewedByUserId   String?
+  reviewedByUser     User?   @relation(name: "AmazonPrimeCompletionReviewedByUser", fields: [reviewedByUserId], references: [id])
+}
+
+model AmazonPrimePricing {
+  id String @id @default(cuid())
+
+  Annually        Float
+  Monthly         Float
+  PrimeVideo      Float
+  StudentMonthly  Float
+  StudentAnnually Float
+  Discounted      Float
+}
+
+enum WorkCitedType {
+  WEBSITE
+}
+
+model WorkCited {
+  id String @id @default(cuid())
+
+  belongsToCampaign Campaign @relation(name: "CampaignWorksCited", fields: [campaignId], references: [id])
+  campaignId        String
+
+  authorLastName      String
+  authorFirstInitial  String?
+  authorLastName2     String?
+  authorFirstInitial2 String?
+  authorLastName3     String?
+  authorFirstInitial3 String?
+
+  publicationYear  Int
+  publicationMonth String? // e.g. "January"
+  publicationDate  Int? // e.g. 31
+  title            String
+  publicationName  String
+
+
+
+  type WorkCitedType
+
+  // Website Type
+  hyperlink String?
 }

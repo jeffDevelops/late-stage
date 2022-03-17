@@ -6,7 +6,7 @@ import { gqlRequest } from '../../proxy/gqlRequest'
 import { isPageRequest } from '../utility/isPageRequest'
 import { refreshAccessToken } from '../../networking/graphql/mutation/RefreshAccessToken'
 
-import type { Handle, RequestEvent } from '@sveltejs/kit/types/hooks'
+import type { Handle, RequestEvent } from '@sveltejs/kit/types'
 import type { ResponseHeaders } from '@sveltejs/kit/types/helper'
 import type { GraphQLError } from '../../types/GraphQLError'
 import type { User } from '../../types/User'
@@ -17,7 +17,7 @@ export const getCurrentUser: Handle<LocalsImpl> = async ({
   event,
   resolve,
 }: HandleInput<LocalsImpl>): Promise<Response> => {
-  if (!isPageRequest(event)) return await resolve(event)
+  // if (!isPageRequest(event)) return await resolve(event)
 
   /** If the healthcheck fails, there's no point in trying */
   if (!event.locals.apiHealthy) return await resolve(event)
@@ -63,6 +63,9 @@ async function makeRequest(headers: HeadersInit) {
           createdAt
           cred
           isAdmin
+          completedCampaigns {
+            id
+          }
         `),
       },
       headers,
@@ -117,12 +120,17 @@ async function invalidateSession({ event, resolve }: HandleInput<LocalsImpl>): P
 }
 
 async function refreshToken({ request, locals }: RequestEvent) {
+  console.log(request.url)
+  console.log('getCurrentUser refreshToken: ', request.headers.get('cookie'))
+
   const refreshResponse = await fetch(
     ...gqlRequest({ query: refreshAccessToken }, { cookie: request.headers.get('cookie') }),
   )
 
   const deserialized: { errors?: GraphQLError[]; data: { refreshAccessToken: unknown } } =
     await refreshResponse.json()
+
+  console.log('getCurrentUser deserialized', deserialized)
 
   if (!deserialized.errors) {
     locals.user = deserialized.data.refreshAccessToken
@@ -162,6 +170,8 @@ async function success(
   Object.keys(headers).forEach((key) => {
     response.headers.set(key, headers[key] as string)
   })
+
+  console.log(response.headers)
 
   return response
 }

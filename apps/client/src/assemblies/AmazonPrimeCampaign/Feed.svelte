@@ -2,20 +2,20 @@
   import { onMount } from 'svelte'
   import { session } from '$app/stores'
 
-  import InfiniteScroll from '../components/InfiniteScroll.svelte'
-  import Card from '../components/Card.svelte'
-  import CampaignFeedEmptyState from '../components/CampaignFeedEmptyState.svelte'
-  import BankCampaignFeedRepeatingElement from './BankCampaignFeedRepeatingElement.svelte'
+  import InfiniteScroll from '../../components/InfiniteScroll.svelte'
+  import Card from '../../components/Card.svelte'
+  import CampaignFeedEmptyState from '../../components/CampaignFeedEmptyState.svelte'
+  import FeedRepeatingElement from './FeedRepeatingElement.svelte'
 
-  import { env } from '../networking/env'
-  import { gqlRequest } from '../networking/gqlRequest'
-  import { bankExodusCompletions } from '../networking/graphql/query/BankExodusCompletions'
-  import BankExodusCompletionSkeletonLoader from './BankExodusCompletionSkeletonLoader.svelte'
+  import { env } from '../../networking/env'
+  import { gqlRequest } from '../../networking/gqlRequest'
+  import { amazonPrimeCompletions } from '../../networking/graphql/query/AmazonPrimeCompletions'
+  import BankExodusCompletionSkeletonLoader from '../BankCampaign/BankExodusCompletionSkeletonLoader.svelte'
 
-  import type { BankExodusCampaignCompletion } from '../types/BankExodusCampaignCompletion'
+  import type { AmazonPrimeCampaignCompletion } from '../../types/AmazonPrimeCampaign/AmazonPrimeCampaignCompletion'
 
   const PAGE_SIZE = 4
-  const QUERY = bankExodusCompletions(
+  const QUERY = amazonPrimeCompletions(
     `
       id
       ${
@@ -38,10 +38,10 @@
       wasReviewedByAdmin
       wasApprovedByAdmin
       createdAt
-      withdrawalReceiptImageURL
+      cancellationImageURL
+      membershipSelection
+      cancellationAmount
       isAnonymous
-      withdrawalAmount
-      originInstitutionName
     `,
   )
 
@@ -53,15 +53,15 @@
   let loadingMore = false
 
   // store all the data here.
-  let data: BankExodusCampaignCompletion[] = []
+  let data: AmazonPrimeCampaignCompletion[] = []
   // store the new batch of data here.
-  let newBatch: BankExodusCampaignCompletion[] = []
+  let newBatch: AmazonPrimeCampaignCompletion[] = []
 
   let skip = 0
 
   onMount(async () => {
     const completions = await fetch(
-      `${env.viteSveltekitHost}/proxy/bank-exodus-completions`,
+      `${env.viteSveltekitHost}/proxy/amazon-prime-completions`,
       gqlRequest({
         query: QUERY,
         variables: {
@@ -110,7 +110,7 @@
 
   $: fetchMore = async () => {
     const newCompletions = await fetch(
-      `${env.viteSveltekitHost}/proxy/bank-exodus-completions`,
+      `${env.viteSveltekitHost}/proxy/amazon-prime-completions`,
       gqlRequest({
         query: QUERY,
         variables: {
@@ -148,8 +148,8 @@
       {:else if data.length === 0}
         <CampaignFeedEmptyState />
       {:else}
-        {#each data as bankExodusCampaignCompletion, index}
-          <BankCampaignFeedRepeatingElement index={index / skip} {bankExodusCampaignCompletion} />
+        {#each data as amazonPrimeCampaignCompletion, index}
+          <FeedRepeatingElement index={index / skip} {amazonPrimeCampaignCompletion} />
         {/each}
 
         {#if loadingMore}

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import BankGreenBankExodusArticle from '../components/Bank.GreenBankExodusArticle.svelte'
-  import InfoIcon from '../components/iconography/Info.svelte'
+  import BankGreenBankExodusArticle from '../../components/Bank.GreenBankExodusArticle.svelte'
+  import InfoIcon from '../../components/iconography/Info.svelte'
 
   /**
    * STATE

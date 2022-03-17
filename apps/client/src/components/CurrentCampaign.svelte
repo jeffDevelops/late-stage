@@ -1,14 +1,11 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
-  import { prefetch, goto } from '$app/navigation'
+  import { prefetch } from '$app/navigation'
   import { page } from '$app/stores'
   import dayjs from 'dayjs'
 
   import Card from './Card.svelte'
   import Hourglass from './Hourglass.svelte'
   import CampaignTags from './CampaignTags.svelte'
-
-  import { env } from '../networking/env'
 
   import type { Campaign } from '../types/Campaign'
 
@@ -19,56 +16,33 @@
   export let campaign: Campaign
 
   /**
-   * STATE
-   */
-
-  let shouldDisplayHoverEffect = false
-
-  /**
    * REACTIVE
    */
 
-  $: realizedValuePercentage = campaign.stats
-    ? (campaign.stats._sum.withdrawalAmount / campaign.goal) * 100
-    : 0
+  // Handle stats union type
+  $: campaignRealizedValue = (() => {
+    if (!campaign?.stats?._sum) return 0
 
-  /**
-   * METHODS
-   */
+    switch (true) {
+      case 'withdrawalAmount' in campaign.stats._sum:
+        return campaign.stats._sum.withdrawalAmount
+      case 'cancellationAmount' in campaign.stats._sum:
+        return campaign.stats._sum.cancellationAmount
+      default:
+        throw new Error(`Unhandled realized value type`)
+    }
+  })()
 
-  const handleCampaignHover = async () => {
-    if ($page.url.pathname.startsWith('/campaigns')) return
-    await prefetch(`/campaigns/${campaign.id}`)
-    shouldDisplayHoverEffect = true
-  }
-
-  // const handleCampaignClick = async () => {
-  //   if ($page.url.pathname.startsWith('/campaigns')) return
-  //   await goto(`/campaigns/${campaign.id}`)
-  // }
+  $: realizedValuePercentage = campaign.stats ? (campaignRealizedValue / campaign.goal) * 100 : 0
 </script>
 
-<!-- href={`${env.viteSveltekitHost}/campaigns/${campaign.id}`} -->
 <a
   sveltekit:prefetch
   href={`/campaigns/${campaign.id}`}
   style="cursor: {$page.url.pathname.startsWith('/campaigns') ? 'default' : 'pointer'};"
-  on:mouseenter={handleCampaignHover}
-  on:mouseleave={() => (shouldDisplayHoverEffect = false)}
   class="current-campaign"
 >
   <div class="grid">
-    <!-- {#if shouldDisplayHoverEffect}
-      <button
-        in:fade={{ duration: 50 }}
-        out:fade={{ duration: 50 }}
-        class="hover-effect"
-        on:click={handleCampaignClick}
-      >
-        <h1>Participate</h1>
-      </button>
-    {/if} -->
-
     <div class="goal-card">
       <Card>
         <p
@@ -92,7 +66,7 @@
         </div>
 
         <p class="goal-visualization-description">
-          {campaign.goalUnit === 'dollars' ? '$' : ''}{(campaign.stats?._sum.withdrawalAmount ?? 0)
+          {campaign.goalUnit === 'dollars' ? '$' : ''}{(campaignRealizedValue ?? 0)
             .toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} / {campaign.goalUnit === 'dollars'
             ? '$'
@@ -114,7 +88,11 @@
     <div class="deadline-card">
       <Card>
         <div class="time-container">
-          <Hourglass startDate={campaign.goalStartDate} endDate={campaign.goalDeadline} />
+          <Hourglass
+            id={`${campaign.shortName}-hourglass`}
+            startDate={campaign.goalStartDate}
+            endDate={campaign.goalDeadline}
+          />
           <div class="deadline">
             <h4>Deadline</h4>
             <p>{dayjs(campaign.goalDeadline).format('MMM D, YYYY')}</p>
@@ -135,6 +113,10 @@
   a {
     text-decoration: none;
     color: inherit;
+  }
+
+  a:not(:last-child) {
+    margin-bottom: 8px;
   }
 
   .grid {
@@ -238,26 +220,6 @@
     text-align: center;
   }
 
-  .hover-effect {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--interactive-color);
-    z-index: 3;
-    border-radius: var(--border-radius);
-    opacity: 0.95;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    cursor: pointer;
-    border: none;
-  }
-
-  .hover-effect h1 {
-    color: var(--button-text-color);
-  }
-
   .participants {
     font-size: 0.8em;
     color: var(--text-color-subdued);
@@ -284,11 +246,6 @@
 
     :global(.current-campaigns .card:first-child) {
       padding: 12px;
-    }
-
-    .hover-effect h1 {
-      font-size: 1.5em;
-      font-weight: 400;
     }
   }
 

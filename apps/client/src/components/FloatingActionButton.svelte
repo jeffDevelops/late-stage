@@ -15,7 +15,7 @@
     max-width: 40px;
     border-radius: 20px;
     background-color: var(--card-background);
-    border: 2px solid #ff5964;
+    border: 2px solid var(--visualization-color);
     cursor: pointer;
     margin-bottom: 8px;
     backdrop-filter: blur(10px);
@@ -37,6 +37,7 @@
 
   :global(button.fab svg) {
     transition: transform 0.25s;
+    fill: var(--text-color);
   }
 
   :global(button.fab:hover > svg) {

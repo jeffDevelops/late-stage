@@ -4,14 +4,17 @@
 
   export let startDate: string
   export let endDate: string
+  export let id: string
 
   let container: HTMLElement
 
   onMount(() => {
     const setSandFullness = (percent: number) => {
       if (typeof document === 'undefined') return
-      ;(document.querySelector('.sand.top') as HTMLElement).style.height = `${percent}%`
-      ;(document.querySelector('.sand.bottom') as HTMLElement).style.height = `${100 - percent}%`
+      ;(document.querySelector(`#${id} .sand.top`) as HTMLElement).style.height = `${percent}%`
+      ;(document.querySelector(`#${id} .sand.bottom`) as HTMLElement).style.height = `${
+        100 - percent
+      }%`
     }
 
     setTimeout(() => {
@@ -24,12 +27,14 @@
   })
 </script>
 
-<div id="hourglass" bind:this={container} class="ready">
-  <div class="glass">
-    <div class="sand top" />
-  </div>
-  <div class="glass bottom">
-    <div class="sand bottom" />
+<div {id}>
+  <div id="hourglass" bind:this={container} class="ready">
+    <div class="glass">
+      <div class="sand top" />
+    </div>
+    <div class="glass bottom">
+      <div class="sand bottom" />
+    </div>
   </div>
 </div>
 

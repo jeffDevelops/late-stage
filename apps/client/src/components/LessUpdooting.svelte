@@ -12,9 +12,15 @@
   const issues = [
     'wealth inequality',
     'climate change',
+    'plastic pollution',
     'institutional racism',
     'human rights violations',
     'dark patterns',
+    'union-busting',
+    '"Right To Work" initiatives',
+    'monopolies',
+    'anti-competition',
+    'labor exploitation',
   ]
 
   let interval: NodeJS.Timeout
