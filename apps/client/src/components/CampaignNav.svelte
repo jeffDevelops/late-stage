@@ -13,14 +13,24 @@
    * LIFECYCLE
    */
   onMount(async () => {
-    activeRoute = (() => {
-      if ($page.url.searchParams.get('subroute') === 'Feed') return 'Feed'
-      return 'Campaign'
-    })()
+    const handlePopState = async () => {
+      activeRoute = (() => {
+        if ($page.url.searchParams.get('subroute') === 'Feed') return 'Feed'
+        return 'Campaign'
+      })()
 
-    await tick()
+      await tick()
 
-    dispatch('change', activeRoute)
+      dispatch('change', activeRoute)
+    }
+
+    handlePopState()
+
+    window.addEventListener('popstate', handlePopState)
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
   })
 </script>
 
@@ -34,7 +44,7 @@
     <li class:active={activeRoute === 'Campaign'}>
       <button
         on:click={() => {
-          window.history.pushState(null, null, '?subroute=Campaign')
+          window.history.pushState(window.history.state, null, '?subroute=Campaign')
           activeRoute = 'Campaign'
           dispatch('change', 'Campaign')
         }}>Campaign</button
@@ -43,7 +53,7 @@
     <li class:active={activeRoute === 'Feed'}>
       <button
         on:click={() => {
-          window.history.pushState(null, null, '?subroute=Feed')
+          window.history.pushState(window.history.state, null, '?subroute=Feed')
           activeRoute = 'Feed'
           dispatch('change', 'Feed')
         }}>Feed</button

@@ -1,15 +1,18 @@
 <script lang="ts">
+  import type { SvelteComponent } from 'svelte'
+  import { session } from '$app/stores'
+
   import Card from '../components/Card.svelte'
   import FlareIcon from '../components/iconography/Flare.svelte'
-  import ProtestIcon from '../components/iconography/Protest.svelte'
   import InfoIcon from '../components/iconography/Info.svelte'
   import Tenet from '../components/Tenet.svelte'
 
-  import type { SvelteComponent } from 'svelte'
   import type { Campaign } from '../types/Campaign'
 
   /* Dynamic Components */
-  import BankCampaignParticipationInput from '../assemblies/BankCampaignParticipationInput.svelte'
+  import BankCampaignParticipationInput from './BankCampaign/BankCampaignParticipationInput.svelte'
+  import AmazonPrimeCampaignParticipationInput from './AmazonPrimeCampaign/ParticipationInput.svelte'
+  import CampaignWorksCited from './CampaignWorksCited.svelte'
 
   /**
    * PROPS
@@ -20,6 +23,7 @@
   /** Determine which campaign to display from the campaign shortname */
   const components: { [key: Campaign['shortName']]: typeof SvelteComponent } = {
     banks: BankCampaignParticipationInput,
+    'amazon-prime': AmazonPrimeCampaignParticipationInput,
   }
 </script>
 
@@ -53,11 +57,22 @@
 
   <div class="how grid-area" style="grid-area: how;">
     <Card>
-      <h2><ProtestIcon /> How?</h2>
-
-      <svelte:component this={components[campaign.shortName]} {campaign} />
+      <svelte:component
+        this={components[campaign.shortName]}
+        {campaign}
+        hasCompletedCampaign={$session.user &&
+          !!$session.user?.completedCampaigns.find(({ id }) => id === campaign.id)}
+      />
     </Card>
   </div>
+
+  {#if campaign.worksCited && campaign.worksCited.length > 0}
+    <div class="works-cited grid-area" style="grid-area: works-cited;">
+      <Card>
+        <CampaignWorksCited worksCited={campaign.worksCited} />
+      </Card>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -68,13 +83,15 @@
   .grid {
     display: grid;
     margin-top: 16px;
+    margin-bottom: 72px;
     gap: 16px;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto 1fr auto;
     grid-template-areas:
       'how outcomes'
       'how what'
-      'how why';
+      'how why'
+      'how works-cited';
   }
 
   :global(.campaign-section.grid .how .card:first-of-type:first-child) {
@@ -107,12 +124,13 @@
   @media screen and (max-width: 1100px) {
     .grid {
       grid-template-columns: 1fr;
-      grid-template-rows: auto auto auto;
+      grid-template-rows: repeat(5, auto);
       grid-template-areas:
         'what'
         'how'
         'outcomes'
-        'why';
+        'why'
+        'works-cited';
     }
   }
 </style>

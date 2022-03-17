@@ -5,8 +5,11 @@ import {
   Ctx,
   createUnionType,
 } from 'type-graphql'
-import { Campaign, Tag } from '@generated/type-graphql/models'
-import { AggregateBankExodusCompletion } from '@generated/type-graphql/resolvers/outputs'
+import { Campaign, Tag, WorkCited } from '@generated/type-graphql/models'
+import {
+  AggregateBankExodusCompletion,
+  AggregateAmazonPrimeCompletion,
+} from '@generated/type-graphql/resolvers/outputs'
 import type { Context } from '../../types/Context'
 
 const CampaignAggregateUnion = createUnionType({
@@ -14,11 +17,16 @@ const CampaignAggregateUnion = createUnionType({
   types: () =>
     [
       AggregateBankExodusCompletion,
+      AggregateAmazonPrimeCompletion,
       // ...
     ] as const,
   resolveType: (value) => {
     if (value._sum && 'withdrawalAmount' in value._sum) {
       return AggregateBankExodusCompletion
+    }
+
+    if (value._sum && 'cancellationAmount' in value._sum) {
+      return AggregateAmazonPrimeCompletion
     }
 
     // ...
@@ -36,6 +44,16 @@ export abstract class CampaignFieldResolvers {
         return await prisma.bankExodusCompletion.aggregate({
           _sum: {
             withdrawalAmount: true,
+          },
+          where: {
+            wasApprovedByAdmin: true,
+          },
+        })
+
+      case 'amazon-prime':
+        return await prisma.amazonPrimeCompletion.aggregate({
+          _sum: {
+            cancellationAmount: true,
           },
           where: {
             wasApprovedByAdmin: true,
@@ -63,5 +81,19 @@ export abstract class CampaignFieldResolvers {
     })
 
     return tags
+  }
+
+  @FieldResolver((_type) => [WorkCited], { nullable: false })
+  async worksCited(@Root() campaign: Campaign, @Ctx() { prisma }: Context) {
+    const worksCited = await prisma.workCited.findMany({
+      where: {
+        campaignId: campaign.id,
+      },
+      orderBy: {
+        authorLastName: 'asc',
+      },
+    })
+
+    return worksCited
   }
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import InfoIcon from '../components/iconography/Info.svelte'
+  import InfoIcon from '../../components/iconography/Info.svelte'
 
   let isShowingWithdrawHelpText = false
 </script>

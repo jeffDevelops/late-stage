@@ -2,39 +2,38 @@
   import { fade } from 'svelte/transition'
   import { session } from '$app/stores'
 
-  import Avatar from '../components/Avatar.svelte'
-  import Checkbox from '../components/Checkbox.svelte'
-  import Card from '../components/Card.svelte'
-  import ModeratorIcon from '../components/iconography/Moderator.svelte'
-  import Spinner from '../components/iconography/Spinner.svelte'
+  import Avatar from '../../components/Avatar.svelte'
+  import Checkbox from '../../components/Checkbox.svelte'
+  import Card from '../../components/Card.svelte'
+  import ModeratorIcon from '../../components/iconography/Moderator.svelte'
+  import Spinner from '../../components/iconography/Spinner.svelte'
 
-  import { env } from '../networking/env'
-  import { gqlRequest } from '../networking/gqlRequest'
-  import { approveBankExodusCompletion } from '../networking/graphql/mutation/ApproveBankExodusCompletion'
-  import { unapproveBankExodusCompletion } from '../networking/graphql/mutation/UnapproveBankExodusCompletion'
-  import { markBankExodusCompletionReviewed } from '../networking/graphql/mutation/MarkBankExodusCompletionReviewed'
-  import { unmarkBankExodusCompletionReviewed } from '../networking/graphql/mutation/UnmarkBankExodusCompletionReviewed'
-  import { banUser } from '../networking/graphql/mutation/BanUser'
-  import { disableInteractablesWhile } from '../utility/disableInteractablesWhile'
+  import { env } from '../../networking/env'
+  import { gqlRequest } from '../../networking/gqlRequest'
+  import { approveAmazonPrimeCompletion } from '../../networking/graphql/mutation/ApproveAmazonPrimeCompletion'
+  import { unapproveAmazonPrimeCompletion } from '../../networking/graphql/mutation/UnapproveAmazonPrimeCompletion'
+  import { markAmazonPrimeCompletionReviewed } from '../../networking/graphql/mutation/MarkAmazonPrimeCompletionReviewed'
+  import { unmarkAmazonPrimeCompletionReviewed } from '../../networking/graphql/mutation/UnmarkAmazonPrimeCompletionReviewed'
+  import { banUser } from '../../networking/graphql/mutation/BanUser'
+  import { disableInteractablesWhile } from '../../utility/disableInteractablesWhile'
 
-  import type { BankExodusCampaignCompletion } from '../types/BankExodusCampaignCompletion'
+  import type { AmazonPrimeCampaignCompletion } from '../..//types/AmazonPrimeCampaign/AmazonPrimeCampaignCompletion'
 
   /**
    * PROPS
    */
 
-  export let bankExodusCampaignCompletion: BankExodusCampaignCompletion
+  export let amazonPrimeCampaignCompletion: AmazonPrimeCampaignCompletion
 
   /**
    * STATE
    */
 
   /* Moderation state fields */
-  let imageIsAWithdrawalReceipt: boolean = false
+  let imageIsAPrimeCancellation: boolean = false
   let imageDoesNotReturnReverseImageSearchResults: boolean = false
-  let withdrawalDateMakesSense: boolean = false
+  let cancellationDateMakesSense: boolean = false
   let amountMatchesImage: boolean = false
-  let destinationBankIsBetter: boolean = false
   let contentNotInappropriate: boolean = false
 
   let loading = false
@@ -45,9 +44,10 @@
    */
 
   const resetModerationState = () => {
-    imageIsAWithdrawalReceipt = false
+    imageIsAPrimeCancellation = false
+    imageDoesNotReturnReverseImageSearchResults = false
+    cancellationDateMakesSense = false
     amountMatchesImage = false
-    destinationBankIsBetter = false
     contentNotInappropriate = false
   }
 
@@ -56,19 +56,19 @@
 
     await disableInteractablesWhile(async () => {
       await fetch(
-        `${env.viteSveltekitHost}/proxy/approve-bank-exodus-completion`,
+        `${env.viteSveltekitHost}/proxy/approve-amazon-prime-completion`,
         gqlRequest({
-          query: approveBankExodusCompletion,
+          query: approveAmazonPrimeCompletion,
           variables: {
-            bankExodusCompletionId: bankExodusCampaignCompletion.id,
+            amazonPrimeCompletionId: amazonPrimeCampaignCompletion.id,
           },
         }),
       )
     })
 
     // Optimistic update
-    bankExodusCampaignCompletion = {
-      ...bankExodusCampaignCompletion,
+    amazonPrimeCampaignCompletion = {
+      ...amazonPrimeCampaignCompletion,
       wasApprovedByAdmin: true,
       wasReviewedByAdmin: true,
       reviewedByUser: $session.user,
@@ -84,19 +84,19 @@
 
     await disableInteractablesWhile(async () => {
       await fetch(
-        `${env.viteSveltekitHost}/proxy/unapprove-bank-exodus-completion`,
+        `${env.viteSveltekitHost}/proxy/unapprove-amazon-prime-completion`,
         gqlRequest({
-          query: unapproveBankExodusCompletion,
+          query: unapproveAmazonPrimeCompletion,
           variables: {
-            bankExodusCompletionId: bankExodusCampaignCompletion.id,
+            amazonPrimeCompletionId: amazonPrimeCampaignCompletion.id,
           },
         }),
       )
     })
 
     // Optimistic update
-    bankExodusCampaignCompletion = {
-      ...bankExodusCampaignCompletion,
+    amazonPrimeCampaignCompletion = {
+      ...amazonPrimeCampaignCompletion,
       wasApprovedByAdmin: false,
       wasReviewedByAdmin: true,
       reviewedByUser: $session.user,
@@ -110,19 +110,19 @@
 
     await disableInteractablesWhile(async () => {
       await fetch(
-        `${env.viteSveltekitHost}/proxy/mark-bank-exodus-completion-reviewed`,
+        `${env.viteSveltekitHost}/proxy/mark-amazon-prime-completion-reviewed`,
         gqlRequest({
-          query: markBankExodusCompletionReviewed,
+          query: markAmazonPrimeCompletionReviewed,
           variables: {
-            bankExodusCompletionId: bankExodusCampaignCompletion.id,
+            amazonPrimeCompletionId: amazonPrimeCampaignCompletion.id,
           },
         }),
       )
     })
 
     // Optimistic update
-    bankExodusCampaignCompletion = {
-      ...bankExodusCampaignCompletion,
+    amazonPrimeCampaignCompletion = {
+      ...amazonPrimeCampaignCompletion,
       wasReviewedByAdmin: true,
       reviewedByUser: $session.user,
     }
@@ -135,19 +135,19 @@
 
     await disableInteractablesWhile(async () => {
       await fetch(
-        `${env.viteSveltekitHost}/proxy/unmark-bank-exodus-completion-reviewed`,
+        `${env.viteSveltekitHost}/proxy/unmark-amazon-prime-completion-reviewed`,
         gqlRequest({
-          query: unmarkBankExodusCompletionReviewed,
+          query: unmarkAmazonPrimeCompletionReviewed,
           variables: {
-            bankExodusCompletionId: bankExodusCampaignCompletion.id,
+            amazonPrimeCompletionId: amazonPrimeCampaignCompletion.id,
           },
         }),
       )
     })
 
     // Optimistic update
-    bankExodusCampaignCompletion = {
-      ...bankExodusCampaignCompletion,
+    amazonPrimeCampaignCompletion = {
+      ...amazonPrimeCampaignCompletion,
       wasReviewedByAdmin: false,
       reviewedByUser: null,
     }
@@ -166,7 +166,7 @@
           gqlRequest({
             query: banUser,
             variables: {
-              userId: bankExodusCampaignCompletion.belongsToUser.id,
+              userId: amazonPrimeCampaignCompletion.belongsToUser.id,
             },
           }),
         )
@@ -178,15 +178,15 @@
     }
 
     // Optimistic update
-    bankExodusCampaignCompletion = {
-      ...bankExodusCampaignCompletion,
+    amazonPrimeCampaignCompletion = {
+      ...amazonPrimeCampaignCompletion,
     }
 
     loading = false
   }
 </script>
 
-{#if bankExodusCampaignCompletion.wasApprovedByAdmin}
+{#if amazonPrimeCampaignCompletion.wasApprovedByAdmin}
   <div
     class="bank-campaign-completion-moderation"
     in:fade={{ duration: 200, delay: 900 }}
@@ -217,7 +217,7 @@
       </div>
     </Card>
   </div>
-{:else if bankExodusCampaignCompletion.wasReviewedByAdmin}
+{:else if amazonPrimeCampaignCompletion.wasReviewedByAdmin}
   <div
     class="bank-campaign-completion-moderation"
     in:fade={{ duration: 200, delay: 900 }}
@@ -266,8 +266,8 @@
           {/if}</button
         >
 
-        {#if bankExodusCampaignCompletion.belongsToUser.banned}
-          <p>{bankExodusCampaignCompletion.belongsToUser} was banned</p>
+        {#if amazonPrimeCampaignCompletion.belongsToUser.banned}
+          <p>{amazonPrimeCampaignCompletion.belongsToUser} was banned</p>
         {:else}
           <button
             on:click={ban}
@@ -304,10 +304,9 @@
       </h4>
 
       <Checkbox
-        on:change={() => (imageIsAWithdrawalReceipt = !imageIsAWithdrawalReceipt)}
-        checked={imageIsAWithdrawalReceipt}
-        >The image in some way, shape, or form proves that money was removed from an irreputable
-        financial institution.
+        on:change={() => (imageIsAPrimeCancellation = !imageIsAPrimeCancellation)}
+        checked={imageIsAPrimeCancellation}
+        >The image in some way, shape, or form proves that an Amazon Prime membership was cancelled.
       </Checkbox>
       <Checkbox
         checked={imageDoesNotReturnReverseImageSearchResults}
@@ -327,17 +326,14 @@
       <Checkbox
         on:change={() => (amountMatchesImage = !amountMatchesImage)}
         checked={amountMatchesImage}
-        >The withdrawal amount matches the withdrawal amount in the receipt.</Checkbox
+        >If the image includes the user's prior membership before cancelling (only shown in
+        confirmation email), the membership selection matches that in the image.</Checkbox
       >
       <Checkbox
-        on:change={() => (withdrawalDateMakesSense = !withdrawalDateMakesSense)}
-        checked={withdrawalDateMakesSense}
-        >The withdrawal date on the receipt is on (or within a few days of) the date of submission.</Checkbox
-      >
-      <Checkbox
-        on:change={() => (destinationBankIsBetter = !destinationBankIsBetter)}
-        checked={destinationBankIsBetter}
-        >The money has moved from a less reputable institution to a more reputable one.</Checkbox
+        on:change={() => (cancellationDateMakesSense = !cancellationDateMakesSense)}
+        checked={cancellationDateMakesSense}
+        >The date of the cancellation, if shown, is on (or within a few days of) the date of
+        submission.</Checkbox
       >
       <Checkbox
         on:change={() => (contentNotInappropriate = !contentNotInappropriate)}
@@ -347,7 +343,7 @@
       >
 
       <div class="actions">
-        {#if imageIsAWithdrawalReceipt && amountMatchesImage && destinationBankIsBetter && contentNotInappropriate}
+        {#if imageIsAPrimeCancellation && amountMatchesImage && cancellationDateMakesSense && contentNotInappropriate}
           <button
             on:click={approve}
             class:disabled={loading}

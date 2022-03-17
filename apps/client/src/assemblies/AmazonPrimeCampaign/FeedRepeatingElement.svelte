@@ -3,46 +3,44 @@
   import dayjs from 'dayjs'
   import { session } from '$app/stores'
 
-  import Card from '../components/Card.svelte'
-  import Avatar from '../components/Avatar.svelte'
-  import Checkbox from '../components/Checkbox.svelte'
-  import ThumbsUpIcon from '../components/iconography/ThumbsUp.svelte'
-  import ThumbsDownIcon from '../components/iconography/ThumbsDown.svelte'
+  import Card from '../../components/Card.svelte'
+  import Avatar from '../../components/Avatar.svelte'
+  import Checkbox from '../../components/Checkbox.svelte'
+  import ThumbsUpIcon from '../../components/iconography/ThumbsUp.svelte'
+  import ThumbsDownIcon from '../../components/iconography/ThumbsDown.svelte'
 
-  import type { BankExodusCampaignCompletion } from '../types/BankExodusCampaignCompletion'
+  import type { AmazonPrimeCampaignCompletion } from 'src/types/AmazonPrimeCampaign/AmazonPrimeCampaignCompletion'
 
   /**
    * PROPS
    */
 
-  export let bankExodusCampaignCompletion: BankExodusCampaignCompletion
+  export let amazonPrimeCampaignCompletion: AmazonPrimeCampaignCompletion
   export let index: number
 </script>
 
-<a href={`/bank-exodus-campaign/${bankExodusCampaignCompletion.id}`}>
+<a href={`/amazon-prime-campaign/${amazonPrimeCampaignCompletion.id}`}>
   <div in:fade={{ delay: index * 50 }} out:fade class="bank-campaign-repeating-element">
     <Card>
       <article>
         <div
-          style="background-image: url('{bankExodusCampaignCompletion.withdrawalReceiptImageURL}');"
+          style="background-image: url('{amazonPrimeCampaignCompletion.cancellationImageURL}');"
           class="withdrawal-receipt"
         />
         <section>
           <p class="overline">
-            {dayjs(bankExodusCampaignCompletion.createdAt).format('MMM D, YYYY')}
+            {dayjs(amazonPrimeCampaignCompletion.createdAt).format('MMM D, YYYY')}
           </p>
 
           <h2>
-            ${bankExodusCampaignCompletion.withdrawalAmount} Removed
+            ${amazonPrimeCampaignCompletion.cancellationAmount} / mo. cancelled
           </h2>
 
-          <h4>From {bankExodusCampaignCompletion.originInstitutionName}</h4>
-
           <!-- Avatar / User info -->
-          {#if bankExodusCampaignCompletion.belongsToUser && $session.user && !bankExodusCampaignCompletion.isAnonymous}
+          {#if amazonPrimeCampaignCompletion.belongsToUser && $session.user && !amazonPrimeCampaignCompletion.isAnonymous}
             <div class="user">
-              <Avatar user={bankExodusCampaignCompletion.belongsToUser} />
-              <p class="username">{bankExodusCampaignCompletion.belongsToUser.username}</p>
+              <Avatar user={amazonPrimeCampaignCompletion.belongsToUser} />
+              <p class="username">{amazonPrimeCampaignCompletion.belongsToUser.username}</p>
             </div>
           {:else}
             <div class="user">
@@ -52,27 +50,27 @@
           {/if}
 
           {#if $session.user?.isAdmin}
-            <Checkbox checked={bankExodusCampaignCompletion.wasReviewedByAdmin}>
-              {#if bankExodusCampaignCompletion.wasReviewedByAdmin && !bankExodusCampaignCompletion.wasApprovedByAdmin}
+            <Checkbox checked={amazonPrimeCampaignCompletion.wasReviewedByAdmin}>
+              {#if amazonPrimeCampaignCompletion.wasReviewedByAdmin && !amazonPrimeCampaignCompletion.wasApprovedByAdmin}
                 <ThumbsDownIcon />
-              {:else if bankExodusCampaignCompletion.wasReviewedByAdmin && bankExodusCampaignCompletion.wasApprovedByAdmin}
+              {:else if amazonPrimeCampaignCompletion.wasReviewedByAdmin && amazonPrimeCampaignCompletion.wasApprovedByAdmin}
                 <span class="green"><ThumbsUpIcon /></span>
               {/if}
 
-              {#if bankExodusCampaignCompletion.wasReviewedByAdmin && bankExodusCampaignCompletion.reviewedByUser}
+              {#if amazonPrimeCampaignCompletion.wasReviewedByAdmin && amazonPrimeCampaignCompletion.reviewedByUser}
                 <div class="user">
-                  <Avatar user={bankExodusCampaignCompletion.reviewedByUser} />
-                  <p>{bankExodusCampaignCompletion.reviewedByUser.username}</p>
+                  <Avatar user={amazonPrimeCampaignCompletion.reviewedByUser} />
+                  <p>{amazonPrimeCampaignCompletion.reviewedByUser.username}</p>
                 </div>
               {/if}
 
-              {bankExodusCampaignCompletion.wasApprovedByAdmin
+              {amazonPrimeCampaignCompletion.wasApprovedByAdmin
                 ? 'Approved by '
-                : bankExodusCampaignCompletion.wasReviewedByAdmin
+                : amazonPrimeCampaignCompletion.wasReviewedByAdmin
                 ? 'Reviewed by'
                 : 'Pending approval'}
             </Checkbox>
-          {:else if $session.user && bankExodusCampaignCompletion.belongsToUser && $session.user?.id === bankExodusCampaignCompletion.belongsToUser?.id && !bankExodusCampaignCompletion.wasReviewedByAdmin}
+          {:else if $session.user && amazonPrimeCampaignCompletion.belongsToUser && $session.user?.id === amazonPrimeCampaignCompletion.belongsToUser?.id && !amazonPrimeCampaignCompletion.wasReviewedByAdmin}
             <p class="subdued">Pending Review</p>
           {/if}
         </section>
@@ -87,7 +85,7 @@
     text-decoration: none;
     margin-top: 16px;
     overflow: hidden;
-    border-radius: var(--border-radius);
+    border-radius: calc(var(--border-radius) - 2px);
   }
 
   a:first-of-type {
@@ -95,10 +93,9 @@
   }
 
   a:hover .bank-campaign-repeating-element {
-    transform: perspective(1000px) translateZ(10px);
     background-color: var(--interactive-card-color-opaque);
     transition: transform 0.1s, background-color 0.1s;
-    border-radius: var(--border-radius);
+    border-radius: calc(var(--border-radius) - 2px);
     overflow: hidden;
   }
 
@@ -108,11 +105,12 @@
     width: 100%;
     transform: perspective(1000px) translateZ(0px);
     transition: transform 0.1s, background-color 0.1s;
-    border-radius: var(--border-radius);
+    border-radius: calc(var(--border-radius) - 2px);
     overflow: hidden;
   }
 
   .bank-campaign-repeating-element :global(.card) {
+    border-radius: calc(var(--border-radius) - 2px);
     padding-left: 0;
     padding-top: 0;
     padding-bottom: 0;
