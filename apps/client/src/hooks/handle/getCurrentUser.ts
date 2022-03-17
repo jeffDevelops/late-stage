@@ -17,7 +17,7 @@ export const getCurrentUser: Handle<LocalsImpl> = async ({
   event,
   resolve,
 }: HandleInput<LocalsImpl>): Promise<Response> => {
-  // if (!isPageRequest(event)) return await resolve(event)
+  if (!isPageRequest(event)) return await resolve(event)
 
   /** If the healthcheck fails, there's no point in trying */
   if (!event.locals.apiHealthy) return await resolve(event)
