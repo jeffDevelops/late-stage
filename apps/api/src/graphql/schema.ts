@@ -12,6 +12,7 @@ import {
 import {
   CreateCampaignResolver,
   CreateTagResolver,
+  CreateWorkCitedResolver,
   FindUniqueUserResolver,
   FindManyUserResolver,
   FindManyBankExodusCompletionResolver,
@@ -93,6 +94,9 @@ export const schema = async () => {
     Tag: {
       createTag: [Authorized('ADMIN'), UseMiddleware(CurrentUser)],
     },
+    WorkCited: {
+      createManyWorkCited: [Authorized('ADMIN'), UseMiddleware(CurrentUser)],
+    },
   }
 
   applyModelsEnhanceMap(modelsEnhanceMap)
@@ -130,6 +134,7 @@ export const schema = async () => {
 
       // Resolvers from '@generated/type-graphql are selectively included below...
       CreateCampaignResolver,
+      CreateWorkCitedResolver,
       CreateTagResolver,
       AggregateAmazonPrimeCompletionResolver,
       AggregateBankExodusCompletionResolver,

@@ -1,3 +1,6 @@
+import type { BaseEntity } from './BaseEntity'
+import type { Campaign } from './Campaign'
+
 type BaseWorksCited = {
   authorLastName: string
   authorFirstInitial?: string
@@ -18,5 +21,11 @@ type WebsiteCitation = BaseWorksCited & {
   hyperlink: string
 }
 
-export type WorksCited = WebsiteCitation[]
+export type Scalars = WebsiteCitation
 // | ... other citation types
+
+export type Associations = {
+  campaign?: Partial<Campaign>
+}
+
+export type WorkCited = BaseEntity & Partial<Associations> & Scalars

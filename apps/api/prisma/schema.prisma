@@ -196,8 +196,8 @@ enum WorkCitedType {
 model WorkCited {
   id String @id @default(cuid())
 
-  belongsToCampaign Campaign @relation(name: "CampaignWorksCited", fields: [campaignId], references: [id])
-  campaignId        String
+  belongsToCampaign Campaign? @relation(name: "CampaignWorksCited", fields: [campaignId], references: [id])
+  campaignId        String?
 
   authorLastName      String
   authorFirstInitial  String?
