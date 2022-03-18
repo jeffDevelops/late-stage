@@ -29,14 +29,17 @@
 </script>
 
 <script lang="ts">
+  import CampaignWorksCited from '../../assemblies/CampaignWorksCited.svelte'
   import Controls from '../../components/Controls.svelte'
   import Card from '../../components/Card.svelte'
   import Checkbox from '../../components/Checkbox.svelte'
   import CloseIcon from '../../components/iconography/Close.svelte'
   import { createTag } from '../../networking/graphql/mutation/CreateTag'
   import { createCampaign } from '../../networking/graphql/mutation/CreateCampaign'
+  import { createWorkCited } from '../../networking/graphql/mutation/CreateWorkCited'
   import type { Tag } from '../../types/Tag'
-  import type { WorksCited } from '../../types/WorksCited'
+  import type { Scalars as WorksCitedScalars, WorkCited } from '../../types/WorksCited'
+  import { disableInteractablesWhile } from '../../utility/disableInteractablesWhile'
 
   const workCited = {
     authorFirstInitial: '',
@@ -73,31 +76,78 @@
   let outcomesParagraphs: string[] = ['']
   let tagName: string = '' // value for a new tag name
   let selectedTags: Tag[] = []
-  let worksCited: WorksCited = [{ ...workCited }]
+  let worksCited: WorksCitedScalars[] = [{ ...workCited }]
   let mayBeCompletedMultipleTimes = false
 
+  /** WorkCited[] that have been created in the database for this Campaign */
+  let createdWorksCited: WorkCited[] = []
   let didAttemptSubmit = false
+
+  const handleWorksCitedSubmit = async () => {
+    // Iterate through the required fields of each work cited and ensure there's a value present
+    const requiredFields = [
+      'authorFirstInitial',
+      'authorLastName',
+      'publicationYear',
+      'title',
+      'publicationName',
+    ]
+
+    const inputValid = worksCited.every((workCited) =>
+      requiredFields.every((field) => !!workCited[field]),
+    )
+
+    if (!inputValid) {
+      console.error(
+        'Some required fields for Works Cited creation are missing. Please check the inputs and try again.',
+      )
+
+      return
+    }
+
+    return await disableInteractablesWhile(async () => {
+      const responses: WorkCited[] = await worksCited.reduce(async (promise, current) => {
+        const acc = await promise
+
+        const response = await fetch(
+          `${env.viteSveltekitHost}/proxy/create-work-cited`,
+          gqlRequest({
+            query: createWorkCited(`
+              id
+              authorFirstInitial
+              authorLastName
+              publicationYear
+              title
+              hyperlink
+              publicationMonth
+              publicationDate
+              publicationName
+            `),
+            variables: {
+              data: {
+                ...current,
+                publicationYear: parseInt(current.publicationYear),
+                publicationDate: current.publicationDate
+                  ? parseInt(current.publicationDate)
+                  : undefined,
+                type: 'WEBSITE', // TODO: hardcoded until additional types are supported
+              },
+            },
+          }),
+        )
+
+        const deserialized = await response.json()
+
+        return [...acc, deserialized]
+      }, Promise.resolve([]))
+
+      createdWorksCited = responses
+      worksCited = [{ ...workCited }]
+    })
+  }
 
   const handleSubmit = async () => {
     didAttemptSubmit = true
-
-    console.log({
-      title,
-      checklistTitle,
-      credRewarded,
-      goal,
-      goalUnit,
-      goalUnitIsDollars,
-      goalVerb,
-      goalStartDate,
-      goalDeadline,
-      shortName,
-      whatParagraphs,
-      whyParagraphs,
-      outcomesParagraphs,
-      tagName,
-      selectedTags,
-    })
 
     await fetch(
       `${env.viteSveltekitHost}/proxy/create-campaign`,
@@ -114,6 +164,7 @@
             goalStartDate,
             goalDeadline,
             shortName,
+            mayBeCompletedMultipleTimes,
             what: {
               set: whatParagraphs,
             },
@@ -126,6 +177,11 @@
             tags: {
               connect: selectedTags.map((tag) => ({
                 id: tag.id,
+              })),
+            },
+            workCited: {
+              connect: createdWorksCited.map((work) => ({
+                id: work.id,
               })),
             },
           },
@@ -160,6 +216,7 @@
   }
 
   const handleInitialKeydown = (e) => {
+    if (e.key === 'Tab' || e.key === 'Enter') return
     if (e.key !== 'Backspace' && e.target.value.length === 1) {
       e.preventDefault()
     }
@@ -430,32 +487,11 @@
         {/if}
       {/each}
 
-      <Card>
-        <h4>Campaign Tags</h4>
-
-        <p>Click all that apply to this campaign</p>
-
-        <div class="tags-container">
-          {#each tags as tag}
-            <button
-              on:click={() => selectTag(tag)}
-              type="button"
-              class:selected={!!selectedTags.find((selectedTag) => tag.id === selectedTag.id)}
-              class="tag">{tag.name}</button
-            >
-          {/each}
-        </div>
-
-        <label for="create-campaign-tag"
-          >New Tag
-          <p>If you don't see the tag you want, you can add another right here.</p>
-        </label>
-        <input bind:value={tagName} id="create-campaign-tag" type="text" />
-
-        <button class="secondary" on:click={createNewTag} type="button">Create New Tag</button>
-      </Card>
-
       <h4>Works Cited</h4>
+      <p>
+        Create multiple works cited at once before submitting the campaign. Submitting the campaign
+        will link all of the works cited created in this form.
+      </p>
 
       <div class="works-cited">
         {#each worksCited as work, i}
@@ -482,7 +518,6 @@
                     on:change={(e) => handleWorksCitedChange(e, i)}
                     type="text"
                     bind:value={work.authorLastName}
-                    required
                     placeholder="Reynolds"
                   />
                 </div>
@@ -498,7 +533,6 @@
                     on:change={(e) => handleWorksCitedChange(e, i)}
                     type="text"
                     bind:value={work.authorFirstInitial}
-                    required
                     placeholder="J"
                   />
                 </div>
@@ -516,7 +550,6 @@
                   on:change={(e) => handleWorksCitedChange(e, i)}
                   type="text"
                   bind:value={work.authorLastName2}
-                  required
                   placeholder="Reynolds"
                 />
               </div>
@@ -532,7 +565,6 @@
                   on:change={(e) => handleWorksCitedChange(e, i)}
                   type="text"
                   bind:value={work.authorFirstInitial2}
-                  required
                   placeholder="J"
                 />
               </div>
@@ -549,7 +581,6 @@
                   on:change={(e) => handleWorksCitedChange(e, i)}
                   type="text"
                   bind:value={work.authorLastName3}
-                  required
                   placeholder="Reynolds"
                 />
               </div>
@@ -565,7 +596,6 @@
                   on:change={(e) => handleWorksCitedChange(e, i)}
                   type="text"
                   bind:value={work.authorFirstInitial3}
-                  required
                   placeholder="J"
                 />
               </div>
@@ -580,9 +610,8 @@
                   name="publicationYear"
                   id={`create-campaign-works-cited-publication-year-${i}`}
                   on:change={(e) => handleWorksCitedChange(e, i)}
-                  type="text"
+                  type="number"
                   bind:value={work.publicationYear}
-                  required
                   placeholder="2022"
                 />
               </div>
@@ -597,7 +626,6 @@
                   on:change={(e) => handleWorksCitedChange(e, i)}
                   type="text"
                   bind:value={work.publicationMonth}
-                  required
                   placeholder="September"
                 />
               </div>
@@ -610,9 +638,8 @@
                   name="publicationDate"
                   id={`create-campaign-works-cited-publication-date-${i}`}
                   on:change={(e) => handleWorksCitedChange(e, i)}
-                  type="text"
+                  type="number"
                   bind:value={work.publicationDate}
-                  required
                   placeholder="31"
                 />
               </div>
@@ -625,7 +652,6 @@
               on:change={(e) => handleWorksCitedChange(e, i)}
               type="text"
               bind:value={work.title}
-              required
               placeholder="Title"
             />
 
@@ -637,7 +663,6 @@
               on:change={(e) => handleWorksCitedChange(e, i)}
               type="text"
               bind:value={work.publicationName}
-              required
               placeholder="The New York Times"
             />
 
@@ -648,7 +673,6 @@
               on:change={(e) => handleWorksCitedChange(e, i)}
               type="text"
               bind:value={work.hyperlink}
-              required
               placeholder="https://wikipedia.com/late-capitalism"
             />
           </Card>
@@ -658,11 +682,46 @@
               class="secondary"
               on:click={() => (worksCited = [...worksCited, { ...workCited }])}
             >
-              Add Another Source</button
+              + Another Source</button
             >
           {/if}
         {/each}
       </div>
+
+      <button on:click={handleWorksCitedSubmit} type="button" class="primary"
+        >Create Works Cited</button
+      >
+
+      {#if createdWorksCited.length > 0}
+        <div class="works-cited-to-be-added">
+          <CampaignWorksCited worksCited={createdWorksCited} />
+        </div>
+      {/if}
+
+      <Card>
+        <h4>Campaign Tags</h4>
+
+        <p>Click all that apply to this campaign</p>
+
+        <div class="tags-container">
+          {#each tags as tag}
+            <button
+              on:click={() => selectTag(tag)}
+              type="button"
+              class:selected={!!selectedTags.find((selectedTag) => tag.id === selectedTag.id)}
+              class="tag">{tag.name}</button
+            >
+          {/each}
+        </div>
+
+        <label for="create-campaign-tag"
+          >New Tag
+          <p>If you don't see the tag you want, you can add another right here.</p>
+        </label>
+        <input bind:value={tagName} id="create-campaign-tag" type="text" />
+
+        <button class="primary" on:click={createNewTag} type="button">Create New Tag</button>
+      </Card>
 
       <Checkbox
         bind:checked={mayBeCompletedMultipleTimes}
@@ -797,5 +856,13 @@
 
   .date-row div:last-child {
     width: 160px;
+  }
+
+  .works-cited-to-be-added :global(h2) {
+    margin-top: 24px;
+  }
+
+  .works-cited-to-be-added :global(svg) {
+    fill: var(--interactive-color);
   }
 </style>

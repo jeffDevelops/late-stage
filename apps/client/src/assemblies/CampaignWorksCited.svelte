@@ -1,13 +1,13 @@
 <script lang="ts">
   import Quote from '../components/iconography/Quote.svelte'
 
-  import type { WorksCited } from '../types/WorksCited'
+  import type { WorkCited } from '../types/WorksCited'
 
   /**
    * PROPS
    */
 
-  export let worksCited: WorksCited
+  export let worksCited: WorkCited[]
 </script>
 
 <h2><Quote /> Works Cited</h2>
