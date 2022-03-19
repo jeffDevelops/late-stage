@@ -19,12 +19,12 @@ import type { Context } from '../../types/Context'
 import { CampaignScalars } from '../inputs/CampaignScalars'
 
 export enum MembershipSelections {
-  Annually = 'Annually',
+  Annually = 'Annual',
   Monthly = 'Monthly',
   PrimeVideo = 'Prime Video',
-  StudentMonthly = 'Student (Monthly)',
-  StudentAnnually = 'Student (Annually)',
-  Discounted = 'Discounted (EBT, Medicaid, Govt. Assistance)',
+  StudentMonthly = 'Student Monthly',
+  StudentAnnually = 'Student Annual',
+  Discounted = 'Discounted',
 }
 
 registerEnumType(MembershipSelections, {

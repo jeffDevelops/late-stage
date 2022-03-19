@@ -85,13 +85,7 @@
 
   const handleWorksCitedSubmit = async () => {
     // Iterate through the required fields of each work cited and ensure there's a value present
-    const requiredFields = [
-      'authorFirstInitial',
-      'authorLastName',
-      'publicationYear',
-      'title',
-      'publicationName',
-    ]
+    const requiredFields = ['authorLastName', 'publicationYear', 'title', 'publicationName']
 
     const inputValid = worksCited.every((workCited) =>
       requiredFields.every((field) => !!workCited[field]),
