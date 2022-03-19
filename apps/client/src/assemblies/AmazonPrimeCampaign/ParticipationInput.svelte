@@ -297,8 +297,6 @@
       }
     })
   }
-
-  $: console.log(membershipSelection)
 </script>
 
 <svelte:head />
