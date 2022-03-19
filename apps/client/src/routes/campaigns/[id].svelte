@@ -110,7 +110,7 @@
    * STATE
    */
 
-  let shouldDisplayNotYetLiveModal = true
+  let shouldDisplayNotYetLiveModal = campaign.status === CampaignStatuses.NotStarted
   let currentRoute = 'Campaign'
 </script>
 
@@ -120,8 +120,9 @@
 
 <Controls />
 
-{#if dayjs().isBefore(dayjs(campaign.goalStartDate))}
+{#if dayjs().isBefore(dayjs(campaign.goalStartDate)) || campaign.status === CampaignStatuses.NotStarted}
   <CampaignNotYetLiveModal
+    on:dismiss={() => (shouldDisplayNotYetLiveModal = false)}
     on:click={() => (shouldDisplayNotYetLiveModal = false)}
     isDisplayed={shouldDisplayNotYetLiveModal}
   />

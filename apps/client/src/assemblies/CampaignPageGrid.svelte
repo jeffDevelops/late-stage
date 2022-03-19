@@ -5,6 +5,7 @@
   import Card from '../components/Card.svelte'
   import FlareIcon from '../components/iconography/Flare.svelte'
   import InfoIcon from '../components/iconography/Info.svelte'
+  import ConstructionIcon from '../components/iconography/Construction.svelte'
   import Tenet from '../components/Tenet.svelte'
 
   import type { Campaign } from '../types/Campaign'
@@ -13,6 +14,7 @@
   import BankCampaignParticipationInput from './BankCampaign/BankCampaignParticipationInput.svelte'
   import AmazonPrimeCampaignParticipationInput from './AmazonPrimeCampaign/ParticipationInput.svelte'
   import CampaignWorksCited from './CampaignWorksCited.svelte'
+  import { CampaignStatuses } from '../types/CampaignStatuses'
 
   /**
    * PROPS
@@ -57,12 +59,26 @@
 
   <div class="how grid-area" style="grid-area: how;">
     <Card>
-      <svelte:component
-        this={components[campaign.shortName]}
-        {campaign}
-        hasCompletedCampaign={$session.user &&
-          !!$session.user?.completedCampaigns.find(({ id }) => id === campaign.id)}
-      />
+      {#if campaign.status === CampaignStatuses.NotStarted}
+        <h2 class="not-live-yet"><ConstructionIcon /> This Campaign Isn't Live Yet</h2>
+        <p>
+          This campaign isn't ready for prime time yet, but you can earn cred if you pledge to
+          complete it!
+        </p>
+
+        <p>
+          Pledges help us prioritize the campaigns that matter to our community, so if this campaign
+          is something you really care about, pledge to complete this campaign and share with your
+          friends!
+        </p>
+      {:else}
+        <svelte:component
+          this={components[campaign.shortName]}
+          {campaign}
+          hasCompletedCampaign={$session.user &&
+            !!$session.user?.completedCampaigns.find(({ id }) => id === campaign.id)}
+        />
+      {/if}
     </Card>
   </div>
 
@@ -106,6 +122,12 @@
     height: 72px;
     width: 72px;
     margin: -16px -16px -24px -16px;
+  }
+
+  :global(.campaign-section .how h2.not-live-yet svg) {
+    height: 40px;
+    width: 40px;
+    margin: 0 0 -9px 0;
   }
 
   :global(.campaign-section .what .card p, .campaign-page .why .card p) {

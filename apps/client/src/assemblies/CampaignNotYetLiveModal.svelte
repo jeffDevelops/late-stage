@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte'
   import Modal from '../components/Modal.svelte'
+
+  const dispatch = createEventDispatcher()
 
   /**
    * PROPS
@@ -8,7 +11,14 @@
   export let isDisplayed
 </script>
 
-<Modal shouldDisplayCloseButton={false} {isDisplayed} maxWidth={750} isAnimated={true}>
+<Modal
+  on:dismiss={() => dispatch('dismiss')}
+  shouldDisplayCloseButton={false}
+  isBlurDismissable={true}
+  {isDisplayed}
+  maxWidth={750}
+  isAnimated={true}
+>
   <div slot="content">
     <h2>This campaign is not live... Yet!</h2>
 
