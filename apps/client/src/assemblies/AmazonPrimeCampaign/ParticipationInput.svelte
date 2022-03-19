@@ -297,6 +297,8 @@
       }
     })
   }
+
+  $: console.log(membershipSelection)
 </script>
 
 <svelte:head />
@@ -362,15 +364,19 @@
             value={membershipSelection}
             placeholder="Select your membership"
             items={[
-              MembershipSelections.Annually,
-              MembershipSelections.Monthly,
-              MembershipSelections.PrimeVideo,
-              MembershipSelections.StudentAnnually,
-              MembershipSelections.StudentMonthly,
-              MembershipSelections.Discounted,
+              { label: MembershipSelections.Annually, value: 'Annually' },
+              { label: MembershipSelections.Monthly, value: 'Monthly' },
+              { label: MembershipSelections.PrimeVideo, value: 'PrimeVideo' },
+              { label: MembershipSelections.StudentAnnually, value: 'StudentAnnually' },
+              { label: MembershipSelections.StudentMonthly, value: 'StudentMonthly' },
+              { label: MembershipSelections.Discounted, value: 'Discounted' },
             ]}
           />
         </div>
+
+        {#if errors.membershipSelection && didAttemptSubmit}
+          <p class="error-message">{errors.membershipSelection}</p>
+        {/if}
 
         <h4>Step 4: Why, specifically, are you cancelling today?</h4>
         <p class="checkbox-instructions">Select all that apply:</p>
@@ -512,7 +518,8 @@
 
   .form-control {
     position: absolute;
-    top: 0px;
+    top: -9999px;
+    left: -9999px;
     opacity: 0;
     width: calc(100% - 96px);
   }

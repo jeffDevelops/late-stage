@@ -12,16 +12,21 @@
 <h4>
   Step 1: Cancel Your Prime Membership <button
     class="info-button"
+    type="button"
     on:click={() => (isShowingHelpText = !isShowingHelpText)}><InfoIcon /></button
   >
 </h4>
 
 {#if isShowingHelpText}
   <div in:fade out:fade class="info">
-    <button on:click={() => (isShowingHelpText = false)} class="close-button">×</button>
+    <button type="button" on:click={() => (isShowingHelpText = false)} class="close-button"
+      >×</button
+    >
 
     <p>
       Log into your Amazon account and <a
+        target="_blank"
+        rel="noopener noreferrer"
         href="https://www.amazon.com/mc/pipelines/cancellation?ref_=pcen_ccn_of_con_cn_btn&pId=cancellation&ep=alternative_offer%2Calternative_marketing%2Ccancellation&lp=alternative_marketing&cp=alternative_offer"
         >go here</a
       > to skip the two pages of Amazon trying to convince you not to cancel.
