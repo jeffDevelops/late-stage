@@ -143,6 +143,9 @@
               createdAt
               cred
               isAdmin
+              completedCampaigns {
+                id
+              }
             `),
           }),
         )
