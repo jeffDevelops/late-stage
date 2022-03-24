@@ -1,0 +1,221 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+}
+
+model User {
+  id              String  @id @default(cuid())
+  email           String  @unique
+  username        String  @unique
+  emailIsVerified Boolean
+  cred            Int
+  isAdmin         Boolean
+
+  /// @TypeGraphQL.omit(output: true)
+  password           String
+  /// @TypeGraphQL.omit(output: true)
+  magicLinkToken     String? // Email address verification token
+  /// @TypeGraphQL.omit(output: true)
+  passwordResetToken String?
+
+  banned    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  completedCampaigns Campaign[] @relation(name: "UserCompletedCampaigns", references: [id])
+
+  // Campaign Data
+  bankExodusCompletions         BankExodusCompletion[] @relation(name: "UserBankExodusCompletions")
+  reviewedBankExodusCompletions BankExodusCompletion[] @relation("BankExodusCompletionReviewedByUser")
+
+  amazonPrimeCompletion          AmazonPrimeCompletion?  @relation(name: "UserAmazonPrimeCompletion")
+  reviewedAmazonPrimeCompletions AmazonPrimeCompletion[] @relation("AmazonPrimeCompletionReviewedByUser")
+}
+
+model ArtificiallyExpiredRefreshToken {
+  id               String   @id @default(cuid())
+  value            String
+  actualExpiration DateTime
+}
+
+enum CampaignStatus {
+  // Campaign is not yet started
+  NOT_STARTED
+
+  // Campaign is visible under "Current Campaigns" on index page
+  ACTIVE
+
+  // Users may still participate in the Campaign, but it is not featured under "Current Campaigns" on index page
+  OPEN
+
+  // Users may no longer participate in the Campaign
+  CLOSED
+}
+
+model Campaign {
+  id String @id @default(cuid())
+
+  usersThatDidCompleteCampaign User[]      @relation(name: "UserCompletedCampaigns", references: [id])
+  workCited                    WorkCited[] @relation(name: "CampaignWorksCited")
+
+  /// @TypeGraphQL.omit(input: ["create", "update"])
+  createdAt DateTime @default(now())
+  /// @TypeGraphQL.omit(input: ["create", "update"])
+  updatedAt DateTime @default(now())
+
+  credRewarded Int @default(0)
+
+  status CampaignStatus @default(NOT_STARTED)
+
+  tags Tag[]
+
+  title String
+
+  checklistTitle String? // The checklist item title
+
+  // "Goal goalUnits goalVerb-ed by goalDeadline
+  // Example: 10,000 petitioners signed up by 05/01/2022
+  // Example: 100,000 dollars raised by 05/01/2022
+  goal     Float
+  goalUnit String // singular
+  goalVerb String?
+
+  // Deadline fields
+  goalStartDate DateTime
+  goalDeadline  DateTime
+
+  // ------------------ Campaign Page fields ---------------------
+  what     String[] // array of paragraphs
+  why      String[] // array of paragraphs
+  outcomes String[] // array of paragraphs
+
+  // ------------------ Admin / DX fields ------------------------
+  shortName String
+
+  mayBeCompletedMultipleTimes Boolean @default(false)
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String
+
+  campaigns Campaign[]
+}
+
+// ------------------------
+// Campaign-specific models
+// ------------------------
+
+model BankExodusCompletion {
+  id String @id @default(cuid())
+
+  belongsToUser User   @relation(name: "UserBankExodusCompletions", fields: [userId], references: [id])
+  userId        String
+
+  campaignId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  withdrawalReceiptImageURL String
+  imageKitFileId            String
+
+  isAnonymous                Boolean
+  withdrawalAmount           Float
+  originInstitutionName      String
+  destinationInstitutionName String
+
+  // Reasons for moving to this destination bank
+  dontInvestInFossilFuels        Boolean
+  dontInvestInSLABS              Boolean
+  dontChargeAccountFees          Boolean
+  offerFairRatesToAccountHolders Boolean
+  conscientiousAboutHumanRights  Boolean
+  other                          Boolean
+  otherInfo                      String
+
+  wasApprovedByAdmin Boolean @default(false)
+  wasReviewedByAdmin Boolean @default(false)
+  reviewedByUserId   String?
+  reviewedByUser     User?   @relation(name: "BankExodusCompletionReviewedByUser", fields: [reviewedByUserId], references: [id])
+}
+
+model AmazonPrimeCompletion {
+  id String @id @default(cuid())
+
+  belongsToUser User   @relation(name: "UserAmazonPrimeCompletion", fields: [userId], references: [id])
+  userId        String @unique
+
+  campaignId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  cancellationImageURL String
+  imageKitFileId       String
+
+  isAnonymous         Boolean
+  cancellationAmount  Float
+  membershipSelection String
+
+  // Reasons for cancelling the Prime membership
+  environmentalConcerns        Boolean
+  antiCompetitionConcerns      Boolean
+  workersRightsConcerns        Boolean
+  marketplaceAntitrustConcerns Boolean
+  otherInfo                    String
+
+  wasApprovedByAdmin Boolean @default(false)
+  wasReviewedByAdmin Boolean @default(false)
+  reviewedByUserId   String?
+  reviewedByUser     User?   @relation(name: "AmazonPrimeCompletionReviewedByUser", fields: [reviewedByUserId], references: [id])
+}
+
+model AmazonPrimePricing {
+  id String @id @default(cuid())
+
+  Annually        Float
+  Monthly         Float
+  PrimeVideo      Float
+  StudentMonthly  Float
+  StudentAnnually Float
+  Discounted      Float
+}
+
+enum WorkCitedType {
+  WEBSITE
+}
+
+model WorkCited {
+  id String @id @default(cuid())
+
+  belongsToCampaign Campaign? @relation(name: "CampaignWorksCited", fields: [campaignId], references: [id])
+  campaignId        String?
+
+  authorLastName      String
+  authorFirstInitial  String?
+  authorLastName2     String?
+  authorFirstInitial2 String?
+  authorLastName3     String?
+  authorFirstInitial3 String?
+
+  publicationYear  Int
+  publicationMonth String? // e.g. "January"
+  publicationDate  Int? // e.g. 31
+  title            String
+  publicationName  String
+
+
+
+  type WorkCitedType
+
+  // Website Type
+  hyperlink String?
+}
