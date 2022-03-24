@@ -16,10 +16,13 @@
 
   /** The displayed text representation of each item in the select list */
   export let items = []
+
+  /** The id for accessibility label */
+  export let id = ''
 </script>
 
 <div class="themed-select">
-  <Select on:select bind:value {showIndicator} {placeholder} {items} />
+  <Select {id} on:select bind:value {showIndicator} {placeholder} {items} />
 </div>
 
 <style>

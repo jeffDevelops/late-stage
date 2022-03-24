@@ -477,6 +477,7 @@
     <label for="institution">I removed money from:</label>
     <div class="themed-select">
       <Select
+        id="institution"
         on:select={(e) => (institutionSelection = e.detail)}
         value={institutionSelection}
         placeholder="Select an institution"
@@ -550,7 +551,7 @@
       Feel free to share anything you think others should know about your new financial institution.
       If you elected "Other," let us know why you made the switch:
     </p>
-    <textarea bind:value={otherInfo} />
+    <textarea id="bank-campaign-other" bind:value={otherInfo} />
 
     {#if errors.form}
       <p class="error-message">{errors.form}</p>

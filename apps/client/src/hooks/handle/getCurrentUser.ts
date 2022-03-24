@@ -120,17 +120,12 @@ async function invalidateSession({ event, resolve }: HandleInput<LocalsImpl>): P
 }
 
 async function refreshToken({ request, locals }: RequestEvent) {
-  console.log(request.url)
-  console.log('getCurrentUser refreshToken: ', request.headers.get('cookie'))
-
   const refreshResponse = await fetch(
     ...gqlRequest({ query: refreshAccessToken }, { cookie: request.headers.get('cookie') }),
   )
 
   const deserialized: { errors?: GraphQLError[]; data: { refreshAccessToken: unknown } } =
     await refreshResponse.json()
-
-  console.log('getCurrentUser deserialized', deserialized)
 
   if (!deserialized.errors) {
     locals.user = deserialized.data.refreshAccessToken
@@ -170,8 +165,6 @@ async function success(
   Object.keys(headers).forEach((key) => {
     response.headers.set(key, headers[key] as string)
   })
-
-  console.log(response.headers)
 
   return response
 }

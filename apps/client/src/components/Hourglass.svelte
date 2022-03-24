@@ -7,6 +7,7 @@
   export let id: string
 
   let container: HTMLElement
+  let timeout: NodeJS.Timeout
 
   onMount(() => {
     const setSandFullness = (percent: number) => {
@@ -17,13 +18,17 @@
       }%`
     }
 
-    setTimeout(() => {
+    timeout = setTimeout(() => {
       container.classList.add('ready')
 
       setSandFullness(
         (dayjs(endDate).diff(dayjs(), 'day') / dayjs(endDate).diff(dayjs(startDate), 'day')) * 100,
       )
     }, 2000)
+
+    return () => {
+      clearTimeout(timeout)
+    }
   })
 </script>
 

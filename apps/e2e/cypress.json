@@ -1,0 +1,5 @@
+{
+  "baseUrl": "https://staging.late-stage.com",
+  "experimentalSourceRewriting": true,
+  "chromeWebSecurity": false
+}
