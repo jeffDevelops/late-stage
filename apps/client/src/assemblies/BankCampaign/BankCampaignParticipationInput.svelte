@@ -116,7 +116,7 @@
     // RECAPTCHA
     ;(window as any).onloadCallback = () => {
       ;(window as any).grecaptcha.render('g-recaptcha', {
-        sitekey: '6LcTU5YeAAAAAEtSIlYHfMtHID8YBGv6rThyV9xC',
+        sitekey: env.viteRecaptchaSiteKey,
         theme: document.documentElement.classList.contains('dark-theme') ? 'dark' : 'light',
       })
     }
@@ -500,7 +500,7 @@
       {/if}
     {/if}
 
-    <label for="institution">I moved money to:</label>
+    <label for="destination-institution-name">I moved money to:</label>
     <div class="themed-select">
       <input
         bind:value={destinationInstitutionName}

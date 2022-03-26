@@ -1,12 +1,7 @@
-export const isDisplayingBankCampaign = () => {
-  cy.contains('Outcomes and Impact').should('be.visible')
-  cy.contains('Exodus from for-profit banking').should('be.visible')
-  cy.contains('Why?').should('be.visible')
-  cy.contains('What').should('be.visible')
-}
+import { getInputByLabel, checkCheckboxWithLabel, isDisplayingBankCampaign } from '../support/utils'
 
 describe('Bank Campaign Redirect After Login', () => {
-  beforeEach(() => {
+  before(() => {
     cy.visit('https://staging.late-stage.com')
     cy.wait(2000) // Wait for animation to fire
   })

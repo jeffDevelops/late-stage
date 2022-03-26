@@ -39,4 +39,3 @@ if (process.env.NODE_ENV === 'development') {
   })
 }
 /* c8 ignore stop */
-pnpm

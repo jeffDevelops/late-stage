@@ -1,5 +1,5 @@
-import { isDisplayingBankCampaign } from './4-bank-campaign-redirect-after-login'
-import { getInputByLabel } from '../support/utils'
+import { isDisplayingBankCampaign } from '../support/utils'
+import { checkCheckboxWithLabel, getInputByLabel } from '../support/utils'
 
 describe('Bank Campaign', () => {
   before(() => {
@@ -9,6 +9,8 @@ describe('Bank Campaign', () => {
     cy.contains('Exodus from for-profit banking').click()
 
     cy.wait(500)
+
+    isDisplayingBankCampaign()
   })
 
   it('allows the user to record their switch from Wells Fargo', () => {
@@ -16,18 +18,22 @@ describe('Bank Campaign', () => {
 
     getInputByLabel('Withdrawal Amount ($)').type('999.99')
 
-    // cy.get('label').contains('I removed money from:').click()
-    // cy.get('.listItem').contains('Wells Fargo').click()
+    cy.get('input#institution').click()
+    cy.get('.listItem').contains('Wells Fargo').click()
 
     getInputByLabel('I moved money to:').type('Ando Money')
 
-    getInputByLabel("They don't invest in fossil-fuels").click()
-    getInputByLabel("They don't in student loan asset-backed securities").click()
-    getInputByLabel("They're conscientious about human rights").click()
-    getInputByLabel("They don't charge account fees").click()
-    getInputByLabel('They offered a fairer interest rate').click()
-    getInputByLabel('Other').click()
+    checkCheckboxWithLabel("They don't invest in fossil-fuels")
+    checkCheckboxWithLabel("They don't invest in student loan asset-backed securities (SLABS)")
+    checkCheckboxWithLabel("They're conscientious about human rights")
+    checkCheckboxWithLabel("They don't charge account fees")
+    checkCheckboxWithLabel('They offered a fairer interest rate')
+    checkCheckboxWithLabel('Other')
 
-    cy.get('textarea').type('This is a pledge created by an automated test bot.')
+    cy.get('textarea#bank-campaign-other').type(
+      'This is a pledge created by an automated test bot.',
+    )
+
+    cy.get('.recaptcha-checkbox').click()
   })
 })

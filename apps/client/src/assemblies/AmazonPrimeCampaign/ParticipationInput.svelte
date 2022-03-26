@@ -121,7 +121,7 @@
       // RECAPTCHA
       ;(window as any).onloadCallback = () => {
         ;(window as any).grecaptcha.render('g-recaptcha', {
-          sitekey: '6LcTU5YeAAAAAEtSIlYHfMtHID8YBGv6rThyV9xC',
+          sitekey: env.viteRecaptchaSiteKey,
           theme: document.documentElement.classList.contains('dark-theme') ? 'dark' : 'light',
         })
       }

@@ -29,6 +29,15 @@ function abortEarly() {
   })
 }
 
+beforeEach(() => {
+  // Preserve cookie in every test
+  Cypress.Cookies.defaults({
+    preserve: () => {
+      return true
+    },
+  })
+})
+
 // beforeEach(abortEarly)
 // afterEach(abortEarly)
 // before(async () => {
