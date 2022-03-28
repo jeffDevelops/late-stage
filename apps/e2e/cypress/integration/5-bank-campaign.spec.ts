@@ -34,6 +34,21 @@ describe('Bank Campaign', () => {
       'This is a pledge created by an automated test bot.',
     )
 
-    cy.get('.recaptcha-checkbox').click()
+    // Click the RECAPTCHA
+    cy.get('iframe[title="reCAPTCHA"]')
+      .its('0.contentDocument')
+      .should('exist')
+      .its('body')
+      .should('not.be.undefined')
+      .then(cy.wrap)
+      .find('.recaptcha-checkbox')
+      .click()
+
+    cy.get('button.primary').contains('Tally My Withdrawal').click()
+
+    cy.contains('Thank you for your solidarity').should('be.visible')
+    cy.get('.close-button').click()
+
+    cy.get('button').contains('Feed').click()
   })
 })

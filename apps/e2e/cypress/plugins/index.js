@@ -53,12 +53,67 @@ module.exports = (on, config) => {
       return global.confirmEmailCallbackUrl
     },
 
-    deleteAutomatedTestUser() {
-      return new Promise((resolve) => {
+    getAutomatedTestUser() {
+      return new Promise(async (resolve) => {
         return resolve(
-          prisma.user.deleteMany({
+          prisma.user.findUnique({
             where: {
               username: 'AUTOMATED_TEST_USER',
+            },
+          }),
+        )
+      })
+    },
+
+    disconnectTestUserAssociatedCampaignCompletions(userId) {
+      if (!userId) return null
+      return new Promise(async (resolve) => {
+        const campaigns = await prisma.campaign.findMany({})
+
+        await prisma.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            completedCampaigns: {
+              disconnect: campaigns.map(({ id }) => ({ id })),
+            },
+          },
+        })
+
+        return resolve(userId)
+      })
+    },
+
+    deleteTestUserAssociatedBankExodusCompletions(userId) {
+      if (!userId) return null
+      return new Promise(async (resolve) => {
+        await prisma.bankExodusCompletion.deleteMany({
+          where: { userId },
+        })
+
+        return resolve(userId)
+      })
+    },
+
+    deleteTestUserAssociatedAmazonPrimeCompletions(userId) {
+      if (!userId) return null
+      return new Promise(async (resolve) => {
+        await prisma.amazonPrimeCompletion.deleteMany({
+          where: { userId },
+        })
+
+        return resolve(userId)
+      })
+    },
+
+    deleteAutomatedTestUser(userId) {
+      if (!userId) return null
+      return new Promise(async (resolve) => {
+        return resolve(
+          await prisma.user.deleteMany({
+            where: {
+              id: userId,
             },
           }),
         )

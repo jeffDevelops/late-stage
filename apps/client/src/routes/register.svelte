@@ -316,7 +316,7 @@
 
       <div class="actions">
         <a class="secondary" href="/log-in"
-          ><button class="secondary"><span>Already a member?</span> Log In</button></a
+          ><button type="button" class="secondary"><span>Already a member?</span> Log In</button></a
         >
         <button
           disabled={loading || (didAttemptSubmit && formContainsErrors)}

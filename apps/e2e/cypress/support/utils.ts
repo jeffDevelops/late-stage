@@ -1,7 +1,7 @@
 export const getInputByLabel = (label: string) => {
   return cy
     .get('label')
-    .contains('Withdrawal Amount ($)')
+    .contains(label)
     .invoke('attr', 'for')
     .then((id) => {
       cy.get('#' + id)

@@ -15,12 +15,31 @@ const recurse = () => {
 
 describe('Clean up inbox', () => {
   before(() => {
-    cy.task('deleteAutomatedTestUser').then(() => {
-      cy.visit(`https://maildrop.cc`)
-      cy.wait(500)
+    cy.task('getAutomatedTestUser')
+      .then((user: Record<string, any> | null) => {
+        console.log({ user })
+        if (!user) return null
+        return cy.task('disconnectTestUserAssociatedCampaignCompletions', user.id)
+      })
+      .then((userId: string | null) => {
+        if (!userId) return null
+        return cy.task('deleteTestUserAssociatedBankExodusCompletions', userId)
+      })
+      .then((userId: string | null) => {
+        console.log({ userId })
+        if (!userId) return null
+        return cy.task('deleteTestUserAssociatedAmazonPrimeCompletions', userId)
+      })
+      .then((userId: string) => {
+        if (!userId) return null
+        return cy.task('deleteAutomatedTestUser', userId)
+      })
+      .then(() => {
+        cy.visit(`https://maildrop.cc`)
+        cy.wait(500)
 
-      cy.contains('Loading...').should('not.exist')
-    })
+        cy.contains('Loading...').should('not.exist')
+      })
   })
 
   it('clears out the inbox', () => {
