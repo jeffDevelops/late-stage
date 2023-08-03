@@ -34,7 +34,7 @@ importers:
       altair-fastify-plugin: ^4.2.1
       bcryptjs: ^2.4.3
       c8: ^7.11.0
-      class-validator: ^0.13.2
+      class-validator: ^0.14.0
       concurrently: ^7.0.0
       dayjs: ^1.10.7
       dotenv: ^16.0.0
@@ -76,7 +76,7 @@ importers:
       '@sendgrid/mail': 7.6.1
       altair-fastify-plugin: 4.4.0_fastify@3.27.2
       bcryptjs: 2.4.3
-      class-validator: 0.13.2
+      class-validator: 0.14.0
       dayjs: 1.10.7
       dotenv: 16.0.0
       dotenv-cli: 4.1.1
@@ -96,7 +96,7 @@ importers:
       node-cron: 3.0.0
       reflect-metadata: 0.1.13
       sanitize-html: 2.7.0
-      type-graphql: 1.1.1_aea24acf06b899fbc466d3b3b949c72d
+      type-graphql: 1.1.1_c5d678748bb646779c19388363facc5c
       typegraphql-prisma: 0.19.0_a03d2bcf5b1b755d68553bf17c109879
     devDependencies:
       '@types/bcryptjs': 2.4.2
@@ -1107,6 +1107,10 @@ packages:
     resolution: {integrity: sha512-I6OUIZ5cYRk5lp14xSOAiXjWrfVoMZVjDuevBYgQDYzZIjsf2CAISpEcXOkFAtpAHbmWIDLcZObejqny/9xq5Q==}
     dev: true
 
+  /@types/validator/13.9.0:
+    resolution: {integrity: sha512-NclP0IbzHj/4tJZKFqKh8E7kZdgss+MCUYV9G+TLltFfDA4lFgE4PKPpDIyS2FlcdANIfSx273emkupvChigbw==}
+    dev: false
+
   /@types/ws/8.2.3:
     resolution: {integrity: sha512-ahRJZquUYCdOZf/rCsWg88S0/+cb9wazUBHv6HZEe3XdYaBe2zr/slM8J28X07Hn88Pnm4ezo7N8/ofnOgrPVQ==}
     dependencies:
@@ -2038,11 +2042,12 @@ packages:
       static-extend: 0.1.2
     dev: true
 
-  /class-validator/0.13.2:
-    resolution: {integrity: sha512-yBUcQy07FPlGzUjoLuUfIOXzgynnQPPruyK1Ge2B74k9ROwnle1E+NxLWnUv5OLU8hA/qL5leAE9XnXq3byaBw==}
+  /class-validator/0.14.0:
+    resolution: {integrity: sha512-ct3ltplN8I9fOwUd8GrP8UQixwff129BkEtuWDKL5W45cQuLd19xqmTLu5ge78YDm/fdje6FMt0hGOhl0lii3A==}
     dependencies:
-      libphonenumber-js: 1.9.49
-      validator: 13.7.0
+      '@types/validator': 13.9.0
+      libphonenumber-js: 1.10.39
+      validator: 13.9.0
     dev: false
 
   /clean-stack/2.2.0:
@@ -4820,8 +4825,8 @@ packages:
       type-check: 0.4.0
     dev: true
 
-  /libphonenumber-js/1.9.49:
-    resolution: {integrity: sha512-/wEOIONcVboFky+lWlCaF7glm1FhBz11M5PHeCApA+xDdVfmhKjHktHS8KjyGxouV5CSXIr4f3GvLSpJa4qMSg==}
+  /libphonenumber-js/1.10.39:
+    resolution: {integrity: sha512-iPMM/NbSNIrdwbr94rAOos6krB7snhfzEptmk/DJUtTPs+P9gOhZ1YXVPcRgjpp3jJByclfm/Igvz45spfJK7g==}
     dev: false
 
   /light-my-request/4.8.0:
@@ -7215,7 +7220,7 @@ packages:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
 
-  /type-graphql/1.1.1_aea24acf06b899fbc466d3b3b949c72d:
+  /type-graphql/1.1.1_c5d678748bb646779c19388363facc5c:
     resolution: {integrity: sha512-iOOWVn0ehCYMukmnXStbkRwFE9dcjt7/oDcBS1JyQZo9CbhlIll4lHHps54HMEk4A4c8bUPd+DjK8w1/ZrxB4A==}
     engines: {node: '>= 10.3'}
     requiresBuild: true
@@ -7226,7 +7231,7 @@ packages:
       '@types/glob': 7.2.0
       '@types/node': 16.11.25
       '@types/semver': 7.3.9
-      class-validator: 0.13.2
+      class-validator: 0.14.0
       glob: 7.2.0
       graphql: 15.8.0
       graphql-query-complexity: 0.7.2_graphql@15.8.0
@@ -7278,7 +7283,7 @@ packages:
       semver: 7.3.5
       ts-morph: 13.0.3
       tslib: 2.3.1
-      type-graphql: 1.1.1_aea24acf06b899fbc466d3b3b949c72d
+      type-graphql: 1.1.1_c5d678748bb646779c19388363facc5c
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -7513,6 +7518,11 @@ packages:
 
   /validator/13.7.0:
     resolution: {integrity: sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==}
+    engines: {node: '>= 0.10'}
+    dev: false
+
+  /validator/13.9.0:
+    resolution: {integrity: sha512-B+dGG8U3fdtM0/aNK4/X8CXq/EcxU2WPrPEkJGslb47qyHsxmbggTWK0yEA4qnYVNF+nxNlN88o14hIcPmSIEA==}
     engines: {node: '>= 0.10'}
     dev: false
 
